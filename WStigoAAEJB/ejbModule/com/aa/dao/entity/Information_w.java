@@ -14,6 +14,9 @@ import java.util.Date;
 public class Information_w implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Cambio de prueba
+	 */
 	@Id
 	@Column(name="in_msisdn")
 	private int inMsisdn;
