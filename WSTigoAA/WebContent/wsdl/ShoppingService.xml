@@ -1,0 +1,266 @@
+<definitions name="ShoppingServiceService" targetNamespace="http://service.comprasterceros.colombiamovil.com.co/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://service.comprasterceros.colombiamovil.com.co/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <types>
+  <xs:schema targetNamespace="http://service.comprasterceros.colombiamovil.com.co/" version="1.0" xmlns:tns="http://service.comprasterceros.colombiamovil.com.co/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="ShoppingServiceException" type="tns:ShoppingServiceException"/>
+   <xs:element name="availableServices" type="tns:availableServices"/>
+   <xs:element name="availableServicesResponse" type="tns:availableServicesResponse"/>
+   <xs:element name="processService" type="tns:processService"/>
+   <xs:element name="processServiceResponse" type="tns:processServiceResponse"/>
+   <xs:element name="purchasedServices" type="tns:purchasedServices"/>
+   <xs:element name="purchasedServicesResponse" type="tns:purchasedServicesResponse"/>
+   <xs:complexType name="processService">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="request" type="tns:shoppingRequestDTO"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="shoppingRequestDTO">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="action" type="tns:processActionEnum"/>
+     <xs:element minOccurs="0" name="mobileNumber" type="xs:string"/>
+     <xs:element maxOccurs="unbounded" minOccurs="0" name="parameters" nillable="true" type="tns:paramDTO"/>
+     <xs:element minOccurs="0" name="purchasedProductId" type="xs:int"/>
+     <xs:element minOccurs="0" name="reason" type="xs:string"/>
+     <xs:element minOccurs="0" name="userSeller" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="paramDTO">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="name" type="xs:string"/>
+     <xs:element minOccurs="0" name="value" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="processServiceResponse">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="return" type="tns:shoppingResponseDTO"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="shoppingResponseDTO">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="answer" type="xs:string"/>
+     <xs:element minOccurs="0" name="txCode" type="xs:string"/>
+     <xs:element minOccurs="0" name="txStatus" type="xs:string"/>
+     <xs:element minOccurs="0" name="userMessage" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ShoppingServiceException">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="errorCode" type="xs:string"/>
+     <xs:element minOccurs="0" name="message" type="xs:string"/>
+     <xs:element minOccurs="0" name="platformMessage" type="xs:string"/>
+     <xs:element minOccurs="0" name="platformName" type="xs:string"/>
+     <xs:element minOccurs="0" name="type" type="tns:bussinesExceptionType"/>
+     <xs:element minOccurs="0" name="userMessage" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="purchasedServices">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="msisdn" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="purchasedServicesResponse">
+    <xs:sequence>
+     <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:service"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="service">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="category" type="tns:category"/>
+     <xs:element minOccurs="0" name="createUser" type="xs:string"/>
+     <xs:element minOccurs="0" name="creationDate" type="xs:dateTime"/>
+     <xs:element minOccurs="0" name="dealerPoid" type="xs:string"/>
+     <xs:element minOccurs="0" name="description" type="xs:string"/>
+     <xs:element minOccurs="0" name="eventType" type="xs:string"/>
+     <xs:element minOccurs="0" name="glid" type="xs:long"/>
+     <xs:element minOccurs="0" name="id" type="xs:int"/>
+     <xs:element minOccurs="0" name="partNum" type="xs:string"/>
+     <xs:element minOccurs="0" name="productName" type="xs:string"/>
+     <xs:element minOccurs="0" name="productPoid" type="xs:string"/>
+     <xs:element minOccurs="0" name="providerCode" type="xs:string"/>
+     <xs:element minOccurs="0" name="ratePlan" type="xs:string"/>
+     <xs:element minOccurs="0" name="resourceId" type="xs:int"/>
+     <xs:element minOccurs="0" name="scaledAmount" type="xs:double"/>
+     <xs:element minOccurs="0" name="status" type="xs:int"/>
+     <xs:element minOccurs="0" name="taxCode" type="xs:string"/>
+     <xs:element minOccurs="0" name="xmlOut" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="category">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="activateProcess" type="tns:postsaleAction"/>
+     <xs:element minOccurs="0" name="alias" type="xs:string"/>
+     <xs:element minOccurs="0" name="cancelProcess" type="tns:postsaleAction"/>
+     <xs:element minOccurs="0" name="createUser" type="xs:string"/>
+     <xs:element minOccurs="0" name="createdDate" type="xs:dateTime"/>
+     <xs:element minOccurs="0" name="exclusive" type="xs:int"/>
+     <xs:element minOccurs="0" name="id" type="xs:int"/>
+     <xs:element minOccurs="0" name="masivo" type="xs:int"/>
+     <xs:element minOccurs="0" name="modifyProcess" type="tns:postsaleAction"/>
+     <xs:element minOccurs="0" name="name" type="xs:string"/>
+     <xs:element minOccurs="0" name="provider" type="tns:provider"/>
+     <xs:element minOccurs="0" name="status" type="xs:int"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="postsaleAction">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="actionId" type="xs:int"/>
+     <xs:element minOccurs="0" name="actionName" type="xs:string"/>
+     <xs:element minOccurs="0" name="actionTypeId" type="xs:int"/>
+     <xs:element minOccurs="0" name="description" type="xs:string"/>
+     <xs:element maxOccurs="unbounded" minOccurs="0" name="params" nillable="true" type="tns:param"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="param">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="name" type="xs:string"/>
+     <xs:element minOccurs="0" name="paramId" type="xs:int"/>
+     <xs:element minOccurs="0" name="size" type="xs:int"/>
+     <xs:element maxOccurs="unbounded" minOccurs="0" name="transParamValues" nillable="true" type="tns:transParamValue"/>
+     <xs:element minOccurs="0" name="value" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="transParamValue">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="param" type="xs:string"/>
+     <xs:element minOccurs="0" name="transactionId" type="xs:int"/>
+     <xs:element minOccurs="0" name="value" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="provider">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="createDate" type="xs:dateTime"/>
+     <xs:element minOccurs="0" name="createUser" type="xs:string"/>
+     <xs:element minOccurs="0" name="id" type="xs:int"/>
+     <xs:element minOccurs="0" name="name" type="xs:string"/>
+     <xs:element minOccurs="0" name="perfil" type="xs:int"/>
+     <xs:element minOccurs="0" name="userName" type="xs:string"/>
+     <xs:element minOccurs="0" name="userPwd" type="xs:string"/>
+     <xs:element minOccurs="0" name="wsName" type="xs:string"/>
+     <xs:element minOccurs="0" name="wsNamespace" type="xs:string"/>
+     <xs:element minOccurs="0" name="wsWsdl" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="availableServices">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="msisdn" type="xs:string"/>
+     <xs:element minOccurs="0" name="categoryId" type="xs:int"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="availableServicesResponse">
+    <xs:sequence>
+     <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:service"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="processActionEnum">
+    <xs:restriction base="xs:string">
+     <xs:enumeration value="ACQUIRE"/>
+     <xs:enumeration value="CANCEL"/>
+     <xs:enumeration value="ACQUIRE_MASSIVE"/>
+     <xs:enumeration value="CANCEL_MASSIVE"/>
+    </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="bussinesExceptionType">
+    <xs:restriction base="xs:string">
+     <xs:enumeration value="NO_ERROR_FOUND"/>
+     <xs:enumeration value="DAO_EXCEPTION"/>
+     <xs:enumeration value="INVALID_EMAIL_FORMAT"/>
+     <xs:enumeration value="ERROR_SENDING_EMAIL"/>
+     <xs:enumeration value="ALREADY_REGISTERED"/>
+     <xs:enumeration value="NOT_ACQUIRED"/>
+     <xs:enumeration value="USER_NOTFOUND_EXCEPTION"/>
+     <xs:enumeration value="PLATFORM_EXCEPTION"/>
+     <xs:enumeration value="NORESULT_EXCEPTION"/>
+     <xs:enumeration value="SELECTS_EXCEPTION"/>
+     <xs:enumeration value="DUPLICATE_SERVICE"/>
+     <xs:enumeration value="INVALID_SERVICE"/>
+     <xs:enumeration value="CONNECTION_EXCEPTION"/>
+     <xs:enumeration value="FORBIDDEN"/>
+     <xs:enumeration value="UNEXPECTED_EXCEPTION"/>
+     <xs:enumeration value="BAD_PARAMETERS"/>
+     <xs:enumeration value="INVALID_IP_ADDRESS"/>
+    </xs:restriction>
+   </xs:simpleType>
+  </xs:schema>
+ </types>
+ <message name="ShoppingService_availableServices">
+  <part element="tns:availableServices" name="availableServices"/>
+ </message>
+ <message name="ShoppingService_availableServicesResponse">
+  <part element="tns:availableServicesResponse" name="availableServicesResponse"/>
+ </message>
+ <message name="ShoppingServiceException">
+  <part element="tns:ShoppingServiceException" name="ShoppingServiceException"/>
+ </message>
+ <message name="ShoppingService_purchasedServices">
+  <part element="tns:purchasedServices" name="purchasedServices"/>
+ </message>
+ <message name="ShoppingService_purchasedServicesResponse">
+  <part element="tns:purchasedServicesResponse" name="purchasedServicesResponse"/>
+ </message>
+ <message name="ShoppingService_processServiceResponse">
+  <part element="tns:processServiceResponse" name="processServiceResponse"/>
+ </message>
+ <message name="ShoppingService_processService">
+  <part element="tns:processService" name="processService"/>
+ </message>
+ <portType name="ShoppingService">
+  <operation name="availableServices" parameterOrder="availableServices">
+   <input message="tns:ShoppingService_availableServices"/>
+   <output message="tns:ShoppingService_availableServicesResponse"/>
+   <fault message="tns:ShoppingServiceException" name="ShoppingServiceException"/>
+  </operation>
+  <operation name="processService" parameterOrder="processService">
+   <input message="tns:ShoppingService_processService"/>
+   <output message="tns:ShoppingService_processServiceResponse"/>
+   <fault message="tns:ShoppingServiceException" name="ShoppingServiceException"/>
+  </operation>
+  <operation name="purchasedServices" parameterOrder="purchasedServices">
+   <input message="tns:ShoppingService_purchasedServices"/>
+   <output message="tns:ShoppingService_purchasedServicesResponse"/>
+   <fault message="tns:ShoppingServiceException" name="ShoppingServiceException"/>
+  </operation>
+ </portType>
+ <binding name="ShoppingServiceBinding" type="tns:ShoppingService">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="availableServices">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body use="literal"/>
+   </input>
+   <output>
+    <soap:body use="literal"/>
+   </output>
+   <fault name="ShoppingServiceException">
+    <soap:fault name="ShoppingServiceException" use="literal"/>
+   </fault>
+  </operation>
+  <operation name="processService">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body use="literal"/>
+   </input>
+   <output>
+    <soap:body use="literal"/>
+   </output>
+   <fault name="ShoppingServiceException">
+    <soap:fault name="ShoppingServiceException" use="literal"/>
+   </fault>
+  </operation>
+  <operation name="purchasedServices">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body use="literal"/>
+   </input>
+   <output>
+    <soap:body use="literal"/>
+   </output>
+   <fault name="ShoppingServiceException">
+    <soap:fault name="ShoppingServiceException" use="literal"/>
+   </fault>
+  </operation>
+ </binding>
+ <service name="ShoppingServiceService">
+  <port binding="tns:ShoppingServiceBinding" name="ShoppingServicePort">
+   <soap:address location="http://10.69.38.15:8080/ComprasTercerosEAR-ComprasTercerosEJB/ShoppingService"/>
+  </port>
+ </service>
+</definitions>
