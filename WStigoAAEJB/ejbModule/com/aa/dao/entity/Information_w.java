@@ -67,6 +67,9 @@ public class Information_w implements Serializable {
 
 	@Column(name="in_poid_plan")
 	private String inPoidPlan;
+	
+	@Column(name="in_ciclo")
+	private String inCiclo;
 
     public Information_w() {
     }
@@ -181,6 +184,14 @@ public class Information_w implements Serializable {
 
 	public void setInPoidPlan(String inPoidPlan) {
 		this.inPoidPlan = inPoidPlan;
+	}
+
+	public void setInCiclo(String inCiclo) {
+		this.inCiclo = inCiclo;
+	}
+
+	public String getInCiclo() {
+		return inCiclo;
 	}
 
 }
