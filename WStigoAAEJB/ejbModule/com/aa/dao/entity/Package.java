@@ -10,6 +10,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="package")
+@NamedQuery(name="BuscarAvailableShopping",
+			query="SELECT c FROM package c WHERE c.pc_id <> :idpackage")
 public class Package implements Serializable {
 	private static final long serialVersionUID = 1L;
 
