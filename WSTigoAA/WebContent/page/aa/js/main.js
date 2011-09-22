@@ -11,10 +11,13 @@ function onClose()
 
 function opload()
 {
+	$("#divoperaciones").toggle();	
 }
 
 function adminusr()
 {
+	$("#divusuarios").toggle();	
+
 }
 function closesession()
 {

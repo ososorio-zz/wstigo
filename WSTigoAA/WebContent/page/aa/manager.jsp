@@ -17,6 +17,9 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
 <![endif]-->
 <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery.json-2.2.min.js"></script>
+
+
 <script type="text/javascript" src="js/main.js"></script>
 
 </head>
@@ -32,6 +35,12 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
     </ul>
     <!-- end .sidebar1 --></div>
   <div class="content">
+  <div id="divoperaciones">
+  <%@ include file="operation.jsp" %> 
+  </div>
+  <div id="divusuarios" style="display:none;">
+  <%@ include file="users.jsp" %> 
+  </div>
   
   
   <!-- end .content --></div>

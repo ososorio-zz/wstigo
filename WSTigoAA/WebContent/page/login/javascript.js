@@ -38,7 +38,7 @@ $(document).ready(function() {
 			success: function(response)
 			{callbacklogin(response);},
 			error: function()
-			{stopLoading();alert("Ocurrio un error realiando el login, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
+			{stopLoading();alert("Ocurrio un error realizando el login, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
 			beforeSend: loading,
 			complete: stopLoading
 		}

@@ -1,31 +1,25 @@
 package com.aa.clientWeb.webservices;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.OutputStreamWriter;
 
-import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.aa.business.dto.InformationDTO;
-import com.aa.business.ejb.interfaces.BusinessLocal;
-import com.aa.login.Login;
+import com.aa.logic.LogicServices;
 
 /**
- * Servlet implementation class AAWSLogin
+ * Servlet implementation class AAWServices
  */
-public class AAWSLogin extends HttpServlet {
+public class AAWServices extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	@EJB
-	BusinessLocal businessLocal;
-	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AAWSLogin() {
+    public AAWServices() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,21 +28,17 @@ public class AAWSLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	
-		
 		StringBuffer bufer = new StringBuffer();           
 		int ch;
 		while ( ( ch = request.getInputStream().read() ) != -1 )
 		{
 			bufer.append( ( char ) ch );
 		}
-		String user=bufer.toString().split("&")[0].replace("us=", "");
-		String pass=bufer.toString().split("&")[1].replace("ps=", "");
-		Login lg= new Login(user,pass);
-		response.setContentType("application/json");
-		response.getOutputStream().write(lg.isValidUser().getBytes());
+		OutputStreamWriter writer = new OutputStreamWriter(response.getOutputStream());
+
 		
+		LogicServices logic=new LogicServices(bufer.toString(),writer);
+		logic.transaction();
 	}
 
 }

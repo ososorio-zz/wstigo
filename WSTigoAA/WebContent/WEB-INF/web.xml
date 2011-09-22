@@ -29,4 +29,14 @@
     <servlet-name>AAWSLogin</servlet-name>
     <url-pattern>/AAWSLogin</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AAWServices</display-name>
+    <servlet-name>AAWServices</servlet-name>
+    <servlet-class>com.aa.clientWeb.webservices.AAWServices</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AAWServices</servlet-name>
+    <url-pattern>/AAWServices</url-pattern>
+  </servlet-mapping>
 </web-app>
