@@ -11,10 +11,12 @@ import java.util.Date;
  */
 @Entity
 @Table(name="Information_ws")
-@NamedQuery(name="BuscarInfoBasicaPorMsisdn",
-			query="SELECT c FROM Information_ws c WHERE c.in_msisdn = :msisdn")
+@NamedQuery(name=Information_w.queryInfo,
+			query="SELECT c FROM Information_w c WHERE c.inMsisdn = :msisdn")
 public class Information_w implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String queryInfo = "queryinfo";
 
 	/**
 	 * Cambio de prueba
