@@ -9,5 +9,5 @@ import com.aa.business.dto.InformationDTO;
 public interface BusinessLocal {
 	
 	public List<InformationDTO> consultarInfo(int inMsisdn);
-
+	public InformationDTO consultaMSISDN(String number);
 }
