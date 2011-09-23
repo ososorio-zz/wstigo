@@ -35,18 +35,19 @@ public class Business implements BusinessLocal {
 		try
 		{
 			Query query = em.createNamedQuery(Information_w.queryInfo);
-			System.out.println("numero"+inMsisdn);
 			query.setParameter("msisdn", inMsisdn);
 			List<Information_w> listaInfo = (List<Information_w>)query.getResultList();
-			System.out.println(listaInfo.size());
 			List<InformationDTO> lista = new ArrayList<InformationDTO>();
 			for(Information_w info:listaInfo)
 			{
 				InformationDTO infoDto = new InformationDTO();
-				infoDto.setEstado(info.getInEstPro());
-				infoDto.setNombreId(info.getInIdentificationName());
-				infoDto.setNumeroId(info.getInIdentificationNumber());
-				infoDto.setTipoId(info.getInIdentificationType());
+				infoDto.setTypodoc(info.getInIdentificationType());
+				infoDto.setNumerodoc(info.getInIdentificationNumber());
+				infoDto.setPlan(info.getInNamePro());
+				infoDto.setEstadopaquete(info.getInPackageActive());
+				infoDto.setPaqueteactual(String.valueOf(info.getInPackageActual()));
+				infoDto.setTelefono(String.valueOf(info.getInMsisdn()));
+				infoDto.setNombreusuario(info.getInIdentificationName());
 				lista.add(infoDto);
 			}
 			return lista;
@@ -60,17 +61,21 @@ public class Business implements BusinessLocal {
 	public InformationDTO consultaMSISDN(long number) {
 		try
 		{
+			
+			
 			System.out.println("numero:"+number);
 			Query query = em.createNamedQuery(Information_w.queryInfo);
 			query.setParameter("msisdn", number);
 
 			Information_w info = (Information_w) query.getSingleResult();
-			System.out.println(info.getInAccountNo());
 			InformationDTO infoDto = new InformationDTO();
-			infoDto.setEstado(info.getInEstPro());
-			infoDto.setNombreId(info.getInIdentificationName());
-			infoDto.setNumeroId(info.getInIdentificationNumber());
-			infoDto.setTipoId(info.getInIdentificationType());
+			infoDto.setTypodoc(info.getInIdentificationType());
+			infoDto.setNumerodoc(info.getInIdentificationNumber());
+			infoDto.setPlan(info.getInNamePro());
+			infoDto.setEstadopaquete(info.getInPackageActive());
+			infoDto.setPaqueteactual(String.valueOf(info.getInPackageActual()));
+			infoDto.setTelefono(String.valueOf(info.getInMsisdn()));
+			infoDto.setNombreusuario(info.getInIdentificationName());
 
 			return infoDto;
 		}
