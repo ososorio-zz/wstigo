@@ -1,5 +1,6 @@
 package com.aa.logic;
 
+import java.io.IOException;
 import java.io.Writer;
 
 import org.codehaus.jettison.json.JSONObject;
@@ -23,7 +24,7 @@ public class InformationMSISDN implements Services {
 			String number=(String) informationNumberPhone.get("msisdn");
 			if(number.equals("") || number==null)
 			{
-				response(writer,"{error}");
+				response(writer,"{\"responseinfo\":{ \"error\":\"Datos invalidos Dato:numero Celular\" }}");
 				return;
 			}
 			/*List<InformationDTO> listaInfo = businessLocal.consultarInfo(Long.parseLong(number));
@@ -37,19 +38,34 @@ public class InformationMSISDN implements Services {
 			}*/
 			
 			InformationDTO dto=businessLocal.consultaMSISDN(Long.parseLong(number));
-			System.out.println("yes"+dto.getNombreId());
+			JSONObject responsej=new JSONObject();
+			responsej.append("phone", dto.getTelefono() );
+			responsej.append("tipodocumento", dto.getTypodoc());
+			responsej.append("numerodoc", dto.getNumerodoc());
+			responsej.append("plan", dto.getPlan());
+			responsej.append("nombrecliente", dto.getNombreusuario());
+			
+			StringBuffer rta=new StringBuffer("{\"responseinfo\":");
+			rta.append(responsej.toString());
+			rta.append("}");
+			response(writer,rta.toString());
+			
 		}catch (Exception e) {
 			System.out.println("error1");
 			e.printStackTrace();
-			response(writer,"{error}");
+			response(writer,"{\"responseinfo\":{ \"error\":\""+e.getMessage()+"\" }}");
 		}
 
 	}
 
 	@Override
 	public void response(Writer writer, String response) {
-		// TODO Auto-generated method stub
-
+		try {
+			writer.write(response);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
