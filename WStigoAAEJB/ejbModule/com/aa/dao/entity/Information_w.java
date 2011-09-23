@@ -23,7 +23,7 @@ public class Information_w implements Serializable {
 	 */
 	@Id
 	@Column(name="in_msisdn")
-	private int inMsisdn;
+	private long inMsisdn;
 
 	@Column(name="in_account_no")
 	private int inAccountNo;
@@ -74,11 +74,11 @@ public class Information_w implements Serializable {
     public Information_w() {
     }
 
-	public int getInMsisdn() {
+	public long getInMsisdn() {
 		return this.inMsisdn;
 	}
 
-	public void setInMsisdn(int inMsisdn) {
+	public void setInMsisdn(long inMsisdn) {
 		this.inMsisdn = inMsisdn;
 	}
 

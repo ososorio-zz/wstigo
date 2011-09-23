@@ -30,13 +30,15 @@ public class Business implements BusinessLocal {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<InformationDTO> consultarInfo(int inMsisdn) 
+	public List<InformationDTO> consultarInfo(long inMsisdn) 
 	{
 		try
 		{
 			Query query = em.createNamedQuery(Information_w.queryInfo);
+			System.out.println("numero"+inMsisdn);
 			query.setParameter("msisdn", inMsisdn);
 			List<Information_w> listaInfo = (List<Information_w>)query.getResultList();
+			System.out.println(listaInfo.size());
 			List<InformationDTO> lista = new ArrayList<InformationDTO>();
 			for(Information_w info:listaInfo)
 			{
@@ -51,17 +53,19 @@ public class Business implements BusinessLocal {
 		}
 		catch (NoResultException e) 
 		{
-			// TODO: handle exception
+			System.out.println("No result exec");
 			return null;
 		}
 	}
-	public InformationDTO consultaMSISDN(String number) {
+	public InformationDTO consultaMSISDN(long number) {
 		try
 		{
+			System.out.println("numero:"+number);
 			Query query = em.createNamedQuery(Information_w.queryInfo);
 			query.setParameter("msisdn", number);
 
 			Information_w info = (Information_w) query.getSingleResult();
+			System.out.println(info.getInAccountNo());
 			InformationDTO infoDto = new InformationDTO();
 			infoDto.setEstado(info.getInEstPro());
 			infoDto.setNombreId(info.getInIdentificationName());
