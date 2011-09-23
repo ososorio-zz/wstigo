@@ -8,6 +8,6 @@ import com.aa.business.dto.InformationDTO;
 @Local
 public interface BusinessLocal {
 	
-	public List<InformationDTO> consultarInfo(int inMsisdn);
-	public InformationDTO consultaMSISDN(String number);
+	public List<InformationDTO> consultarInfo(long inMsisdn);
+	public InformationDTO consultaMSISDN(long number);
 }
