@@ -2,16 +2,18 @@ package com.aa.logic;
 
 import java.io.OutputStreamWriter;
 
-import javax.servlet.http.HttpServletResponse;
+
+import com.aa.business.ejb.interfaces.BusinessLocal;
 
 public class LogicServices {
 
 	private String json;
 	private OutputStreamWriter response;
-	
-	public LogicServices(String json, OutputStreamWriter writer) {
+	private BusinessLocal businessLocal;
+	public LogicServices(String json, OutputStreamWriter writer, BusinessLocal businessLocaltmp) {
 		setJson(json);
 		setResponse(writer);
+		setBusinessLocal(businessLocaltmp);
 	}
 
 	public void transaction() {
@@ -21,7 +23,7 @@ public class LogicServices {
 			ser =new InformationMSISDN();
 		}
 			
-		ser.invoke(getJson(), getResponse());
+		ser.invoke(getJson(), getResponse(),getBusinessLocal());
 	}
 
 	public void setJson(String json) {
@@ -38,6 +40,14 @@ public class LogicServices {
 
 	public OutputStreamWriter getResponse() {
 		return response;
+	}
+
+	public void setBusinessLocal(BusinessLocal businessLocal) {
+		this.businessLocal = businessLocal;
+	}
+
+	public BusinessLocal getBusinessLocal() {
+		return businessLocal;
 	}
 
 }
