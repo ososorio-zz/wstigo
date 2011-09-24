@@ -15,9 +15,7 @@ public class InformationMSISDN implements Services {
 
 	@Override
 	public void invoke(String jsonRequest, Writer writer, BusinessLocal businessLocal) {
-		
-			System.out.println(jsonRequest);
-			
+					
 		try{
 			JSONObject jsonobj=new JSONObject(jsonRequest);
 			JSONObject informationNumberPhone=jsonobj.getJSONObject("informationNumberPhone");
@@ -26,17 +24,7 @@ public class InformationMSISDN implements Services {
 			{
 				response(writer,"{\"responseinfo\":{ \"error\":\"Datos invalidos Dato:numero Celular\" }}");
 				return;
-			}
-			/*List<InformationDTO> listaInfo = businessLocal.consultarInfo(Long.parseLong(number));
-			for(InformationDTO info:listaInfo)
-			{
-				System.out.println("Info");
-				System.out.println("Estado "+info.getEstado());
-				System.out.println("Nombre "+info.getNombreId());
-				System.out.println("Numero Id "+info.getNumeroId());
-				System.out.println("Tipo Id "+info.getTipoId());
-			}*/
-			
+			}		
 			InformationDTO dto=businessLocal.consultaMSISDN(Long.parseLong(number));
 			JSONObject responsej=new JSONObject();
 			responsej.append("phone", dto.getTelefono() );
@@ -44,6 +32,8 @@ public class InformationMSISDN implements Services {
 			responsej.append("numerodoc", dto.getNumerodoc());
 			responsej.append("plan", dto.getPlan());
 			responsej.append("nombrecliente", dto.getNombreusuario());
+			responsej.append("estadopaquete", dto.getEstadopaquete());
+			//TODO:nombre paquete
 			
 			StringBuffer rta=new StringBuffer("{\"responseinfo\":");
 			rta.append(responsej.toString());

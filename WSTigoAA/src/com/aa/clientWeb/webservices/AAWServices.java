@@ -51,7 +51,7 @@ public class AAWServices extends HttpServlet {
         }catch (Exception e) {
 			System.out.println(e.getMessage());
 		}*/
-		
+		response.setContentType("application/json");
 		
 		
 		

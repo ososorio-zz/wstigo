@@ -16,12 +16,15 @@ function peticionNumCel()
 	};
 	$.ajax({
 		url:"../../AAWServices",
-		global: true,
+		global: false,
 		type: "POST",
 		data: $.toJSON(req),
-		contentType: "text/html",
-		success: function(response)
-		{callbackPhone(response);},
+		contentType: "application/json",
+		success: function(rta)
+		{
+		
+			stopLoading();
+			callbackPhone(rta);},
 		error: function()
 		{stopLoading();alert("Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
 		beforeSend: loading,
@@ -47,6 +50,18 @@ function peticionNuIde()
 
 function callbackPhone(response)
 {
+	if(response.responseinfo.error)
+		{
+		alert(response.responseinfo.error);
+		return;
+		}
+	
+	$("#phone").val( response.responseinfo.phone );
+    $("#tipodocumento").val( response.responseinfo.tipodocumento );
+	$("#numdocumento").val( response.responseinfo.numerodoc );
+	$("#plani").val( response.responseinfo.plan );
+	$("#nombreprop").val( response.responseinfo.nombrecliente );
+	$("#pacapacestadoctual").val(response.responseinfo.estadopaquete);
 	console.info(response);
 }
 

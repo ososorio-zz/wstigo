@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"
-	 import="java.util.* , com.aa.login.SessionIdentifierGenerator"
+	 import="java.util.* "
 	%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -49,13 +49,7 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
     <!-- end .footer --></div>
   <!-- end .container --></div>
 </body>
-<jsp:useBean id="sessionvalidate" class="com.aa.login.SessionIdentifierGenerator" scope="session" />
-<%
-String tokenvlid=request.getParameter("token"); 
-Boolean uservalid = sessionvalidate.isValidToken(tokenvlid);
-if(!uservalid)	
-response.sendRedirect("../login/loginAAWST.html");
-%>
+
 
 
 
