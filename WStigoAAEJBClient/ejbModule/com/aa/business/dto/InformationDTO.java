@@ -16,6 +16,8 @@ public class InformationDTO implements Serializable {
 	private String paqueteactual;
 	private String estadopaquete;
 	private String nombreusuario;
+	private String codigopaquete;
+	private String nombrepaquete;
 	public String getTelefono() {
 		return telefono;
 	}
@@ -60,6 +62,18 @@ public class InformationDTO implements Serializable {
 	}
 	public String getNombreusuario() {
 		return nombreusuario;
+	}
+	public void setCodigopaquete(String codigopaquete) {
+		this.codigopaquete = codigopaquete;
+	}
+	public String getCodigopaquete() {
+		return codigopaquete;
+	}
+	public void setNombrepaquete(String nombrepaquete) {
+		this.nombrepaquete = nombrepaquete;
+	}
+	public String getNombrepaquete() {
+		return nombrepaquete;
 	}
 
 }
