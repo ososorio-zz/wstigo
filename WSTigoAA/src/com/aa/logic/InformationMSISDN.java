@@ -3,6 +3,8 @@ package com.aa.logic;
 import java.io.IOException;
 import java.io.Writer;
 
+import javax.persistence.Query;
+
 import org.codehaus.jettison.json.JSONObject;
 
 
@@ -33,6 +35,11 @@ public class InformationMSISDN implements Services {
 			responsej.append("plan", dto.getPlan());
 			responsej.append("nombrecliente", dto.getNombreusuario());
 			responsej.append("estadopaquete", dto.getEstadopaquete());
+			responsej.append("nombrepaquete", dto.getNombrepaquete());
+			responsej.append("idpaquete", dto.getCodigopaquete());
+
+			
+		
 			//TODO:nombre paquete
 			
 			StringBuffer rta=new StringBuffer("{\"responseinfo\":");

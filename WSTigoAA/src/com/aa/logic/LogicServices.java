@@ -22,6 +22,10 @@ public class LogicServices {
 		{
 			ser =new InformationMSISDN();
 		}
+		if(getJson().indexOf("informationAvailablePackage")!=-1)
+		{
+			ser =new InformationAvailablePackage();
+		}
 			
 		ser.invoke(getJson(), getResponse(),getBusinessLocal());
 	}
