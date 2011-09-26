@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.aa.business.dto.InformationDTO;
+import com.aa.business.dto.PackageDTO;
 import com.aa.business.ejb.interfaces.BusinessLocal;
 import com.aa.dao.entity.Information_w;
+import com.aa.dao.entity.Package;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -48,6 +50,7 @@ public class Business implements BusinessLocal {
 				infoDto.setPaqueteactual(String.valueOf(info.getInPackageActual()));
 				infoDto.setTelefono(String.valueOf(info.getInMsisdn()));
 				infoDto.setNombreusuario(info.getInIdentificationName());
+				infoDto.setCodigopaquete(String.valueOf(info.getInPackageActual()));
 				lista.add(infoDto);
 			}
 			return lista;
@@ -76,6 +79,13 @@ public class Business implements BusinessLocal {
 			infoDto.setPaqueteactual(String.valueOf(info.getInPackageActual()));
 			infoDto.setTelefono(String.valueOf(info.getInMsisdn()));
 			infoDto.setNombreusuario(info.getInIdentificationName());
+			infoDto.setCodigopaquete(String.valueOf(info.getInPackageActual()));
+			//TODO:setnamePaquete
+			Query querypa = em.createNamedQuery(Package.queryInfoPackageName);
+			System.out.println("Consulta"+info.getInPackageActual());
+			querypa.setParameter("idpackage", info.getInPackageActual());
+			Package packageinfo = (Package) querypa.getSingleResult();
+			infoDto.setNombrepaquete( packageinfo.getDescription() );
 
 			return infoDto;
 		}
@@ -85,5 +95,22 @@ public class Business implements BusinessLocal {
 			return null;
 		}
 	}
+	
+	public List<PackageDTO> getAvailablePackage(String packageactual)
+	{
+		Query query = em.createNamedQuery(Package.queryInfoPackage);
+		query.setParameter("idpackage", Integer.parseInt(packageactual));
+		@SuppressWarnings("unchecked")
+		List<Package> resultList = (List<Package>)query.getResultList();
+		List<PackageDTO> lista=new ArrayList<PackageDTO>();
+		
+		for(Package info:resultList)
+		{
+			PackageDTO tmppackage=new PackageDTO(String.valueOf(info.getPcId()), info.getDescription());
+			lista.add(tmppackage);
+		}
+		return lista;
+	}
+	
 
 }

@@ -10,11 +10,20 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="package")
-@NamedQuery(name="BuscarAvailableShopping",
-			query="SELECT c FROM Package c WHERE c.pcId <> :idpackage")
+@NamedQueries({
+@NamedQuery(name=Package.queryInfoPackage,
+			query="SELECT c FROM Package c WHERE c.pcId <> :idpackage"),
+@NamedQuery(name=Package.queryInfoPackageName,
+					query="SELECT c FROM Package c WHERE c.pcId = :idpackage")
+					
+})
 public class Package implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final String queryInfoPackage = "queryinfopackage";
+	public static final String queryInfoPackageName = "queryinfopackagename";
+
+	
 	@Id
 	@Column(name="pc_id")
 	private int pcId;
