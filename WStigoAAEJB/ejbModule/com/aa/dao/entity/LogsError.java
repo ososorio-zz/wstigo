@@ -15,6 +15,7 @@ public class LogsError implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="le_id_error")
 	private int leIdError;
 
