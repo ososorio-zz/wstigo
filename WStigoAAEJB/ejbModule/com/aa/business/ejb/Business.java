@@ -9,15 +9,27 @@ import com.aa.business.dto.PackageDTO;
 import com.aa.business.ejb.interfaces.BusinessLocal;
 import com.aa.dao.entity.Information_w;
 import com.aa.dao.entity.LogsError;
+import com.aa.dao.entity.LogsOperation;
 import com.aa.dao.entity.Package;
+import com.aa.mail.ejb.SendMail;
 
+import javax.annotation.Resource;
+import javax.ejb.EJBContext;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.mail.MessagingException;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 /**
  * Session Bean implementation class Business
@@ -27,7 +39,11 @@ public class Business implements BusinessLocal {
 
 	@PersistenceContext(unitName="WStigoAAPersistenceUnit")
 	private EntityManager em;
-
+	/*@Resource
+	SessionContext sc;
+	@Resource
+	private EJBContext context;*/
+	
 	/**
 	 * Default constructor. 
 	 */
@@ -120,15 +136,47 @@ public class Business implements BusinessLocal {
 		return lista;
 	}
 
-	public void crearLogs() 
+
+	
+	/**
+	 * cuando registrar un error el automaticamente envia un email dependiendo del codigo 
+	 * y registra el suceso en la bd
+	 * @param mssdn
+	 * @param message
+	 * @param errorcode 
+	 */
+	public void error(String mssdn,String message,String errorcode)
 	{
 		LogsError logError = new LogsError();
 		logError.setLeDate(new Date());
-		logError.setLeErrorcode("1");
-		logError.setLeIdError(1);
-		logError.setLeMessage("mensaje error");
-		logError.setLeMsisdn(2132143);
+		logError.setLeErrorcode(errorcode);
+		logError.setLeMessage(message);
+		logError.setLeMsisdn(Integer.parseInt(mssdn));
 		em.persist(logError);
+				
+		SendMail sm=new SendMail();
+		try {
+			sm.sendSSLMessage("A Ocurrido un error en el aplicativo \n Codigo Asignado "+logError.getLeIdError()+" \n Numero: "+mssdn+" \n Codigo del error:"+errorcode+"\n Causa:"+message);
+		} catch (MessagingException e) {
+			System.out.println("Revise la configuracion del aplicativo no fue posible enviar el correo-e");
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public String operation(String msisdn, String operacion,
+			String operaciondetail, String previouspacket, String nextPacket) {
+		LogsOperation lgo=new LogsOperation();
+		lgo.setLoDate(new Date());
+		lgo.setLoMsisdn(Integer.parseInt(msisdn));
+		lgo.setLoOperation(operacion);
+		lgo.setLoOperationDetail(operaciondetail);
+		lgo.setLoNextPacket(Integer.parseInt(nextPacket));
+		lgo.setLoPreviousPacket(Integer.parseInt(previouspacket));
+		
+		em.persist(lgo);
+		return String.valueOf(lgo.getLoId());
 	}
 	
 
