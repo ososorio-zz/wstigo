@@ -45,6 +45,11 @@ public class InformationMSISDN implements Services {
 			StringBuffer rta=new StringBuffer("{\"responseinfo\":");
 			rta.append(responsej.toString());
 			rta.append("}");
+			
+			//TODO:test Error
+			//businessLocal.error("300101010", "test", "ERRO:500");
+			//businessLocal.operation("300101010", "activacion", "pagina web", "0", "1");
+			
 			response(writer,rta.toString());
 			
 		}catch (Exception e) {
@@ -52,6 +57,8 @@ public class InformationMSISDN implements Services {
 			e.printStackTrace();
 			response(writer,"{\"responseinfo\":{ \"error\":\""+e.getMessage()+"\" }}");
 		}
+		
+		
 
 	}
 

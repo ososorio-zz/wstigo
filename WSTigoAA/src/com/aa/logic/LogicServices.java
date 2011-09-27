@@ -26,6 +26,15 @@ public class LogicServices {
 		{
 			ser =new InformationAvailablePackage();
 		}
+		if(getJson().indexOf("activateService")!=-1)
+		{
+			ser =new InformationActivateService();
+		}
+		if(getJson().indexOf("cancelateService")!=-1)
+		{
+			ser =new InformationCancelateService();
+		}
+		
 			
 		ser.invoke(getJson(), getResponse(),getBusinessLocal());
 	}

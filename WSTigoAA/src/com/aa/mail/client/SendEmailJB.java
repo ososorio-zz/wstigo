@@ -1,4 +1,4 @@
-package com.aa.mail;
+package com.aa.mail.client;
 
 import java.util.Properties;
 

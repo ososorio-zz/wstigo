@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.aa.mail.SendEmailJB;
-import com.aa.mail.SendMail;
+import com.aa.mail.client.SendEmailJB;
+import com.aa.mail.client.SendMail;
 
 /**
  * Servlet implementation class SendMailT
