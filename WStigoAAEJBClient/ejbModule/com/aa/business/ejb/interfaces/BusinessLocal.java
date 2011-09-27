@@ -12,4 +12,5 @@ public interface BusinessLocal {
 	public List<InformationDTO> consultarInfo(long inMsisdn);
 	public InformationDTO consultaMSISDN(long number);
 	public List<PackageDTO> getAvailablePackage(String code);
+	public void crearLogs();
 }

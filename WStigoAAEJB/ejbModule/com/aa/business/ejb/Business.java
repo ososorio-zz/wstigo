@@ -1,15 +1,19 @@
 package com.aa.business.ejb;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.aa.business.dto.InformationDTO;
 import com.aa.business.dto.PackageDTO;
 import com.aa.business.ejb.interfaces.BusinessLocal;
 import com.aa.dao.entity.Information_w;
+import com.aa.dao.entity.LogsError;
 import com.aa.dao.entity.Package;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -32,6 +36,7 @@ public class Business implements BusinessLocal {
 	}
 
 	@SuppressWarnings("unchecked")
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<InformationDTO> consultarInfo(long inMsisdn) 
 	{
 		try
@@ -61,6 +66,8 @@ public class Business implements BusinessLocal {
 			return null;
 		}
 	}
+	
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public InformationDTO consultaMSISDN(long number) {
 		try
 		{
@@ -96,6 +103,7 @@ public class Business implements BusinessLocal {
 		}
 	}
 	
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<PackageDTO> getAvailablePackage(String packageactual)
 	{
 		Query query = em.createNamedQuery(Package.queryInfoPackage);
@@ -110,6 +118,17 @@ public class Business implements BusinessLocal {
 			lista.add(tmppackage);
 		}
 		return lista;
+	}
+
+	public void crearLogs() 
+	{
+		LogsError logError = new LogsError();
+		logError.setLeDate(new Date());
+		logError.setLeErrorcode("1");
+		logError.setLeIdError(1);
+		logError.setLeMessage("mensaje error");
+		logError.setLeMsisdn(2132143);
+		em.persist(logError);
 	}
 	
 
