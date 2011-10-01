@@ -22,7 +22,6 @@ function peticionNumCel()
 		contentType: "application/json",
 		success: function(rta)
 		{
-		
 			stopLoading();
 			callbackPhone(rta);},
 		error: function()
@@ -59,8 +58,10 @@ function callbackPhone(response)
 	$("#pacapacestadoctual").val(response.responseinfo.estadopaquete);
 	$("#pacactual").val(response.responseinfo.nombrepaquete);
 	console.info(response);
-	callAvailablePackage(response.responseinfo.idpaquete);
 	$("#contentresult").show();
+	if(rl=="1")
+		return;
+	callAvailablePackage(response.responseinfo.idpaquete);
 	$("#operationsavailables").show();
 	adminoperations.idtocancelate=response.responseinfo.idpaquete.toString();
 

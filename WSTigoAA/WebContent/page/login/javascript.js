@@ -65,6 +65,6 @@ function callbacklogin(response)
 	else
 		if(response.login=="202")
 		{
-			window.location="../aa/manager.jsp?token="+response.value;
+			window.location="../aa/manager.jsp?token="+response.value+"&rl="+response.rol+"&uid="+response.uid;
 		}
 }

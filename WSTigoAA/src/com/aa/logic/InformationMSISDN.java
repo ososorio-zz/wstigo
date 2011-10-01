@@ -3,7 +3,6 @@ package com.aa.logic;
 import java.io.IOException;
 import java.io.Writer;
 
-import javax.persistence.Query;
 
 import org.codehaus.jettison.json.JSONObject;
 

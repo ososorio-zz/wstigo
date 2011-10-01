@@ -60,7 +60,7 @@ public class AAWSLogin extends HttpServlet {
 		String pass=bufer.toString().split("&")[1].replace("ps=", "");
 		Login lg= new Login(user,pass);
 		response.setContentType("application/json");
-		response.getOutputStream().write(lg.isValidUser().getBytes());
+		response.getOutputStream().write(lg.isValidUser(businessLocal).getBytes());
 		
 	}
 
