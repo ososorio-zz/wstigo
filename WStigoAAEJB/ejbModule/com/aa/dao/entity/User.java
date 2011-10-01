@@ -2,6 +2,7 @@ package com.aa.dao.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.Date;
 
 
@@ -11,9 +12,14 @@ import java.util.Date;
  */
 @Entity
 @Table(name="users")
+@NamedQuery(name=User.queryisvaliduser,
+			query="SELECT c FROM User c WHERE c.usIdentification =:identification")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final String queryisvaliduser = "queryisvaliduser";
+
+	
 	@Id
 	@Column(name="us_id")
 	private int usId;

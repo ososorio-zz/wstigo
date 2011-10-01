@@ -3,12 +3,12 @@
 	<persistence-unit name="WStigoAAPersistenceUnit" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:/WSTigoAADataSource</jta-data-source>
-		<class>com.aa.dao.entity.Information_w</class>
-		<class>com.aa.dao.entity.LogsError</class>
-		<class>com.aa.dao.entity.LogsLog_in</class>
-		<class>com.aa.dao.entity.LogsOperation</class>
-		<class>com.aa.dao.entity.Package</class>
 		<class>com.aa.dao.entity.User</class>
+		<class>com.aa.dao.entity.Package</class>
+		<class>com.aa.dao.entity.LogsOperation</class>
+		<class>com.aa.dao.entity.LogsLog_in</class>
+		<class>com.aa.dao.entity.LogsError</class>
+		<class>com.aa.dao.entity.Information_w</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
 			<property name="hibernate.show_sql" value="true"/>

@@ -15,12 +15,14 @@ import javax.persistence.Query;
 
 import com.aa.business.dto.InformationDTO;
 import com.aa.business.dto.PackageDTO;
+import com.aa.business.dto.UserDTO;
 import com.aa.business.ejb.interfaces.BusinessLocal;
 import com.aa.dao.entity.Information_w;
 import com.aa.dao.entity.LogsError;
 import com.aa.dao.entity.LogsLog_in;
 import com.aa.dao.entity.LogsOperation;
 import com.aa.dao.entity.Package;
+import com.aa.dao.entity.User;
 import com.aa.mail.ejb.SendMail;
 
 /**
@@ -167,16 +169,49 @@ public class Business implements BusinessLocal {
 		return String.valueOf(lgo.getLoId());
 	}
 
-	public String updateLogLogin(int login, Date fecha) 
+	/*
+	 * (non-Javadoc)
+	 * Aplica para cuando el usuario realiza login y actualiza en la tabla users y logs_log-in
+	 * @see com.aa.business.ejb.interfaces.BusinessLocal#updateLogLogin(int, java.util.Date)
+	 */
+	public void updateLogLogin(int login, Date fecha,String operation,boolean registrytableuser) 
 	{
-		LogsLog_in loginLog = em.find(LogsLog_in.class, login);
-		if(loginLog != null)
+		
+		if(registrytableuser)
 		{
-			loginLog.setLlDate(fecha);
-			em.merge(loginLog);
+		User usr=em.find(User.class, login);
+		if(usr != null)
+		{
+			usr.setUsLastDateLogin(fecha);	
+			em.merge(usr);
 		}
-		return String.valueOf(loginLog.getLlId());
+		}
+	
+		LogsLog_in loginLo = new LogsLog_in();
+		loginLo.setLlDate(fecha);
+		loginLo.setLlUsId(login);
+		loginLo.setLlOperation(operation);
+		em.persist(loginLo);
+
 	}
+	
+	
+	
+	public UserDTO getUser(String user,String pass)
+	{
+		Query query = em.createNamedQuery(User.queryisvaliduser);
+		query.setParameter("identification", user);
+		User info = (User) query.getSingleResult();
+		
+		UserDTO usr = null;
+		if(info.getUsPassword().equals(pass))
+		{
+			usr=new UserDTO(info.getUsId(), info.getUsLastnames(), info.getUsNames(), info.getUsRol());
+		}
+		else
+			usr=new UserDTO();
+		return usr;
+		}
 	
 
 }

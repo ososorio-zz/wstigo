@@ -11,7 +11,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="logs_log-in")
+@Table(name="logs_login")
 public class LogsLog_in implements Serializable {
 	private static final long serialVersionUID = 1L;
 
