@@ -4,32 +4,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.mail.MessagingException;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import com.aa.business.dto.InformationDTO;
 import com.aa.business.dto.PackageDTO;
 import com.aa.business.ejb.interfaces.BusinessLocal;
 import com.aa.dao.entity.Information_w;
 import com.aa.dao.entity.LogsError;
+import com.aa.dao.entity.LogsLog_in;
 import com.aa.dao.entity.LogsOperation;
 import com.aa.dao.entity.Package;
 import com.aa.mail.ejb.SendMail;
-
-import javax.annotation.Resource;
-import javax.ejb.EJBContext;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.mail.MessagingException;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 /**
  * Session Bean implementation class Business
@@ -39,10 +31,6 @@ public class Business implements BusinessLocal {
 
 	@PersistenceContext(unitName="WStigoAAPersistenceUnit")
 	private EntityManager em;
-	/*@Resource
-	SessionContext sc;
-	@Resource
-	private EJBContext context;*/
 	
 	/**
 	 * Default constructor. 
@@ -177,6 +165,17 @@ public class Business implements BusinessLocal {
 		
 		em.persist(lgo);
 		return String.valueOf(lgo.getLoId());
+	}
+
+	public String updateLogLogin(int login, Date fecha) 
+	{
+		LogsLog_in loginLog = em.find(LogsLog_in.class, login);
+		if(loginLog != null)
+		{
+			loginLog.setLlDate(fecha);
+			em.merge(loginLog);
+		}
+		return String.valueOf(loginLog.getLlId());
 	}
 	
 

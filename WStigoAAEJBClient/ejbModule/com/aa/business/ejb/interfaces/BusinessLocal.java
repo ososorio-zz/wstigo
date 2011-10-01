@@ -1,4 +1,5 @@
 package com.aa.business.ejb.interfaces;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -14,4 +15,5 @@ public interface BusinessLocal {
 	public List<PackageDTO> getAvailablePackage(String code);
 	public void error(String mssdn,String message,String errorcode);
 	public String operation(String msisdn,String operacion,String operaciondetail,String previouspacket,String nextPacket);
+	public String updateLogLogin(int login, Date fecha);
 }
