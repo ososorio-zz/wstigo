@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import com.aa.business.dto.InformationDTO;
 import com.aa.business.dto.PackageDTO;
+import com.aa.business.dto.UserDTO;
 
 @Local
 public interface BusinessLocal {
@@ -15,5 +16,7 @@ public interface BusinessLocal {
 	public List<PackageDTO> getAvailablePackage(String code);
 	public void error(String mssdn,String message,String errorcode);
 	public String operation(String msisdn,String operacion,String operaciondetail,String previouspacket,String nextPacket);
-	public String updateLogLogin(int login, Date fecha);
+	public UserDTO getUser(String user,String pass);
+	public void updateLogLogin(int login, Date fecha,String operation,boolean registrytableuser);
+	
 }
