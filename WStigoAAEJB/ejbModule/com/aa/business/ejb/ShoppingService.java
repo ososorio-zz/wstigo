@@ -2,13 +2,6 @@ package com.aa.business.ejb;
 
 import java.rmi.RemoteException;
 
-import co.com.colombiamovil.comprasterceros.service.Service;
-import co.com.colombiamovil.comprasterceros.service.ShoppingRequestDTO;
-import co.com.colombiamovil.comprasterceros.service.ShoppingResponseDTO;
-import co.com.colombiamovil.comprasterceros.service.ShoppingServiceException;
-import co.com.colombiamovil.comprasterceros.service.ShoppingServiceServiceLocator;
-
-import com.aa.business.ejb.interfaces.ShoppingServiceLocal;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -16,14 +9,19 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.rpc.ServiceException;
 
-import org.jboss.wsf.spi.annotation.WebContext;
+import co.com.colombiamovil.comprasterceros.service.Service;
+import co.com.colombiamovil.comprasterceros.service.ShoppingRequestDTO;
+import co.com.colombiamovil.comprasterceros.service.ShoppingResponseDTO;
+import co.com.colombiamovil.comprasterceros.service.ShoppingServiceException;
+import co.com.colombiamovil.comprasterceros.service.ShoppingServiceServiceLocator;
+
+import com.aa.business.ejb.interfaces.ShoppingServiceLocal;
 
 /**
  * Session Bean implementation class ShoppingService
  */
 @WebService
 @Stateless
-@WebContext(contextRoot="/ShoppingService")
 public class ShoppingService implements ShoppingServiceLocal {
 
     /**

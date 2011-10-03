@@ -14,14 +14,11 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.rpc.ServiceException;
 
-import org.jboss.wsf.spi.annotation.WebContext;
-
 /**
  * Session Bean implementation class ComprasTercerosConsultas
  */
 @WebService
 @Stateless
-@WebContext(contextRoot="/ComprasTercerosConsultas")
 public class ComprasTercerosConsultas implements ComprasTercerosConsultasLocal {
 
     /**

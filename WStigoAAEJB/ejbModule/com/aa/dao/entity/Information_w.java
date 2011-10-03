@@ -69,7 +69,7 @@ public class Information_w implements Serializable {
 	private String inPoidPlan;
 	
 	@Column(name="in_ciclo")
-	private String inCiclo;
+	private int inCiclo;
 
     public Information_w() {
     }
@@ -186,11 +186,11 @@ public class Information_w implements Serializable {
 		this.inPoidPlan = inPoidPlan;
 	}
 
-	public void setInCiclo(String inCiclo) {
+	public void setInCiclo(int inCiclo) {
 		this.inCiclo = inCiclo;
 	}
 
-	public String getInCiclo() {
+	public int getInCiclo() {
 		return inCiclo;
 	}
 
