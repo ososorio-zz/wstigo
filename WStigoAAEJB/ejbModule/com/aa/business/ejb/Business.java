@@ -33,7 +33,7 @@ public class Business implements BusinessLocal {
 
 	@PersistenceContext(unitName="WStigoAAPersistenceUnit")
 	private EntityManager em;
-	
+
 	/**
 	 * Default constructor. 
 	 */
@@ -72,13 +72,13 @@ public class Business implements BusinessLocal {
 			return null;
 		}
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public InformationDTO consultaMSISDN(long number) {
 		try
 		{
-			
-			
+
+
 			System.out.println("numero:"+number);
 			Query query = em.createNamedQuery(Information_w.queryInfo);
 			query.setParameter("msisdn", number);
@@ -108,7 +108,7 @@ public class Business implements BusinessLocal {
 			return null;
 		}
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<PackageDTO> getAvailablePackage(String packageactual)
 	{
@@ -117,7 +117,7 @@ public class Business implements BusinessLocal {
 		@SuppressWarnings("unchecked")
 		List<Package> resultList = (List<Package>)query.getResultList();
 		List<PackageDTO> lista=new ArrayList<PackageDTO>();
-		
+
 		for(Package info:resultList)
 		{
 			PackageDTO tmppackage=new PackageDTO(String.valueOf(info.getPcId()), info.getDescription());
@@ -127,7 +127,7 @@ public class Business implements BusinessLocal {
 	}
 
 
-	
+
 	/**
 	 * cuando registrar un error el automaticamente envia un email dependiendo del codigo 
 	 * y registra el suceso en la bd
@@ -141,9 +141,9 @@ public class Business implements BusinessLocal {
 		logError.setLeDate(new Date());
 		logError.setLeErrorcode(errorcode);
 		logError.setLeMessage(message);
-		logError.setLeMsisdn(Integer.parseInt(mssdn));
+		logError.setLeMsisdn(Long.parseLong(mssdn));
 		em.persist(logError);
-				
+
 		SendMail sm=new SendMail();
 		try {
 			sm.sendSSLMessage("A Ocurrido un error en el aplicativo \n Codigo Asignado "+logError.getLeIdError()+" \n Numero: "+mssdn+" \n Codigo del error:"+errorcode+"\n Causa:"+message);
@@ -151,20 +151,22 @@ public class Business implements BusinessLocal {
 			System.out.println("Revise la configuracion del aplicativo no fue posible enviar el correo-e");
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
 
 	public String operation(String msisdn, String operacion,
 			String operaciondetail, String previouspacket, String nextPacket) {
 		LogsOperation lgo=new LogsOperation();
 		lgo.setLoDate(new Date());
-		lgo.setLoMsisdn(Integer.parseInt(msisdn));
+		lgo.setLoMsisdn(Long.parseLong(msisdn));
 		lgo.setLoOperation(operacion);
 		lgo.setLoOperationDetail(operaciondetail);
+		if(nextPacket==null || nextPacket.equals("") )
+			nextPacket="0";
 		lgo.setLoNextPacket(Integer.parseInt(nextPacket));
 		lgo.setLoPreviousPacket(Integer.parseInt(previouspacket));
-		
+
 		em.persist(lgo);
 		return String.valueOf(lgo.getLoId());
 	}
@@ -176,17 +178,17 @@ public class Business implements BusinessLocal {
 	 */
 	public void updateLogLogin(int login, Date fecha,String operation,boolean registrytableuser) 
 	{
-		
+
 		if(registrytableuser)
 		{
-		User usr=em.find(User.class, login);
-		if(usr != null)
-		{
-			usr.setUsLastDateLogin(fecha);	
-			em.merge(usr);
+			User usr=em.find(User.class, login);
+			if(usr != null)
+			{
+				usr.setUsLastDateLogin(fecha);	
+				em.merge(usr);
+			}
 		}
-		}
-	
+
 		LogsLog_in loginLo = new LogsLog_in();
 		loginLo.setLlDate(fecha);
 		loginLo.setLlUsId(login);
@@ -194,15 +196,15 @@ public class Business implements BusinessLocal {
 		em.persist(loginLo);
 
 	}
-	
-	
-	
+
+
+
 	public UserDTO getUser(String user,String pass)
 	{
 		Query query = em.createNamedQuery(User.queryisvaliduser);
 		query.setParameter("identification", user);
 		User info = (User) query.getSingleResult();
-		
+
 		UserDTO usr = null;
 		if(info.getUsPassword().equals(pass))
 		{
@@ -211,7 +213,36 @@ public class Business implements BusinessLocal {
 		else
 			usr=new UserDTO();
 		return usr;
-		}
-	
+	}
+
+	public String activatePackage(String msisdn, String operation,
+			String reason, String packagea) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String cancelatePackage(Long msisdn, String operation,
+			String reason, String packagea) {
+
+		//TODO:CANCELAR A EL WEBSERVICES ESPERAR RESPUESTA LLAMAR A METODO
+
+		String idconfirmation=cancelatePackageIntern(msisdn, operation, reason, packagea);
+		return idconfirmation;
+	}
+
+	public String cancelatePackageIntern(Long msisdn, String operation,
+			String reason, String packagea) {
+		//long number=Long.parseLong(msisdn.toString().trim());
+		
+		Information_w info=em.find(Information_w.class, msisdn );
+		info.setInPackageActive("0");
+		em.merge(info);
+		String confirmacion= operation(""+msisdn, operation, reason, packagea, "");
+
+		return confirmacion;
+
+	}
+
+
 
 }
