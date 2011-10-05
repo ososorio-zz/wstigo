@@ -14,9 +14,13 @@ public interface BusinessLocal {
 	public List<InformationDTO> consultarInfo(long inMsisdn);
 	public InformationDTO consultaMSISDN(long number);
 	public List<PackageDTO> getAvailablePackage(String code);
-	public void error(String mssdn,String message,String errorcode);
+	public int error(String mssdn,String message,String errorcode);
 	public String operation(String msisdn,String operacion,String operaciondetail,String previouspacket,String nextPacket);
 	public UserDTO getUser(String user,String pass);
 	public void updateLogLogin(int login, Date fecha,String operation,boolean registrytableuser);
+	public String activatePackage(Long msisdn, String operation,
+			String reason, String packageactual,String packageold);
+	public String cancelatePackage(Long msisdn, String operation,
+			String reason, String packagea);
 	
 }
