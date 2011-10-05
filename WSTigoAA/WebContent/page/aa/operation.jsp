@@ -1,7 +1,3 @@
-<script type="text/javascript" src="js/operation.js"></script>
-<link rel="stylesheet" href="css/form.css" type="text/css" media="all" />
-
-
 <div id="formSearchNum"
 	style="border-bottom: 1px solid; position: relative;">
 	<form id="formcel" action="javascript:void(0)">
@@ -16,13 +12,6 @@
 		</fieldset>
 	</form>
 
-	<!-- form id="formident" action="javascript:void(0)">
-	<fieldset style="border:none;">  
-	<label for="numide">Ingrese Numero de identificaci&oacute;n:</label>
-	<input id="numide" type="text" size=12 maxlength=11 style="position: relative; font-size: 19px; left: 27px;"/>
-	<input  id="submitide" type="button" value="Buscar" style="position: relative; left: 57px;"/>
-	</fieldset>
-	</form-->
 </div>
 <div id="resultsearch">
 	<br />
@@ -32,27 +21,27 @@
 			<tbody>
 				<tr>
 					<td align="right"><label for="plani">Plan:</label> <input
-						type="text" id="plani" id="plani"></input>
+						type="text" id="plani" name="plani"></input>
 					</td>
 					<td align="right"><label for="nombreprop">Nombre
-							registrado:</label> <input type="text" id="nombreprop" id="nombreprop"></input>
+							registrado:</label> <input type="text" id="nombreprop" name="nombreprop"></input>
 					</td>
 				</tr>
 				<tr>
 					<td align="right"><label for="tipodocumento">Tipo
-							documento:</label> <input type="text" id="tipodocumento"
+							documento:</label> <input type="text" name="tipodocumento"
 						id="tipodocumento"></input>
 					</td>
 					<td align="right"><label for="numdocumento">Numero
-							documento:</label> <input type="text" id="numdocumento" id="numdocumento"></input>
+							documento:</label> <input type="text" id="numdocumento" name="numdocumento"></input>
 					</td>
 				</tr>
 				<tr>
 					<td align="right"><label for="pacactual">Paquete
-							Actual:</label> <input type="text" id="pacactual" id="pacactual"></input>
+							Actual:</label> <input type="text" id="pacactual" name="pacactual"></input>
 					</td>
 					<td align="right"><label for="pacestado">Estado del
-							paquete:</label> <input type="text" id="pacapacestadoctual"
+							paquete:</label> <input type="text" name="pacapacestadoctual"
 						id="pacestado"></input>
 					</td>
 				</tr>

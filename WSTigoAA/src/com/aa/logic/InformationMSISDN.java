@@ -52,7 +52,7 @@ public class InformationMSISDN implements Services {
 			response(writer,rta.toString());
 			
 		}catch (Exception e) {
-			System.out.println("error1");
+			System.out.println("error information msisdn");
 			e.printStackTrace();
 			response(writer,"{\"responseinfo\":{ \"error\":\""+e.getMessage()+"\" }}");
 		}

@@ -39,4 +39,14 @@
     <servlet-name>AAWServices</servlet-name>
     <url-pattern>/AAWServices</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AAWAdmin</display-name>
+    <servlet-name>AAWAdmin</servlet-name>
+    <servlet-class>com.aa.clientWeb.webservices.AAWAdmin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AAWAdmin</servlet-name>
+    <url-pattern>/AAWAdmin</url-pattern>
+  </servlet-mapping>
 </web-app>

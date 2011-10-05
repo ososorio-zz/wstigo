@@ -29,6 +29,8 @@
 <title>AMERICAN ASSIST TIGO WS</title>
 <link type="text/css" href="css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <link type="text/css" href="css/main.css" rel="stylesheet" />
+<link rel="stylesheet" href="css/form.css" type="text/css" media="all" />
+
 <!--[if lte IE 7]>
 <style>
 .content { margin-right: -1px; } /* this 1px negative margin can be placed on any of the columns in this layout with the same corrective effect. */
@@ -38,9 +40,9 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
 <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="js/jquery.json-2.2.min.js"></script>
-
-
 <script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/operation.js"></script>
+<script type="text/javascript" src="js/users.js"></script>
 
 </head>
 <body>
@@ -57,6 +59,9 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
     </ul>
     <!-- end .sidebar1 --></div>
   <div class="content">
+  <center>
+  <div id="loadingdiv" style="display:none;left:50%;position:absolute;top:50%;z-index:1004;"><img src="images/ajax-loader.gif"  alt="cargando" /> </div>
+  </center>
   <div id="divoperaciones">
   <%@ include file="operation.jsp" %> 
   </div>
