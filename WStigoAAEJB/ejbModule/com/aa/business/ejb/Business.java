@@ -134,8 +134,24 @@ public class Business implements BusinessLocal {
 	 * @param mssdn
 	 * @param message
 	 * @param errorcode 
+	 * @return 
 	 */
-	public void error(String mssdn,String message,String errorcode)
+	public int error(String mssdn,String message,String errorcode)
+	{
+		int iderror=errorDatabase(mssdn, message, errorcode);
+
+		SendMail sm=new SendMail();
+		try {
+			sm.sendSSLMessage("A Ocurrido un error en el aplicativo \n Codigo Asignado "+iderror+" \n Numero: "+mssdn+" \n Codigo del error:"+errorcode+"\n Causa:"+message);
+		} catch (MessagingException e) {
+			System.out.println("Revise la configuracion del aplicativo no fue posible enviar el correo-e");
+			e.printStackTrace();
+		}
+		return iderror;
+
+	}
+
+	public int errorDatabase(String mssdn,String message,String errorcode)
 	{
 		LogsError logError = new LogsError();
 		logError.setLeDate(new Date());
@@ -143,16 +159,7 @@ public class Business implements BusinessLocal {
 		logError.setLeMessage(message);
 		logError.setLeMsisdn(Long.parseLong(mssdn));
 		em.persist(logError);
-
-		SendMail sm=new SendMail();
-		try {
-			sm.sendSSLMessage("A Ocurrido un error en el aplicativo \n Codigo Asignado "+logError.getLeIdError()+" \n Numero: "+mssdn+" \n Codigo del error:"+errorcode+"\n Causa:"+message);
-		} catch (MessagingException e) {
-			System.out.println("Revise la configuracion del aplicativo no fue posible enviar el correo-e");
-			e.printStackTrace();
-		}
-
-
+		return logError.getLeIdError();
 	}
 
 	public String operation(String msisdn, String operacion,
@@ -215,16 +222,66 @@ public class Business implements BusinessLocal {
 		return usr;
 	}
 
-	public String activatePackage(String msisdn, String operation,
-			String reason, String packagea) {
-		// TODO Auto-generated method stub
-		return null;
+	public String activatePackage(Long msisdn, String operation,
+			String reason, String packageactual,String packageold) {
+
+		String idconfirmation=activatePackageIntern(msisdn, operation, reason, packageactual,packageold);
+		return idconfirmation;
 	}
+	public String activatePackageIntern(Long msisdn, String operation,
+			String reason, String packageactual,String packageold) {
+
+		try{
+
+			Information_w info=em.find(Information_w.class, msisdn );
+			info.setInPackageActive("1");
+			info.setInPackageActual(Integer.parseInt(packageactual));
+			em.merge(info);
+			String confirmacion = operation(""+msisdn, operation, reason, packageactual, packageold);
+
+			return confirmacion;
+
+		}catch (Exception e) {
+
+			int errorcode=error(String.valueOf(msisdn), "datos a activar:"+msisdn+","+ operation+","+ reason+","+ packageactual+","+ packageold+", Error interno:"+e.getMessage(), "ERR:activatePackage Intern");
+			return "ERROR:currio un error por favor realize seguimiento correspondiente con el codigo:"+errorcode;
+		}
+
+	}
+
 
 	public String cancelatePackage(Long msisdn, String operation,
 			String reason, String packagea) {
 
 		//TODO:CANCELAR A EL WEBSERVICES ESPERAR RESPUESTA LLAMAR A METODO
+		/*ParamDTO[] aarayparam=new ParamDTO[2];
+		ParamDTO pram=new ParamDTO("", "");
+		aarayparam[0]=pram;
+		Integer purchasedProductId=Integer.parseInt(packagea);
+
+		String userSeller=null;
+
+		ShoppingRequestDTO solicitud=new ShoppingRequestDTO(ProcessActionEnum.CANCEL, String.valueOf(msisdn), aarayparam, purchasedProductId, reason, userSeller);
+		ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
+    	co.com.colombiamovil.comprasterceros.service.ShoppingService service;
+    	ShoppingResponseDTO response = null; 
+    	try 
+    	{
+    	service = locator.getShoppingServicePort();
+		response = service.processService(solicitud);
+    	}
+    	catch (ServiceException e) 
+    	{
+			e.printStackTrace();
+		}
+    	catch (RemoteException e) 
+		{
+			e.printStackTrace();
+		}
+    	catch (ShoppingServiceException e) 
+		{
+			e.printStackTrace();
+		}*/
 
 		String idconfirmation=cancelatePackageIntern(msisdn, operation, reason, packagea);
 		return idconfirmation;
@@ -233,13 +290,20 @@ public class Business implements BusinessLocal {
 	public String cancelatePackageIntern(Long msisdn, String operation,
 			String reason, String packagea) {
 		//long number=Long.parseLong(msisdn.toString().trim());
-		
-		Information_w info=em.find(Information_w.class, msisdn );
-		info.setInPackageActive("0");
-		em.merge(info);
-		String confirmacion= operation(""+msisdn, operation, reason, packagea, "");
+		try{
 
-		return confirmacion;
+			Information_w info=em.find(Information_w.class, msisdn );
+			info.setInPackageActive("0");
+			em.merge(info);
+			String confirmacion = operation(""+msisdn, operation, reason, packagea, "");
+
+			return confirmacion;
+
+		}catch (Exception e) {
+
+			int errorcode=error(String.valueOf(msisdn), "datos a cancelar:"+msisdn+","+ operation+","+ reason+","+ packagea+", Error interno:"+e.getMessage(), "ERR:cancelatePackage Intern");
+			return "ERROR:Ocurrio un error por favor realize seguimiento correspondiente con el codigo:"+errorcode;
+		}
 
 	}
 

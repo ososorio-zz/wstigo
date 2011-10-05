@@ -25,7 +25,7 @@ public class LogsOperation implements Serializable {
 	private Date loDate;
 
 	@Column(name="lo_msisdn")
-	private int loMsisdn;
+	private Long loMsisdn;
 
 	@Column(name="lo_next_packet")
 	private int loNextPacket;
@@ -58,11 +58,11 @@ public class LogsOperation implements Serializable {
 		this.loDate = loDate;
 	}
 
-	public int getLoMsisdn() {
+	public Long getLoMsisdn() {
 		return this.loMsisdn;
 	}
 
-	public void setLoMsisdn(int loMsisdn) {
+	public void setLoMsisdn(Long loMsisdn) {
 		this.loMsisdn = loMsisdn;
 	}
 

@@ -30,7 +30,7 @@ public class LogsError implements Serializable {
 	private String leMessage;
 
 	@Column(name="le_msisdn")
-	private int leMsisdn;
+	private Long leMsisdn;
 
     public LogsError() {
     }
@@ -67,11 +67,11 @@ public class LogsError implements Serializable {
 		this.leMessage = leMessage;
 	}
 
-	public int getLeMsisdn() {
+	public Long getLeMsisdn() {
 		return this.leMsisdn;
 	}
 
-	public void setLeMsisdn(int leMsisdn) {
+	public void setLeMsisdn(Long leMsisdn) {
 		this.leMsisdn = leMsisdn;
 	}
 
