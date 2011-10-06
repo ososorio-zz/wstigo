@@ -1,4 +1,5 @@
 package com.aa.business.ejb.interfaces;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,5 +23,6 @@ public interface BusinessLocal {
 			String reason, String packageactual,String packageold);
 	public String cancelatePackage(Long msisdn, String operation,
 			String reason, String packagea);
+	public List<UserDTO> getUsers();
 	
 }
