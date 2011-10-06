@@ -12,12 +12,17 @@ import java.util.Date;
  */
 @Entity
 @Table(name="users")
+@NamedQueries({
 @NamedQuery(name=User.queryisvaliduser,
-			query="SELECT c FROM User c WHERE c.usIdentification =:identification")
+			query="SELECT c FROM User c WHERE c.usIdentification =:identification"),
+@NamedQuery(name=User.querygetusers,
+			query="SELECT c FROM User c ")	
+})
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String queryisvaliduser = "queryisvaliduser";
+	public static final String querygetusers = "querygetusers";
 
 	
 	@Id

@@ -221,6 +221,19 @@ public class Business implements BusinessLocal {
 			usr=new UserDTO();
 		return usr;
 	}
+	
+	public List<UserDTO> getUsers()
+	{
+		Query query = em.createNamedQuery(User.querygetusers);
+		@SuppressWarnings("unchecked")
+		List<User> resultList = (List<User>)query.getResultList();
+		List<UserDTO> lista=new ArrayList<UserDTO>();
+		for(User info:resultList)
+		{
+			lista.add(new UserDTO(info.getUsId(),info.getUsEmail(),info.getUsIdentification(),info.getUsLastDateLogin(),info.getUsLastnames(),info.getUsNames(),info.getUsPassword(),info.getUsRol(),info.getUsTypeidentification()));
+		}
+		return lista;
+	}
 
 	public String activatePackage(Long msisdn, String operation,
 			String reason, String packageactual,String packageold) {
