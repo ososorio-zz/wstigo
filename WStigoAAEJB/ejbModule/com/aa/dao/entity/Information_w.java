@@ -2,6 +2,7 @@ package com.aa.dao.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.Date;
 
 
@@ -11,12 +12,20 @@ import java.util.Date;
  */
 @Entity
 @Table(name="Information_ws")
-@NamedQuery(name=Information_w.queryInfo,
-			query="SELECT c FROM Information_w c WHERE c.inMsisdn = :msisdn")
+
+@NamedQueries({
+	@NamedQuery(name=Information_w.queryInfo,
+			query="SELECT c FROM Information_w c WHERE c.inMsisdn = :msisdn"),
+	@NamedQuery(name=Information_w.queryAvailableService,
+			query="SELECT info.inPackageActual FROM Information_w info WHERE info.inMsisdn = :msisdn")
+})
+
 public class Information_w implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String queryInfo = "queryinfo";
+	
+	public static final String queryAvailableService="queryAvailableService";
 
 	/**
 	 * Cambio de prueba

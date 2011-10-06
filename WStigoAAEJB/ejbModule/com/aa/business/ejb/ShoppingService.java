@@ -1,14 +1,23 @@
 package com.aa.business.ejb;
 
 import java.rmi.RemoteException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.xml.rpc.ServiceException;
 
+import co.com.colombiamovil.comprasterceros.service.Category;
+import co.com.colombiamovil.comprasterceros.service.PostsaleAction;
 import co.com.colombiamovil.comprasterceros.service.Service;
 import co.com.colombiamovil.comprasterceros.service.ShoppingRequestDTO;
 import co.com.colombiamovil.comprasterceros.service.ShoppingResponseDTO;
@@ -16,6 +25,9 @@ import co.com.colombiamovil.comprasterceros.service.ShoppingServiceException;
 import co.com.colombiamovil.comprasterceros.service.ShoppingServiceServiceLocator;
 
 import com.aa.business.ejb.interfaces.ShoppingServiceLocal;
+import com.aa.dao.entity.Information_w;
+import com.aa.dao.entity.LogsOperation;
+import com.aa.dao.entity.Package;
 
 /**
  * Session Bean implementation class ShoppingService
@@ -24,66 +36,90 @@ import com.aa.business.ejb.interfaces.ShoppingServiceLocal;
 @Stateless
 public class ShoppingService implements ShoppingServiceLocal {
 
-    /**
+	@PersistenceContext(unitName="WStigoAAPersistenceUnit")
+	private EntityManager em;
+	
+	/**
      * Default constructor. 
      */
     public ShoppingService() {
         // TODO Auto-generated constructor stub
     }
 
-    @WebMethod
+    @SuppressWarnings("unchecked")
+	@WebMethod
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Service[] avaliableServices(String msidn, Integer categoryId) 
 	{
-		ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
-		co.com.colombiamovil.comprasterceros.service.ShoppingService service;
 		Service[] result = null;
-		try 
+		categoryId = 4; 
+		try
 		{
-			service = locator.getShoppingServicePort();
-			result = service.availableServices(msidn, categoryId);
+			Query query = em.createNamedQuery(Information_w.queryAvailableService);
+			query.setParameter("msisdn", Long.parseLong(msidn));
+			Integer valor = (Integer)query.getSingleResult();
+			Query q = em.createNamedQuery(Package.queryInfoAvailable);
+			query.setParameter("idPackage", valor);
+			List<Package> listaPaquete = (List<Package>)q.getResultList();
+			if(!listaPaquete.isEmpty())
+			{
+				result = new Service[listaPaquete.size()];
+				int i = 0;
+				for(Package pack:listaPaquete)
+				{
+					Service service = new Service();	
+					service.setProductName(pack.getDescription());
+					service.setProductPoid(String.valueOf(pack.getPcId()));
+					result[i] = service;
+					i++;
+				}
+			}
 		}
-		catch (ServiceException e) 
+		catch (NoResultException e) 
 		{
-			e.printStackTrace();
-		} 
-		catch (RemoteException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (ShoppingServiceException e) 
-		{
-			e.printStackTrace();
-		} 		
+			System.out.println("No result exec");
+			return null;
+		}	
 		return result;
 	}
 
-    @WebMethod
+    @SuppressWarnings("unchecked")
+	@WebMethod
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Service[] purchasedServices(String msidn)
     {
-    	ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
-    	co.com.colombiamovil.comprasterceros.service.ShoppingService service;
     	Service[] result = null;
-    	try 
-    	{
-    		service = locator.getShoppingServicePort();
-			result = service.purchasedServices(msidn);
-		}
-    	catch (RemoteException e) 
-    	{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	catch (ShoppingServiceException e) 
-    	{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ServiceException e)
+		try
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}    	
+			Query query = em.createNamedQuery(LogsOperation.queryPurchasedService);
+			query.setParameter("msisdn", Long.parseLong(msidn));
+			List<LogsOperation> listaLogOp = (List<LogsOperation>)query.getResultList();
+			result = new Service[listaLogOp.size()];
+			int i = 0;
+			for(LogsOperation logOp:listaLogOp)
+			{
+				Service service = new Service();
+				Category category = new Category();
+				PostsaleAction postSale = new PostsaleAction();
+				postSale.setActionName(logOp.getLoOperation());
+				category.setActivateProcess(postSale);
+				service.setCategory(category);
+				Calendar cal = new GregorianCalendar();
+				cal.setTime(logOp.getLoDate());				
+				service.setCreationDate(cal);
+				//Previous packet
+				service.setProductPoid(String.valueOf(logOp.getLoPreviousPacket()));
+				//Next packet
+				service.setDealerPoid(String.valueOf(logOp.getLoNextPacket()));
+				result[i] = service;
+				i++;
+			}
+		}
+		catch (NoResultException e) 
+		{
+			System.out.println("No result exec");
+			return null;
+		}	
 		return result;
 	}
 

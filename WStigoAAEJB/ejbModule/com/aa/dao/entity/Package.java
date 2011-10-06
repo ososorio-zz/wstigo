@@ -14,15 +14,19 @@ import javax.persistence.*;
 @NamedQuery(name=Package.queryInfoPackage,
 			query="SELECT c FROM Package c WHERE c.pcId <> :idpackage"),
 @NamedQuery(name=Package.queryInfoPackageName,
-					query="SELECT c FROM Package c WHERE c.pcId = :idpackage")
-					
+					query="SELECT c FROM Package c WHERE c.pcId = :idpackage"),
+@NamedQuery(name=Package.queryInfoAvailable,
+					query="SELECT c FROM Package c WHERE c.pcId <> :idPackage")
 })
+
 public class Package implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String queryInfoPackage = "queryinfopackage";
+	
 	public static final String queryInfoPackageName = "queryinfopackagename";
-
+	
+	public static final String queryInfoAvailable = "queryInfoAvailable";
 	
 	@Id
 	@Column(name="pc_id")

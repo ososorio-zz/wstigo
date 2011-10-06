@@ -12,8 +12,16 @@ import java.util.Date;
  */
 @Entity
 @Table(name="logs_operations")
+@NamedQueries({
+	@NamedQuery(name=LogsOperation.queryPurchasedService,
+			query="SELECT logOp FROM LogsOperation logOp " +
+				  "WHERE logOp.loMsisdn = :msisdn")
+})
+
 public class LogsOperation implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String queryPurchasedService = "queryPurchasedService";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
