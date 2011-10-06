@@ -1,23 +1,23 @@
 <center>
 <div id="divoperacionesusers" style="display: block;">
 			<button value="Listar Usuarios"  onclick="adminusers.listuser();">Listar Usuarios</button>
-			<button value="Buscar usuario especifico"  onclick="adminusers.searchuser();">Buscar usuario especifico</button>
 			<button value="Crear usuario"  onclick="adminusers.createuser();">Crear usuario</button>
 </div>
 </center>
-<div id="resultoperationlistuser" style="display:none;">resultado lista</div>
-<div id="resultoperationsearch"   style="display:none;">
-   <div id="formSearchusr"	style="border-bottom: 1px solid; position: relative;">
-	<form id="formusrs" action="javascript:void(0)">
-		<fieldset style="border: none;">
-			<label for="numusr">Ingrese un numero de identificacion:</label> 
-			<input id="numusr" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" type="text" size=15 maxlength=15 style="font-size: 19px; position: relative; left: 4px;" />
-			<input id="submitusr" type="button" value="Buscar" style="position: relative; left: 30px;" />
-		</fieldset>
-	</form>
+<div id="resultoperationlistuser" style="display:none;">
+	<div>
+	<p>Roles: 1.usuario solo consulta.   2. usuario activa y cancela   3.usuario administrador</p>
+	<p>Por favor para editar o eliminar por favor de doble click en la fila de interes.</p>
+	</div>
+
+
+	<div id="contenttable" style="position:relative;left:5px;">
+		<div id="contentlist"></div>
+		<div id="contentpager"></div>
+	</div>
 </div>
 
-</div>
+
 <div id="resultoperationcreate"   style="display:none;">
 	   <br/>
 	   <center>
@@ -26,7 +26,7 @@
 				<tr>
 					<td align="right">
 							<label for="typeide">Tipo de identicacion:</label>
-							<select id="typeide">
+							<select id="typeide" style="width: 220px;">
 							  <option value="CC">Cedula de Ciudadania </option>
 							</select>
 					</td>
@@ -52,12 +52,12 @@
 				<tr>
 					<td align="right">
 							<label for="pass">Password:</label>
-							<input	type="text" id="pass" ></input>
+							<input	type="password" id="pass" ></input>
 					</td>
 				</tr>
 				<tr>
 					<td align="right">
-							<label for="typerol">ROl:</label>
+							<label for="typerol"  style="width: 220px;">ROl:</label>
 							<select id="typerol">
 							  <option value="1">Consulta Operaciones</option>
 							  <option value="2">Operaciones</option>
@@ -81,4 +81,10 @@
 		</table>
 		</center>
 		
+</div>
+
+
+
+<div id="dialog-confirm" title="Que operacion desea realizar?" style="display:none;">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Seleccione la opcion que desee realizar</p>
 </div>

@@ -30,6 +30,8 @@
 <link type="text/css" href="css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <link type="text/css" href="css/main.css" rel="stylesheet" />
 <link rel="stylesheet" href="css/form.css" type="text/css" media="all" />
+<link type="text/css" href="css/ui.jqgrid.css" rel="stylesheet" />
+
 
 <!--[if lte IE 7]>
 <style>
@@ -40,6 +42,8 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
 <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="js/jquery.json-2.2.min.js"></script>
+<script type="text/javascript" src="js/i18n/grid.locale-es.js"></script>
+<script type="text/javascript" src="js/jquery.jqGrid.min1.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/operation.js"></script>
 <script type="text/javascript" src="js/users.js"></script>
