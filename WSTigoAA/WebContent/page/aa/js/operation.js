@@ -10,6 +10,7 @@ function peticionNumCel()
 	if(number==""){alert("Digite por favor un numero.");return;}
 	var req=
 	{
+			"uid":uid,
 			"informationNumberPhone":{
 				"msisdn":number
 			}
@@ -73,6 +74,7 @@ function callAvailablePackage(packageid)
 {
 	var req=
 	{
+			"uid":uid,
 			"informationAvailablePackage":{
 				"code":packageid.toString()
 			}
@@ -191,7 +193,7 @@ adminoperations={
 			if(adminoperations.idtocancelate=="0" ||  adminoperations.estatepackage=="0"){
 				alert("Actualmente no tiene ningun servicio activo");return;}
 
-			var req={"cancelateService":{
+			var req={"uid":uid,"cancelateService":{
 				"operation":operacion.toString(),
 				"reason":reason.toString(),
 				"msisdn":$("#phone").val(),
@@ -238,7 +240,7 @@ adminoperations={
 		_activate:function(operacion,reason,packagea)
 		{
 
-			var req={"activateService":{
+			var req={"uid":uid,"activateService":{
 				"operation":operacion.toString(),
 				"reason":reason.toString(),
 				"msisdn":$("#phone").val(),

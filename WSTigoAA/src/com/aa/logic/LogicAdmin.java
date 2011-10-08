@@ -22,6 +22,19 @@ public class LogicAdmin {
 		{
 			ser=new informationListUsers();
 		}
+		if(getJson().indexOf("informationeliminateUsers")!=-1)
+		{
+			ser=new informationUsers("informationeliminateUsers");
+		}
+		if(getJson().indexOf("informationEditUsers")!=-1)
+		{
+			ser=new informationUsers("informationEditUsers");
+		}
+		if(getJson().indexOf("informationCreateUsers")!=-1)
+		{
+			ser=new informationUsers("informationCreateUsers");
+		}
+		
 		
 		ser.invoke(getJson(), getResponse(),getBusinessLocal());
 		
