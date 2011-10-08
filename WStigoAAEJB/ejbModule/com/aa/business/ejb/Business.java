@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+
 import com.aa.business.dto.InformationDTO;
 import com.aa.business.dto.PackageDTO;
 import com.aa.business.dto.UserDTO;
@@ -221,7 +222,7 @@ public class Business implements BusinessLocal {
 			usr=new UserDTO();
 		return usr;
 	}
-	
+
 	public List<UserDTO> getUsers()
 	{
 		Query query = em.createNamedQuery(User.querygetusers);
@@ -302,7 +303,6 @@ public class Business implements BusinessLocal {
 
 	public String cancelatePackageIntern(Long msisdn, String operation,
 			String reason, String packagea) {
-		//long number=Long.parseLong(msisdn.toString().trim());
 		try{
 
 			Information_w info=em.find(Information_w.class, msisdn );
@@ -318,6 +318,71 @@ public class Business implements BusinessLocal {
 			return "ERROR:Ocurrio un error por favor realize seguimiento correspondiente con el codigo:"+errorcode;
 		}
 
+	}
+
+	public String eliminateUser(String id) {
+		try{
+			User user=em.find(User.class, Integer.parseInt( id ) );
+			em.remove(user);
+			String confirmacion = operation(""+user.getUsId(), "Eliminar usuario", "Elimino usuario CC:"+user.getUsIdentification()+"date:"+new Date(),"0","0");
+			return confirmacion;
+		}catch (Exception e) {
+			System.out.println("a borrar"+id+"--"+Integer.parseInt( id ) );
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	public String editUser(String us_id, String typedoc, String numdoc,
+			String names, String apelidos, String pass, String rol,
+			String email, String ultlogin) 
+	{
+
+		try{
+			User user=em.find(User.class, Integer.parseInt( us_id ) );
+			
+			user.setUsTypeidentification(typedoc);
+			user.setUsIdentification(numdoc);
+			user.setUsNames(names);
+			user.setUsLastnames(apelidos);
+			user.setUsPassword(pass);
+			user.setUsRol(Integer.parseInt( rol ));
+			user.setUsEmail(email);
+			em.merge(user);	
+			String confirmacion = operation(""+user.getUsId(), "Editar usuario", "Edito al usuario CC:"+user.getUsIdentification()+"date:"+new Date(),"0","0");
+			return confirmacion;
+		}catch (Exception e) {
+			System.out.println("a borrar"+us_id+"--"+Integer.parseInt( us_id ) );
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+
+	public String createUser(String typedoc, String numdoc, String names,
+			String apelidos, String pass, String rol, String email) {
+		
+		
+
+		try{
+		User user=new User();
+		user.setUsTypeidentification(typedoc);
+		user.setUsIdentification(numdoc);
+		user.setUsNames(names);
+		user.setUsLastnames(apelidos);
+		user.setUsPassword(pass);
+		user.setUsRol(Integer.parseInt(rol));
+		user.setUsEmail(email);
+		
+		em.persist(user);
+		String confirmacion = operation(""+user.getUsId(), "Crear usuario", "Creo al usuario CC:"+user.getUsIdentification()+"date:"+new Date(),"0","0");
+		return confirmacion;
+		
+		}catch (Exception e) {
+			System.out.println("No fue posible crear el usuario"+e.getStackTrace() );
+			return null;
+		}		
 	}
 
 
