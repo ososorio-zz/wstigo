@@ -1,6 +1,5 @@
 package com.aa.business.ejb;
 
-import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -14,15 +13,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.xml.rpc.ServiceException;
 
 import co.com.colombiamovil.comprasterceros.service.Category;
 import co.com.colombiamovil.comprasterceros.service.PostsaleAction;
 import co.com.colombiamovil.comprasterceros.service.Service;
 import co.com.colombiamovil.comprasterceros.service.ShoppingRequestDTO;
 import co.com.colombiamovil.comprasterceros.service.ShoppingResponseDTO;
-import co.com.colombiamovil.comprasterceros.service.ShoppingServiceException;
-import co.com.colombiamovil.comprasterceros.service.ShoppingServiceServiceLocator;
 
 import com.aa.business.ejb.interfaces.ShoppingServiceLocal;
 import com.aa.dao.entity.Information_w;
@@ -124,28 +120,38 @@ public class ShoppingService implements ShoppingServiceLocal {
 	}
 
     @WebMethod
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public ShoppingResponseDTO processService(ShoppingRequestDTO solicitud) 
     {
-    	ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
-    	co.com.colombiamovil.comprasterceros.service.ShoppingService service;
     	ShoppingResponseDTO response = null;    	
     	try 
     	{
-			service = locator.getShoppingServicePort();
-			response = service.processService(solicitud);
-		}
-    	catch (ServiceException e) 
-    	{
-			e.printStackTrace();
-		}
-    	catch (RemoteException e) 
+    		Information_w info = em.find(Information_w.class, Integer.parseInt(solicitud.getMobileNumber()));
+			if(info != null)
+			{
+				info.setInPackageActual(solicitud.getPurchasedProductId());
+				if(solicitud.getAction().getValue().equals("ACQUIRE"))
+				{
+					info.setInPackageActive("1");
+					info.setInEstPro("Activo");
+				}
+				else
+				{
+					info.setInEstPro("Inactivo");
+					info.setInPackageActive("0");
+				}
+				Information_w respuesta = em.merge(info);
+				if(respuesta!=null)
+				{
+					response = new ShoppingResponseDTO();
+					response.setAnswer("El producto "+respuesta.getInPackageActual()+"fue actualizado con éxito");
+					response.setUserMessage("Proceso relizado con éxito");
+				}
+			}
+    	}
+		catch (NoResultException e) 
 		{
-			e.printStackTrace();
-		}
-    	catch (ShoppingServiceException e) 
-		{
-			e.printStackTrace();
+			System.out.println("No result exec");
+			return null;
 		}
 		return response;
 	}
