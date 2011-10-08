@@ -1,5 +1,4 @@
 package com.aa.business.ejb.interfaces;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,5 +23,12 @@ public interface BusinessLocal {
 	public String cancelatePackage(Long msisdn, String operation,
 			String reason, String packagea);
 	public List<UserDTO> getUsers();
+	public String eliminateUser(String id);
+	public String editUser(String us_id, String typedoc, String numdoc,
+			String names, String apelidos, String pass, String rol,
+			String email, String ultlogin);
+	public String createUser(String typedoc, String numdoc,
+			String names, String apelidos, String pass, String rol,
+			String email);
 	
 }
