@@ -15,13 +15,18 @@ import java.util.Date;
 @NamedQueries({
 	@NamedQuery(name=LogsOperation.queryPurchasedService,
 			query="SELECT logOp FROM LogsOperation logOp " +
-				  "WHERE logOp.loMsisdn = :msisdn")
+				  "WHERE logOp.loMsisdn = :msisdn"),
+	@NamedQuery(name=LogsOperation.queryProveedores,
+			query="SELECT logOp FROM LogsOperation logOp " +
+				  "WHERE logOp.loDate BETWEEN :initDate AND :lastDate")
 })
 
 public class LogsOperation implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String queryPurchasedService = "queryPurchasedService";
+	
+	public static final String queryProveedores = "queryProveedores";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

@@ -1,6 +1,7 @@
 package com.aa.business.ejb;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -125,26 +126,41 @@ public class ShoppingService implements ShoppingServiceLocal {
     	ShoppingResponseDTO response = null;    	
     	try 
     	{
+    		int lastPackage;
     		Information_w info = em.find(Information_w.class, Integer.parseInt(solicitud.getMobileNumber()));
 			if(info != null)
 			{
+				lastPackage = info.getInPackageActual();
+				String operation = null;
 				info.setInPackageActual(solicitud.getPurchasedProductId());
 				if(solicitud.getAction().getValue().equals("ACQUIRE"))
 				{
+					operation = "Activación";
 					info.setInPackageActive("1");
 					info.setInEstPro("Activo");
 				}
 				else
 				{
+					operation = "Cancelación";
 					info.setInEstPro("Inactivo");
 					info.setInPackageActive("0");
 				}
 				Information_w respuesta = em.merge(info);
 				if(respuesta!=null)
 				{
+					LogsOperation lgo=new LogsOperation();
+					lgo.setLoDate(new Date());
+					lgo.setLoMsisdn(solicitud.getPurchasedProductId().longValue());
+					lgo.setLoOperation(operation);
+					lgo.setLoNextPacket(solicitud.getPurchasedProductId());
+					lgo.setLoPreviousPacket(lastPackage);
+
+					em.persist(lgo);
+					
 					response = new ShoppingResponseDTO();
 					response.setAnswer("El producto "+respuesta.getInPackageActual()+"fue actualizado con éxito");
 					response.setUserMessage("Proceso relizado con éxito");
+					response.setTxCode(String.valueOf(lgo.getLoId()));
 				}
 			}
     	}
