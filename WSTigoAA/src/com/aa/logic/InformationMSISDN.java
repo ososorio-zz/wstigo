@@ -52,8 +52,9 @@ public class InformationMSISDN implements Services {
 			response(writer,rta.toString());
 			
 		}catch (Exception e) {
-			System.out.println("error information msisdn");
-			e.printStackTrace();
+			String message=e.getMessage();			
+			if(message.contains("null"))
+				message="Numero No encontrado por favor digite de nuevo el numero";
 			response(writer,"{\"responseinfo\":{ \"error\":\""+e.getMessage()+"\" }}");
 		}
 		

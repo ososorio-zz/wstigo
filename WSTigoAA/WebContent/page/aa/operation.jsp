@@ -24,25 +24,25 @@
 						type="text" id="plani" name="plani"></input>
 					</td>
 					<td align="right"><label for="nombreprop">Nombre
-							registrado:</label> <input type="text" id="nombreprop" name="nombreprop"></input>
+							registrado:</label> <input type="text" id="nombreprop" name="nombreprop" readonly></input>
 					</td>
 				</tr>
 				<tr>
 					<td align="right"><label for="tipodocumento">Tipo
 							documento:</label> <input type="text" name="tipodocumento"
-						id="tipodocumento"></input>
+						id="tipodocumento" readonly></input>
 					</td>
 					<td align="right"><label for="numdocumento">Numero
-							documento:</label> <input type="text" id="numdocumento" name="numdocumento"></input>
+							documento:</label> <input type="text" id="numdocumento" name="numdocumento" readonly></input>
 					</td>
 				</tr>
 				<tr>
 					<td align="right"><label for="pacactual">Paquete
-							Actual:</label> <input type="text" id="pacactual" name="pacactual"></input>
+							Actual:</label> <input type="text" id="pacactual" name="pacactual" readonly></input>
 					</td>
 					<td align="right"><label for="pacestado">Estado del
 							paquete:</label> <input type="text" name="pacapacestadoctual"
-						id="pacestado"></input>
+						id="pacestado" readonly></input>
 					</td>
 				</tr>
 

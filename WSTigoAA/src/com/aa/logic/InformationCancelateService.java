@@ -15,12 +15,13 @@ public class InformationCancelateService  implements Services{
 			BusinessLocal businessLocal) {
 		try{
 			JSONObject jsonobj=new JSONObject(jsonRequest);
+			String uid=jsonobj.getString("uid");
 			JSONObject activateService=jsonobj.getJSONObject("cancelateService");
 			Long msisdn=activateService.getLong("msisdn");
 			String operation=activateService.getString("operation");
 			String reason=activateService.getString("reason");
 			String packagea=activateService.getString("package");
-			String confirmation=businessLocal.cancelatePackage(msisdn,operation,reason,packagea);
+			String confirmation=businessLocal.cancelatePackage(msisdn,operation,reason,packagea,uid);
 			JSONObject responsej=new JSONObject();
 			responsej.append("result", confirmation);
 			StringBuffer rta=new StringBuffer("{\"responseinfo\":");

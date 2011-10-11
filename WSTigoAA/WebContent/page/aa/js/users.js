@@ -123,6 +123,7 @@ function eliminateUser()
 	if (response) {
 
 		var req={
+				"uid":uid,
 				"informationeliminateUsers":{
 					"id":jQuery("#list").jqGrid().getCell(adminusers.idbuble,0)
 

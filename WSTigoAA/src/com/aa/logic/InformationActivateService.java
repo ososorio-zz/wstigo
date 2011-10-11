@@ -15,6 +15,7 @@ public class InformationActivateService implements Services{
 			BusinessLocal businessLocal) {
 		try {
 			JSONObject jsonobj=new JSONObject(jsonRequest);
+			String uid=jsonobj.getString("uid");
 			JSONObject activateService=jsonobj.getJSONObject("activateService");
 			String msisdn=activateService.getString("msisdn");
 			String operation=activateService.getString("operation");
@@ -22,7 +23,7 @@ public class InformationActivateService implements Services{
 			String packagea=activateService.getString("package");
 			String packageold=activateService.getString("packageold");
 
-			String confirmation=businessLocal.activatePackage(Long.parseLong(msisdn),operation,reason,packagea,packageold);
+			String confirmation=businessLocal.activatePackage(Long.parseLong(msisdn),operation,reason,packagea,packageold,uid);
 			JSONObject responsej=new JSONObject();
 			responsej.append("result", confirmation);
 			StringBuffer rta=new StringBuffer("{\"responseinfo\":");

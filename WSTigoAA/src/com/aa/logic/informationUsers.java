@@ -22,9 +22,10 @@ public class informationUsers implements Services {
 			if(getActivity().equals("informationeliminateUsers"))
 			{
 				JSONObject jsonobj=new JSONObject(jsonRequest);
+				String uid=jsonobj.getString("uid");
 				JSONObject informationeliminateUsers=jsonobj.getJSONObject("informationeliminateUsers");
 				id= informationeliminateUsers.getString("id");
-				String response=businessLocal.eliminateUser(id);
+				String response=businessLocal.eliminateUser(id,uid);
 				if(response==null)
 					throw new Exception("No se pudo eliminar el usuario");
 				else
@@ -34,6 +35,7 @@ public class informationUsers implements Services {
 				if(getActivity().equals("informationEditUsers"))
 				{
 					JSONObject jsonobj=new JSONObject(jsonRequest);
+					String uid=jsonobj.getString("uid");
 					JSONObject informationEditUsers=jsonobj.getJSONObject("informationEditUsers");
 					id=informationEditUsers.getString("us_id");
 					
@@ -46,7 +48,7 @@ public class informationUsers implements Services {
 							informationEditUsers.getString("pass"),
 							informationEditUsers.getString("rol"),
 							informationEditUsers.getString("email"),
-							informationEditUsers.getString("ultlogin"));
+							informationEditUsers.getString("ultlogin"),uid);
 				
 					if(response==null)
 						throw new Exception("No se pudo actualizar el usuario");
@@ -60,6 +62,7 @@ public class informationUsers implements Services {
 					{
 						
 						JSONObject jsonobj=new JSONObject(jsonRequest);
+						String uid=jsonobj.getString("uid");
 						JSONObject informationCreateUsers=jsonobj.getJSONObject("informationCreateUsers");
 						id="New User";
 						String response=businessLocal.createUser(
@@ -69,7 +72,8 @@ public class informationUsers implements Services {
 								informationCreateUsers.getString("apelidos"),
 								informationCreateUsers.getString("pass"),
 								informationCreateUsers.getString("rol"),
-								informationCreateUsers.getString("email")
+								informationCreateUsers.getString("email"),
+								uid
 								);
 						
 						if(response==null)

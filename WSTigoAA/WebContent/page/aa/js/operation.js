@@ -56,7 +56,7 @@ function callbackPhone(response)
 	$("#numdocumento").val( response.responseinfo.numerodoc );
 	$("#plani").val( response.responseinfo.plan );
 	$("#nombreprop").val( response.responseinfo.nombrecliente );
-	$("#pacapacestadoctual").val((response.responseinfo.estadopaquete=="1")?"Activo":"Sin Activar");
+	$("#pacestado").val(((response.responseinfo.estadopaquete.toString()=="1")?"Activo":"Sin Activar"));
 	$("#pacactual").val(response.responseinfo.nombrepaquete);
 	$("#contentresult").show();
 	if(rl=="1")
