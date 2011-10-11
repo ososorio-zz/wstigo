@@ -58,7 +58,6 @@ function callbackPhone(response)
 	$("#nombreprop").val( response.responseinfo.nombrecliente );
 	$("#pacapacestadoctual").val((response.responseinfo.estadopaquete=="1")?"Activo":"Sin Activar");
 	$("#pacactual").val(response.responseinfo.nombrepaquete);
-	console.info(response);
 	$("#contentresult").show();
 	if(rl=="1")
 		return;
@@ -209,7 +208,6 @@ adminoperations={
 				success: function(rta)
 				{
 					stopLoading();
-					console.info(rta);
 					if(rta.toString().indexOf("ERROR") != -1)
 					{
 						alert(rta.responseinfo.result);
@@ -257,7 +255,6 @@ adminoperations={
 				success: function(rta)
 				{
 					stopLoading();
-					console.info(rta);
 					adminoperations.enableadd=false,adminoperations.operation='',adminoperations.reason='',adminoperations.packageac='';
 					if(rta.toString().indexOf("ERROR") != -1)
 					{

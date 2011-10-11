@@ -23,7 +23,6 @@ function onClose()
 		success: function(rta)
 		{
 			stopLoading();
-			console.info(rta);
 			window.location="../login/loginAAWST.html";
 
 		},
