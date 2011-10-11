@@ -15,20 +15,14 @@ public interface BusinessLocal {
 	public InformationDTO consultaMSISDN(long number);
 	public List<PackageDTO> getAvailablePackage(String code);
 	public int error(String mssdn,String message,String errorcode);
-	public String operation(String msisdn,String operacion,String operaciondetail,String previouspacket,String nextPacket);
+	public String operation(String msisdn,String operacion,String operaciondetail,String previouspacket,String nextPacket,String user);
 	public UserDTO getUser(String user,String pass);
 	public void updateLogLogin(int login, Date fecha,String operation,boolean registrytableuser);
-	public String activatePackage(Long msisdn, String operation,
-			String reason, String packageactual,String packageold);
-	public String cancelatePackage(Long msisdn, String operation,
-			String reason, String packagea);
+	public String activatePackage(Long msisdn, String operation,String reason, String packageactual,String packageold,String user);
+	public String cancelatePackage(Long msisdn, String operation,String reason, String packagea,String user);
 	public List<UserDTO> getUsers();
-	public String eliminateUser(String id);
-	public String editUser(String us_id, String typedoc, String numdoc,
-			String names, String apelidos, String pass, String rol,
-			String email, String ultlogin);
-	public String createUser(String typedoc, String numdoc,
-			String names, String apelidos, String pass, String rol,
-			String email);
+	public String eliminateUser(String id,String user);
+	public String editUser(String us_id, String typedoc, String numdoc,String names, String apelidos, String pass, String rol,String email, String ultlogin,String user);
+	public String createUser(String typedoc, String numdoc,String names, String apelidos, String pass, String rol,String email,String user);
 	
 }
