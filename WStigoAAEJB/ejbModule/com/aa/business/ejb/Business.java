@@ -164,7 +164,12 @@ public class Business implements BusinessLocal {
 	}
 
 	public String operation(String msisdn, String operacion,
-			String operaciondetail, String previouspacket, String nextPacket) {
+			String operaciondetail, String previouspacket, String nextPacket,String user) {
+		
+		if(user==null){
+			user="1";//Default de tigo;
+		    operaciondetail+=":::::Usuario Nulo";
+		}
 		LogsOperation lgo=new LogsOperation();
 		lgo.setLoDate(new Date());
 		lgo.setLoMsisdn(Long.parseLong(msisdn));
@@ -174,7 +179,8 @@ public class Business implements BusinessLocal {
 			nextPacket="0";
 		lgo.setLoNextPacket(Integer.parseInt(nextPacket));
 		lgo.setLoPreviousPacket(Integer.parseInt(previouspacket));
-
+		lgo.setLousr(Integer.parseInt(user));
+		
 		em.persist(lgo);
 		return String.valueOf(lgo.getLoId());
 	}
@@ -237,13 +243,13 @@ public class Business implements BusinessLocal {
 	}
 
 	public String activatePackage(Long msisdn, String operation,
-			String reason, String packageactual,String packageold) {
+			String reason, String packageactual,String packageold,String user) {
 
-		String idconfirmation=activatePackageIntern(msisdn, operation, reason, packageactual,packageold);
+		String idconfirmation=activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
 		return idconfirmation;
 	}
 	public String activatePackageIntern(Long msisdn, String operation,
-			String reason, String packageactual,String packageold) {
+			String reason, String packageactual,String packageold,String user) {
 
 		try{
 
@@ -251,7 +257,7 @@ public class Business implements BusinessLocal {
 			info.setInPackageActive("1");
 			info.setInPackageActual(Integer.parseInt(packageactual));
 			em.merge(info);
-			String confirmacion = operation(""+msisdn, operation, reason, packageactual, packageold);
+			String confirmacion = operation(""+msisdn, operation, reason, packageactual, packageold,user);
 
 			return confirmacion;
 
@@ -265,7 +271,7 @@ public class Business implements BusinessLocal {
 
 
 	public String cancelatePackage(Long msisdn, String operation,
-			String reason, String packagea) {
+			String reason, String packagea,String user) {
 
 		//TODO:CANCELAR A EL WEBSERVICES ESPERAR RESPUESTA LLAMAR A METODO
 		/*ParamDTO[] aarayparam=new ParamDTO[2];
@@ -297,18 +303,18 @@ public class Business implements BusinessLocal {
 			e.printStackTrace();
 		}*/
 
-		String idconfirmation=cancelatePackageIntern(msisdn, operation, reason, packagea);
+		String idconfirmation=cancelatePackageIntern(msisdn, operation, reason, packagea,user);
 		return idconfirmation;
 	}
 
 	public String cancelatePackageIntern(Long msisdn, String operation,
-			String reason, String packagea) {
+			String reason, String packagea,String user) {
 		try{
 
 			Information_w info=em.find(Information_w.class, msisdn );
 			info.setInPackageActive("0");
 			em.merge(info);
-			String confirmacion = operation(""+msisdn, operation, reason, packagea, "");
+			String confirmacion = operation(""+msisdn, operation, reason, packagea, "",user);
 
 			return confirmacion;
 
@@ -320,11 +326,11 @@ public class Business implements BusinessLocal {
 
 	}
 
-	public String eliminateUser(String id) {
+	public String eliminateUser(String id,String userid) {
 		try{
 			User user=em.find(User.class, Integer.parseInt( id ) );
 			em.remove(user);
-			String confirmacion = operation(""+user.getUsId(), "Eliminar usuario", "Elimino usuario CC:"+user.getUsIdentification()+"date:"+new Date(),"0","0");
+			String confirmacion = operation(""+user.getUsId(), "Eliminar usuario", "Elimino usuario CC:"+user.getUsIdentification()+"date:"+new Date(),"0","0",userid);
 			return confirmacion;
 		}catch (Exception e) {
 			System.out.println("a borrar"+id+"--"+Integer.parseInt( id ) );
@@ -336,7 +342,7 @@ public class Business implements BusinessLocal {
 
 	public String editUser(String us_id, String typedoc, String numdoc,
 			String names, String apelidos, String pass, String rol,
-			String email, String ultlogin) 
+			String email, String ultlogin,String userid) 
 	{
 
 		try{
@@ -350,7 +356,7 @@ public class Business implements BusinessLocal {
 			user.setUsRol(Integer.parseInt( rol ));
 			user.setUsEmail(email);
 			em.merge(user);	
-			String confirmacion = operation(""+user.getUsId(), "Editar usuario", "Edito al usuario CC:"+user.getUsIdentification()+"date:"+new Date(),"0","0");
+			String confirmacion = operation(""+user.getUsId(), "Editar usuario", "Edito al usuario CC:"+user.getUsIdentification()+"date:"+new Date(),"0","0",userid);
 			return confirmacion;
 		}catch (Exception e) {
 			System.out.println("a borrar"+us_id+"--"+Integer.parseInt( us_id ) );
@@ -361,7 +367,7 @@ public class Business implements BusinessLocal {
 	}
 
 	public String createUser(String typedoc, String numdoc, String names,
-			String apelidos, String pass, String rol, String email) {
+			String apelidos, String pass, String rol, String email,String userid) {
 		
 		
 
@@ -376,7 +382,7 @@ public class Business implements BusinessLocal {
 		user.setUsEmail(email);
 		
 		em.persist(user);
-		String confirmacion = operation(""+user.getUsId(), "Crear usuario", "Creo al usuario CC:"+user.getUsIdentification()+"date:"+new Date(),"0","0");
+		String confirmacion = operation(""+user.getUsId(), "Crear usuario", "Creo al usuario CC:"+user.getUsIdentification()+"date:"+new Date(),"0","0",userid);
 		return confirmacion;
 		
 		}catch (Exception e) {

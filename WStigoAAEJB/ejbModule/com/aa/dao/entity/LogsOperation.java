@@ -52,6 +52,9 @@ public class LogsOperation implements Serializable {
 	@Column(name="lo_previous_packet")
 	private int loPreviousPacket;
 
+	@Column(name="lo_usr")
+	private int lousr; 
+	
     public LogsOperation() {
     }
 
@@ -109,6 +112,14 @@ public class LogsOperation implements Serializable {
 
 	public void setLoPreviousPacket(int loPreviousPacket) {
 		this.loPreviousPacket = loPreviousPacket;
+	}
+
+	public void setLousr(int lousr) {
+		this.lousr = lousr;
+	}
+
+	public int getLousr() {
+		return lousr;
 	}
 
 }
