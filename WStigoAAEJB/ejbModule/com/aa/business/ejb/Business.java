@@ -1,5 +1,6 @@
 package com.aa.business.ejb;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.xml.rpc.ServiceException;
 
+
+import co.com.colombiamovil.comprasterceros.service.ProcessActionEnum;
+import co.com.colombiamovil.comprasterceros.service.ShoppingRequestDTO;
+import co.com.colombiamovil.comprasterceros.service.ShoppingResponseDTO;
+import co.com.colombiamovil.comprasterceros.service.ShoppingService;
+import co.com.colombiamovil.comprasterceros.service.ShoppingServiceException;
+import co.com.colombiamovil.comprasterceros.service.ShoppingServiceServiceLocator;
 
 import com.aa.business.dto.InformationDTO;
 import com.aa.business.dto.PackageDTO;
@@ -244,9 +253,71 @@ public class Business implements BusinessLocal {
 
 	public String activatePackage(Long msisdn, String operation,
 			String reason, String packageactual,String packageold,String user) {
-
-		String idconfirmation=activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
+		
+		//invocar el ws
+		ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
+		ShoppingService service;
+		String idconfirmation = null;
+		try 
+		{
+			ShoppingRequestDTO requestDTO = new ShoppingRequestDTO();
+			requestDTO.setMobileNumber(msisdn.toString());
+			requestDTO.setReason(reason);
+			if(packageactual != null)
+			{
+				requestDTO.setPurchasedProductId(Integer.parseInt(packageactual));
+			}
+			requestDTO.setAction(ProcessActionEnum.CANCEL);
+			service = locator.getShoppingServicePort();
+			ShoppingResponseDTO response = service.processService(requestDTO);
+			if(response != null)
+			{
+				idconfirmation=activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
+			}
+			//TODO:CANCELAR A EL WEBSERVICES ESPERAR RESPUESTA LLAMAR A METODO
+			/*ParamDTO[] aarayparam=new ParamDTO[2];
+			ParamDTO pram=new ParamDTO("", "");
+			aarayparam[0]=pram;
+			Integer purchasedProductId=Integer.parseInt(packagea);
+	
+			String userSeller=null;
+	
+			ShoppingRequestDTO solicitud=new ShoppingRequestDTO(ProcessActionEnum.CANCEL, String.valueOf(msisdn), aarayparam, purchasedProductId, reason, userSeller);
+			ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
+	    	co.com.colombiamovil.comprasterceros.service.ShoppingService service;
+	    	ShoppingResponseDTO response = null; 
+	    	try 
+	    	{
+	    	service = locator.getShoppingServicePort();
+			response = service.processService(solicitud);
+	    	}
+	    	catch (ServiceException e) 
+	    	{
+				e.printStackTrace();
+			}
+	    	catch (RemoteException e) 
+			{
+				e.printStackTrace();
+			}
+	    	catch (ShoppingServiceException e) 
+			{
+				e.printStackTrace();
+			}*/
+		} 
+		catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ShoppingServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return idconfirmation;
+		
+		
+		
 	}
 	public String activatePackageIntern(Long msisdn, String operation,
 			String reason, String packageactual,String packageold,String user) {
@@ -273,37 +344,66 @@ public class Business implements BusinessLocal {
 	public String cancelatePackage(Long msisdn, String operation,
 			String reason, String packagea,String user) {
 
-		//TODO:CANCELAR A EL WEBSERVICES ESPERAR RESPUESTA LLAMAR A METODO
-		/*ParamDTO[] aarayparam=new ParamDTO[2];
-		ParamDTO pram=new ParamDTO("", "");
-		aarayparam[0]=pram;
-		Integer purchasedProductId=Integer.parseInt(packagea);
-
-		String userSeller=null;
-
-		ShoppingRequestDTO solicitud=new ShoppingRequestDTO(ProcessActionEnum.CANCEL, String.valueOf(msisdn), aarayparam, purchasedProductId, reason, userSeller);
+		//invocar el ws
 		ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
-    	co.com.colombiamovil.comprasterceros.service.ShoppingService service;
-    	ShoppingResponseDTO response = null; 
-    	try 
-    	{
-    	service = locator.getShoppingServicePort();
-		response = service.processService(solicitud);
-    	}
-    	catch (ServiceException e) 
-    	{
+		ShoppingService service;
+		String idconfirmation = null;
+		try 
+		{
+			ShoppingRequestDTO requestDTO = new ShoppingRequestDTO();
+			requestDTO.setMobileNumber(msisdn.toString());
+			requestDTO.setReason(reason);
+			if(packagea != null)
+			{
+				requestDTO.setPurchasedProductId(Integer.parseInt(packagea));
+			}
+			requestDTO.setAction(ProcessActionEnum.CANCEL);
+			service = locator.getShoppingServicePort();
+			ShoppingResponseDTO response = service.processService(requestDTO);
+			if(response != null)
+			{
+				idconfirmation = cancelatePackageIntern(msisdn, operation, reason, packagea, user);
+			}
+			//TODO:CANCELAR A EL WEBSERVICES ESPERAR RESPUESTA LLAMAR A METODO
+			/*ParamDTO[] aarayparam=new ParamDTO[2];
+			ParamDTO pram=new ParamDTO("", "");
+			aarayparam[0]=pram;
+			Integer purchasedProductId=Integer.parseInt(packagea);
+	
+			String userSeller=null;
+	
+			ShoppingRequestDTO solicitud=new ShoppingRequestDTO(ProcessActionEnum.CANCEL, String.valueOf(msisdn), aarayparam, purchasedProductId, reason, userSeller);
+			ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
+	    	co.com.colombiamovil.comprasterceros.service.ShoppingService service;
+	    	ShoppingResponseDTO response = null; 
+	    	try 
+	    	{
+	    	service = locator.getShoppingServicePort();
+			response = service.processService(solicitud);
+	    	}
+	    	catch (ServiceException e) 
+	    	{
+				e.printStackTrace();
+			}
+	    	catch (RemoteException e) 
+			{
+				e.printStackTrace();
+			}
+	    	catch (ShoppingServiceException e) 
+			{
+				e.printStackTrace();
+			}*/
+		} 
+		catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ShoppingServiceException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	catch (RemoteException e) 
-		{
-			e.printStackTrace();
-		}
-    	catch (ShoppingServiceException e) 
-		{
-			e.printStackTrace();
-		}*/
-
-		String idconfirmation=cancelatePackageIntern(msisdn, operation, reason, packagea,user);
 		return idconfirmation;
 	}
 
