@@ -34,19 +34,19 @@
 				<tr>
 					<td align="right">
 							<label for="numide">Numero de identicacion:</label>
-							<input	type="text" id="numide" ></input>
+							<input	type="text" id="numide" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');"></input>
 					</td>
 				</tr>
 				<tr>
 					<td align="right">
 							<label for="name">Nombres:</label>
-							<input	type="text" id="name" ></input>
+							<input	type="text" id="name" onkeyup="javascript:this.value=this.value.replace(/[^a-zA-Z\s]/g, '');"></input>
 					</td>
 				</tr>
 				<tr>
 					<td align="right">
 							<label for="ape">Apellidos:</label>
-							<input	type="text" id="ape" ></input>
+							<input	type="text" id="ape" onkeyup="javascript:this.value=this.value.replace(/[^a-zA-Z\s]/g, '');"></input>
 					</td>
 				</tr>
 				<tr>
@@ -101,7 +101,7 @@
 				<tr>
 					<td align="right">
 							<label for="typeide1">Tipo de identicacion:</label>
-							<input	type="text" id="typeide1" ></input>
+							<input	type="text" id="typeide1" readonly></input>
 							<input	type="text" id="us_id1" style="display:none;" ></input>
 
 					</td>

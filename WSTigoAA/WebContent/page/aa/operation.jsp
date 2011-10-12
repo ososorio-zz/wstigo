@@ -21,7 +21,7 @@
 			<tbody>
 				<tr>
 					<td align="right"><label for="plani">Plan:</label> <input
-						type="text" id="plani" name="plani"></input>
+						type="text" id="plani" name="plani" readonly></input>
 					</td>
 					<td align="right"><label for="nombreprop">Nombre
 							registrado:</label> <input type="text" id="nombreprop" name="nombreprop" readonly></input>
@@ -45,7 +45,6 @@
 						id="pacestado" readonly></input>
 					</td>
 				</tr>
-
 			</tbody>
 
 		</table>

@@ -26,7 +26,7 @@ function peticionNumCel()
 			stopLoading();
 			callbackPhone(rta);},
 			error: function()
-			{stopLoading();alert("Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
+			{stopLoading();alert("29:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
 			beforeSend: loading,
 			complete: stopLoading
 	}
@@ -56,7 +56,7 @@ function callbackPhone(response)
 	$("#numdocumento").val( response.responseinfo.numerodoc );
 	$("#plani").val( response.responseinfo.plan );
 	$("#nombreprop").val( response.responseinfo.nombrecliente );
-	$("#pacestado").val(((response.responseinfo.estadopaquete.toString()=="1")?"Activo":"Sin Activar"));
+	$("#pacestado").val(((response.responseinfo.estadopaquete.toString()=="1")?"Activado":"Cancelado"));
 	$("#pacactual").val(response.responseinfo.nombrepaquete);
 	$("#contentresult").show();
 	if(rl=="1")
@@ -91,7 +91,7 @@ function callAvailablePackage(packageid)
 			stopLoading();
 			callbackpackage(rta);},
 			error: function()
-			{stopLoading();alert("Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas ERR:paquetes nos disponible");},
+			{stopLoading();alert("94:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas ERR:paquetes nos disponible");},
 			beforeSend: loading,
 			complete: stopLoading
 	}
@@ -170,13 +170,16 @@ adminoperations={
 				width: 490,
 				modal: true,
 				buttons: {
-					"Cancelar": function() {
+					"Procesar cancelacion": function() {
 						if($("#canceltxt").val()=='')
 						{
 							alert("Por favor Rellene el campo de Comentario.")
 							return;
 						}
 						adminoperations._cancels("web:cancelate service",$("#canceltxt").val());
+						$( this ).dialog( "close" );
+					},
+					"Regresar":function(){
 						$( this ).dialog( "close" );
 					}
 				},
@@ -227,7 +230,7 @@ adminoperations={
 						}
 				},
 				error: function()
-				{stopLoading();alert("Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas ERR:cancelacion no disponible");},
+				{stopLoading();alert("233:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas ERR:cancelacion no disponible");},
 				beforeSend: loading,
 				complete: stopLoading
 			}
@@ -265,7 +268,7 @@ adminoperations={
 						alert("Operacion Exitosa(activacion) codigo de transaccion:"+rta.responseinfo.result);
 				},
 				error: function()
-				{stopLoading();alert("Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas ERR:Activacion no disponible");},
+				{stopLoading();alert("271:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas ERR:Activacion no disponible");},
 				beforeSend: loading,
 				complete: stopLoading
 			}

@@ -12,11 +12,52 @@ adminusers={
 			$("#resultoperationcreate").show();
 		},
 		createuserform:function(){
-			createuserSend();
+
+			if(adminusers.validateformCreate())
+				createuserSend();
 		},
 		editUserform:function(){},
-		idbuble:''
+		idbuble:'',
+		validateformCreate:function(){
+			
+			if(!isValidEmail($("#email").val()))
+				{
+				return false;
+				}
+			if($("#numide").val()=="" || $("#name").val()=="" || $("#ape").val()=="" || $("#pass").val()=="")
+				{
+				alert("por favor rellene todos los campos");
+				return false;
+				}
+			return true;
+		},
+		validateformEdit:function()
+		{			
+			if(!isValidEmail($("#email1").val()))
+			{
+			return false;
+			}
+		if($("#numid1e").val()=="" || $("#name1").val()=="" || $("#ape1").val()=="" || $("#pass1").val()=="")
+			{
+			alert("por favor rellene todos los campos");
+			return false;
+			}
+	    	return true;	
+		}
 };
+
+
+function isValidEmail(strEmail){  
+	validRegExp = /^[^@]+@[^@]+.[a-z]{2,}$/i;
+	if (strEmail.search(validRegExp) == -1)   
+	{   
+		alert('Digite un email valido');     
+		return false;  
+	} 
+	return true; 
+}
+
+
 
 function callinfousers()
 {
@@ -42,7 +83,7 @@ function callinfousers()
 
 		},
 		error: function()
-		{stopLoading();alert("Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
+		{stopLoading();alert("86:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
 		beforeSend: loading,
 		complete: stopLoading
 	}
@@ -86,7 +127,7 @@ function loadInformation(json)
 					        	  //jQuery("#list").jqGrid().getCell(id,8);
 					        	  $( "#dialog-confirm" ).dialog({
 					        		  resizable: false,
-					        		  height:190,
+					        		  height:290,
 					        		  width:500,
 					        		  modal: true,
 					        		  buttons: {
@@ -142,7 +183,7 @@ function eliminateUser()
 				rtaopr(rta);
 			},
 			error: function()
-			{stopLoading();alert("Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
+			{stopLoading();alert("186:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
 			beforeSend: loading,
 			complete: stopLoading
 		}
@@ -179,13 +220,17 @@ function edituser()
 
 	$( "#dialog-confirm-edit" ).dialog({
 		resizable: false,
-		height:500,
-		width:500,
+		height:510,
+		width:510,
 		modal: true,
 		buttons: {
-			"Editar Usuario": function() {
-				$( this ).dialog( "close" );
+			"Aceptar": function() {
+				
+				if(adminusers.validateformEdit())
+					{
 				edituserSend();
+				$( this ).dialog( "close" );
+					}
 			},
 			"Cancelar": function() {
 				$( this ).dialog( "close" );
@@ -223,7 +268,7 @@ function edituserSend()
 		{
 			stopLoading();
 			rtaopr(rta);
-			
+
 			$("#typeide1").val(""),
 			$("#numide1").val(""),
 			$("#name1").val(""),
@@ -233,7 +278,7 @@ function edituserSend()
 			$("#email1").val("");
 		},
 		error: function()
-		{stopLoading();alert("Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
+		{stopLoading();alert("281:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
 		beforeSend: loading,
 		complete: stopLoading
 	}
@@ -278,9 +323,12 @@ function createuserSend()
 
 		},
 		error: function()
-		{stopLoading();alert("Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
+		{stopLoading();alert("326:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");},
 		beforeSend: loading,
 		complete: stopLoading
 	}
 	);
 }
+
+
+

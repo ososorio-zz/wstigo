@@ -4,7 +4,6 @@ window.onbeforeunload = function(){
 
 function onClose()
 {
-	//alert("Se procedera a terminar su session");
 	var req={
 			"cancelateSession":{
 				"token":ses,
@@ -27,8 +26,9 @@ function onClose()
 
 		},
 		error: function()
-		{stopLoading();
-		alert("Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas");
+		{
+		stopLoading();
+		alert("31:Session Finalizada. Incorrectamente.");
 		window.location="../login/loginAAWST.html";},
 		beforeSend: loading,
 		complete: stopLoading

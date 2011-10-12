@@ -26,11 +26,11 @@
       <div class="border" id="login">
         <p>Usuario
         <br/>
-          <input type="text" size="30" name="username" id="username" />
+          <input type="text" size="30" name="username" id="username" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');"/>
           <br />
           Contrase&#241;a
           <br/>
-          <input type="password" size="30" name="password" id="password" />
+          <input type="password" size="30" name="password" id="password" onkeypress=""/>
           <br />
           <input type="button" accesskey="l" id="login_btn" name="login" value="Login" />
         </p>
