@@ -38,10 +38,8 @@ public class Login {
 	
 	public String isValidUser(BusinessLocal businessLocal)
 	{
-		
-		//TODO CONSULTA A WEB
-	   //TODO registro log de login
-		
+
+		try{
 		UserDTO usrv= businessLocal.getUser(getUs(), getPs());		
 		if(usrv.getUsRol()!=0){
 			String tokens=UUID.randomUUID().toString();
@@ -52,6 +50,11 @@ public class Login {
 		}
 		String error="{\"login\":\"0\",\"value\":\"Usuario no valido:verifique su usuario y password\"}";
 		return error; 
+		}catch (Exception e) {
+			String error="{\"login\":\"0\",\"value\":\"Usuario no valido:verifique su usuario y password\"}";
+			return error; 
+		}
+		
 	}
 	public void setRol(String rol) {
 		this.rol = rol;

@@ -37,25 +37,18 @@ public class InformationMSISDN implements Services {
 			responsej.append("nombrepaquete", dto.getNombrepaquete());
 			responsej.append("idpaquete", dto.getCodigopaquete());
 
-			
-		
-			//TODO:nombre paquete
-			
+
 			StringBuffer rta=new StringBuffer("{\"responseinfo\":");
 			rta.append(responsej.toString());
 			rta.append("}");
-			
-			//TODO:test Error
-			//businessLocal.error("300101010", "test", "ERRO:500");
-			//businessLocal.operation("300101010", "activacion", "pagina web", "0", "1");
-			
+
 			response(writer,rta.toString());
 			
 		}catch (Exception e) {
 			String message=e.getMessage();			
-			if(message.contains("null"))
-				message="Numero No encontrado por favor digite de nuevo el numero";
-			response(writer,"{\"responseinfo\":{ \"error\":\""+e.getMessage()+"\" }}");
+			if(message.contains("null") || message.contains("No entity found for query"))
+				message="Numero no encontrado por favor digite de nuevo el numero";
+			response(writer,"{\"responseinfo\":{ \"error\":\""+message+"\",\"internError\":\""+e.getMessage()+"\"}}");
 		}
 		
 		

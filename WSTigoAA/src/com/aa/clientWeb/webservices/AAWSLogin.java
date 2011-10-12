@@ -33,21 +33,7 @@ public class AAWSLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		/*List<InformationDTO> listaInfo = businessLocal.consultarInfo(1);
-        for(InformationDTO info:listaInfo)
-        {
-                System.out.println("Info");
-                System.out.println("Estado "+info.getEstado());
-                System.out.println("Nombre "+info.getNombreId());
-                System.out.println("Numero Id "+info.getNumeroId());
-                System.out.println("Tipo Id "+info.getTipoId());
-        }
-        try{
-        InformationDTO dto= businessLocal.consultaMSISDN("3164146742");
-        System.out.println(dto.getNombreId());
-        }catch (Exception e) {
-			System.out.println(e.getMessage());
-		}*/
+	
         
         
 		StringBuffer bufer = new StringBuffer();           
