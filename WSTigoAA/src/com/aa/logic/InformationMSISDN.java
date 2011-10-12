@@ -51,7 +51,7 @@ public class InformationMSISDN implements Services {
 			response(writer,"{\"responseinfo\":{ \"error\":\""+message+"\",\"internError\":\""+e.getMessage()+"\"}}");
 		}
 		
-		
+	 	
 
 	}
 
