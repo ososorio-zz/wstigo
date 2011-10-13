@@ -19,30 +19,30 @@ adminusers={
 		editUserform:function(){},
 		idbuble:'',
 		validateformCreate:function(){
-			
+
 			if(!isValidEmail($("#email").val()))
-				{
+			{
 				return false;
-				}
+			}
 			if($("#numide").val()=="" || $("#name").val()=="" || $("#ape").val()=="" || $("#pass").val()=="")
-				{
+			{
 				alert("por favor rellene todos los campos");
 				return false;
-				}
+			}
 			return true;
 		},
 		validateformEdit:function()
 		{			
 			if(!isValidEmail($("#email1").val()))
 			{
-			return false;
+				return false;
 			}
-		if($("#numid1e").val()=="" || $("#name1").val()=="" || $("#ape1").val()=="" || $("#pass1").val()=="")
+			if($("#numid1e").val()=="" || $("#name1").val()=="" || $("#ape1").val()=="" || $("#pass1").val()=="")
 			{
-			alert("por favor rellene todos los campos");
-			return false;
+				alert("por favor rellene todos los campos");
+				return false;
 			}
-	    	return true;	
+			return true;	
 		}
 };
 
@@ -104,27 +104,33 @@ function loadInformation(json)
 					datatype: "clientSide",
 					height: 400,
 					width:800,
-					colNames:["ID","IDENTIFICACION","TIPO DE IDENTIFICACION","NOMBRES","APELLIDOS","ROL","EMAIL","ULTIMO LOGIN","PASSWORD"],
+					colNames:["ID","IDENTIFICACION","TIPO DE IDENTIFICACION","NOMBRES","APELLIDOS","ROL","EMAIL","ULTIMO LOGIN","OPERACION","PASSWORD"],
 					colModel:[ 
 					          {name:'id',      index:'id',      width:24}, 
 					          {name:'ide',     index:'ide',     width:70}, 
 					          {name:'tipoide', index:'tipoide', width:30 }, 
-					          {name:'name',    index:'name',    width:100,sortable:false }, 
-					          {name:'apll',    index:'apll',    width:100,sortable:false }, 
+					          {name:'name',    index:'name',    width:95,sortable:false }, 
+					          {name:'apll',    index:'apll',    width:95,sortable:false }, 
 					          {name:'rol',     index:'rol',     width:20, sortable:false},
 					          {name:'email',   index:'email',   width:100, sortable:false},
-					          {name:'login',   index:'login',   width:50, sortable:false},
-					          {name:'pass',     index:'pass',   width:1, sortable:false} 
+					          {name:'login',   index:'login',   width:55, sortable:false},
+					          {name:'opr',     index:'opr',   width:85, sortable:false},
+					          {name:'pass',     index:'pass',   width:1, sortable:false}
+
 					          ],
 					          multiselect: false,
 					          caption: "USUARIOS",
 					          viewrecords: true,
 					          rowNum:20,
 					          rowList:[5,10,20,30,40,50,60],
-					          pager: '#pager',
-					          ondblClickRow: function(id){
+					          pager: '#pager'
+				});
+
+		jQuery("#list").jqGrid('navGrid',"#pager",{edit:false,add:false,del:false});
+
+		/*
+		,ondblClickRow: function(id){
 					        	  adminusers.idbuble=id;
-					        	  //jQuery("#list").jqGrid().getCell(id,8);
 					        	  $( "#dialog-confirm" ).dialog({
 					        		  resizable: false,
 					        		  height:290,
@@ -144,11 +150,8 @@ function loadInformation(json)
 					        			  }
 					        		  }
 					        	  });
-
 					          }
-				});
-
-		jQuery("#list").jqGrid('navGrid',"#pager",{edit:false,add:false,del:false});
+		 */
 
 	}catch (e) {
 		alert(e);
@@ -225,12 +228,12 @@ function edituser()
 		modal: true,
 		buttons: {
 			"Aceptar": function() {
-				
+
 				if(adminusers.validateformEdit())
-					{
-				edituserSend();
-				$( this ).dialog( "close" );
-					}
+				{
+					edituserSend();
+					$( this ).dialog( "close" );
+				}
 			},
 			"Cancelar": function() {
 				$( this ).dialog( "close" );
@@ -331,4 +334,24 @@ function createuserSend()
 }
 
 
+function editeuserjq(userid)
+{
+	adminusers.idbuble=userid.toString();
 
+	if(jQuery("#list").jqGrid().getCell(adminusers.idbuble,3)=="WSTigo")
+	{
+		alert("Este usuario esta reservado para el servicio del webservice espejo");
+		return;
+	}
+	edituser();
+}
+function eliminateuserjq(userid)
+{
+	adminusers.idbuble=userid.toString();
+	if(jQuery("#list").jqGrid().getCell(adminusers.idbuble,3)=="WSTigo")
+	{
+		alert("Este usuario esta reservado para el servicio del webservice espejo");
+		return;
+	}
+	eliminateUser();
+}

@@ -50,8 +50,6 @@ public class InformationMSISDN implements Services {
 				message="Numero no encontrado por favor digite de nuevo el numero";
 			response(writer,"{\"responseinfo\":{ \"error\":\""+message+"\",\"internError\":\""+e.getMessage()+"\"}}");
 		}
-		
-	 	
 
 	}
 

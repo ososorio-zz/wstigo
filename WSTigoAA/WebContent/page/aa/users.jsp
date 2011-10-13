@@ -7,7 +7,7 @@
 <div id="resultoperationlistuser" style="display:none;">
 	<div>
 	<p>Roles: 1.usuario solo consulta.   2. usuario activa y cancela   3.usuario administrador</p>
-	<p>Por favor para editar o eliminar por favor de doble click en la fila de interes.</p>
+	<p>Por favor para editar o eliminar por favor de click en los botones.</p>
 	</div>
 
 

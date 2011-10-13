@@ -29,6 +29,11 @@ public class informationListUsers implements Services {
 							str.append(",\"rol\":\""+ usr.getUsRol()+"\"");
 							str.append(",\"email\":\""+ usr.getUsEmail()+"\"");
 							str.append(",\"login\":\""+ usr.getUsLastDateLogin()+"\"");
+							str.append(",\"opr\":\""+
+									"<button onclick='editeuserjq("+usr.getUsId()+")'>Editar</button>"+
+									"<button onclick='eliminateuserjq("+usr.getUsId()+")'>Borrar</button>"
+																						  
+									+"\"");
 							str.append(",\"pass\":\""+ usr.getUsPassword()+"\"");
 							str.append("}");
 							jsonResponse.append(str.toString());
