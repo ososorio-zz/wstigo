@@ -72,6 +72,7 @@ public class Business implements BusinessLocal {
 				infoDto.setTelefono(String.valueOf(info.getInMsisdn()));
 				infoDto.setNombreusuario(info.getInIdentificationName());
 				infoDto.setCodigopaquete(String.valueOf(info.getInPackageActual()));
+				infoDto.setEstadocuenta(info.getInEstCta());
 				lista.add(infoDto);
 			}
 			return lista;
@@ -85,11 +86,7 @@ public class Business implements BusinessLocal {
 
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public InformationDTO consultaMSISDN(long number) {
-		try
-		{
 
-
-			System.out.println("numero:"+number);
 			Query query = em.createNamedQuery(Information_w.queryInfo);
 			query.setParameter("msisdn", number);
 
@@ -103,7 +100,7 @@ public class Business implements BusinessLocal {
 			infoDto.setTelefono(String.valueOf(info.getInMsisdn()));
 			infoDto.setNombreusuario(info.getInIdentificationName());
 			infoDto.setCodigopaquete(String.valueOf(info.getInPackageActual()));
-			//TODO:setnamePaquete
+			infoDto.setEstadocuenta(info.getInEstCta());
 			Query querypa = em.createNamedQuery(Package.queryInfoPackageName);
 			System.out.println("Consulta"+info.getInPackageActual());
 			querypa.setParameter("idpackage", info.getInPackageActual());
@@ -111,12 +108,7 @@ public class Business implements BusinessLocal {
 			infoDto.setNombrepaquete( packageinfo.getDescription() );
 
 			return infoDto;
-		}
-		catch (NoResultException e) 
-		{
-			System.out.println("No hay resultados para este numero");
-			return null;
-		}
+	
 	}
 
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -486,8 +478,7 @@ public class Business implements BusinessLocal {
 		return confirmacion;
 		
 		}catch (Exception e) {
-			System.out.println("No fue posible crear el usuario"+e.getStackTrace() );
-			return null;
+			return "ERROR:"+e.getMessage();
 		}		
 	}
 
