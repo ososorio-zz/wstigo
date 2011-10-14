@@ -18,6 +18,7 @@ public class InformationDTO implements Serializable {
 	private String nombreusuario;
 	private String codigopaquete;
 	private String nombrepaquete;
+	private String estadocuenta;
 	public String getTelefono() {
 		return telefono;
 	}
@@ -74,6 +75,12 @@ public class InformationDTO implements Serializable {
 	}
 	public String getNombrepaquete() {
 		return nombrepaquete;
+	}
+	public void setEstadocuenta(String estadocuenta) {
+		this.estadocuenta = estadocuenta;
+	}
+	public String getEstadocuenta() {
+		return estadocuenta;
 	}
 
 }
