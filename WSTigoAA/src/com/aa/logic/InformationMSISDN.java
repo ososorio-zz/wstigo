@@ -36,6 +36,7 @@ public class InformationMSISDN implements Services {
 			responsej.append("estadopaquete", dto.getEstadopaquete());
 			responsej.append("nombrepaquete", dto.getNombrepaquete());
 			responsej.append("idpaquete", dto.getCodigopaquete());
+			responsej.append("estadocuenta", dto.getEstadocuenta());
 
 
 			StringBuffer rta=new StringBuffer("{\"responseinfo\":");

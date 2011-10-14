@@ -51,6 +51,12 @@ function callbackPhone(response)
 		return;
 	}
 
+	 if(response.responseinfo.estadocuenta!="Activa")
+		 {
+		 alert("Usuario se encuentra Cancelado");
+		 return;
+		 }
+	
 	$("#phone").val( response.responseinfo.phone );
 	$("#tipodocumento").val( response.responseinfo.tipodocumento );
 	$("#numdocumento").val( response.responseinfo.numerodoc );

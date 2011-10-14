@@ -43,9 +43,9 @@ public class SendMail {
 		auth= rb.getString("auth");
 		useremail=rb.getString("emailFromAddress");
 		pass=rb.getString("emailPassw");
-		emailto=rb.getString("sendToProvider");
+		//emailto=rb.getString("sendToProvider");
 		subject=rb.getString("emailSubjectTxt");
-		messageL=rb.getString("emailMsgTxt");
+		//messageL=rb.getString("emailMsgTxt");
 	}
 
 
@@ -57,7 +57,47 @@ public class SendMail {
 	 * @param from
 	 * @throws MessagingException
 	 */
-	public void sendSSLMessage(String codeError,String messageerror) throws MessagingException {
+	/*public void sendSSLMessage(String codeError,String messageerror) throws MessagingException {
+
+		Properties props = new Properties();
+		props.put("mail.smtp.host", SMTP_HOST_NAME);
+		props.put("mail.smtp.auth", auth);
+		props.put("mail.debug", debug);
+		props.put("mail.smtp.port", SMTP_PORT);
+		props.put("mail.smtp.socketFactory.port", SMTP_PORT);
+		props.put("mail.smtp.socketFactory.class", SSL_FACTORY);
+		props.put("mail.smtp.socketFactory.fallback", fallback);
+
+		Session session = Session.getDefaultInstance(props,
+				new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(useremail,
+						pass);
+			}
+		});
+
+		session.setDebug(Boolean.parseBoolean(debug));
+
+		Message msg = new MimeMessage(session);
+		InternetAddress addressFrom = new InternetAddress(useremail);
+		msg.setFrom(addressFrom);
+
+		msg.setRecipients(Message.RecipientType.TO,javax.mail.internet.InternetAddress.parse(emailto, false) );
+
+		msg.setSubject(subject);
+
+		StringBuffer messagesend=new StringBuffer(messageL);
+		messagesend.append("<br/>" );
+		messagesend.append(codeError );
+		messagesend.append("<br/>" );
+		messagesend.append(messageerror );
+
+
+		msg.setContent(messagesend.toString(), "text/html");
+		Transport.send(msg);
+	}*/
+	
+	public void sendSSLMessageEmail(String messageL,String email) throws MessagingException {
 
 		Properties props = new Properties();
 		props.put("mail.smtp.host", SMTP_HOST_NAME);
@@ -87,19 +127,19 @@ public class SendMail {
 			addressTo[i] = new InternetAddress(recipients[i]);
 		}
 		msg.setRecipients(Message.RecipientType.TO, addressTo);*/
-		msg.setRecipients(Message.RecipientType.TO,javax.mail.internet.InternetAddress.parse(emailto, false) );
+		msg.setRecipients(Message.RecipientType.TO,javax.mail.internet.InternetAddress.parse(email, false) );
 
 		msg.setSubject(subject);
 
 		StringBuffer messagesend=new StringBuffer(messageL);
-		messagesend.append("<br/>" );
-		messagesend.append(codeError );
-		messagesend.append("<br/>" );
-		messagesend.append(messageerror );
 
 
 		msg.setContent(messagesend.toString(), "text/html");
 		Transport.send(msg);
 	}
+
+	
+	
+	
 
 }

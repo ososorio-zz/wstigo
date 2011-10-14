@@ -30,10 +30,10 @@ public class InformationActivateService implements Services{
 			rta.append(responsej.toString());
 			rta.append("}");
 			response(writer,rta.toString());
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			System.out.println("error activate service");
 			e.printStackTrace();
-			response(writer,"{\"responseinfo\":{ \"error\":\""+e.getMessage()+"\" }}");
+			response(writer,"{\"responseinfo\":{ \"error\":\""+"No Fue posible activar el paquete"+"\" \"value\":\""+e.getMessage()+"\"}}");
 		}
 
 	}

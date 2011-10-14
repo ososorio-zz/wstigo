@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 import org.codehaus.jettison.json.JSONObject;
 import com.aa.business.ejb.interfaces.BusinessLocal;
+import com.aa.mail.client.SendMail;
 
 public class informationUsers implements Services {
 
@@ -78,9 +79,36 @@ public class informationUsers implements Services {
 						
 						if(response==null)
 							throw new Exception("No se pudo crear el usuario");
-						else
+						else{
+							
+							if(response.indexOf("ERROR:")!=-1)
+							{
+								if(response.contains("Could not execute JDBC batch update"))
+								{
+									response(writer,"{\"responseinfo\":{ \"error\":\"No fue posible crear el usuario Ingrese los datos de nuevo por favor. *El numero de identificacion ya existe en el aplicativo.\" ,\"value\":\""+response+"\" }}");
+									return;
+								}
+								
+								response(writer,"{\"responseinfo\":{ \"error\":\"No fue posible crear el usuario Ingrese los datos de nuevo por favor.\" ,\"value\":\""+response+"\" }}");
+								return;
+								
+							}
+							
+							
+							
+							try{
+								
+								SendMail sendm=new SendMail();
+								sendm.sendSSLMessageEmail("<p>WS TIGO COMPRA TERCERO</p></br><p>Usuario asignado al sistema:"+informationCreateUsers.getString("numdoc")+"</p></br>Password:"+informationCreateUsers.getString("pass"),informationCreateUsers.getString("email"));
+								
+							}catch (Exception e) {
+								e.printStackTrace();
+							}
+							
 							response(writer,"{\"responseinfo\":{ \"response\":\"Se creo correctamente el usuario codigo de operacion:"+response+"\" }}");
-			
+							
+
+						}
 						
 					}
 			

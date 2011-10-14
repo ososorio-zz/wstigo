@@ -1,7 +1,7 @@
 <center>
 <div id="divoperacionesusers" style="display: block;">
 			<button value="Listar Usuarios" id="listuser" onclick="adminusers.listuser();">Listar Usuarios</button>
-			<button value="Crear usuario"  onclick="adminusers.createuser();">Crear usuario</button>
+			<button value="Crear usuario"  onclick="adminusers.createuser();">Formulario Crear usuario</button>
 </div>
 </center>
 <div id="resultoperationlistuser" style="display:none;">
@@ -27,7 +27,10 @@
 					<td align="right">
 							<label for="typeide">Tipo de identicacion:</label>
 							<select id="typeide" style="width: 220px;">
-							  <option value="CC">Cedula de Ciudadania </option>
+							 <option value="">Seleccione una opcion</option>
+						     <option value="CC">Cedula de Ciudadania </option>
+							 <option value="NIT">Nit </option>
+							 <option value="CE">Cedula de extranjeria </option>
 							</select>
 					</td>
 				</tr>
@@ -109,7 +112,7 @@
 				<tr>
 					<td align="right">
 							<label for="numide1">Numero de identicacion:</label>
-							<input	type="text" id="numide1" ></input>
+							<input	type="text" id="numide1" readonly></input>
 					</td>
 				</tr>
 				<tr>
@@ -133,7 +136,12 @@
 				<tr>
 					<td align="right">
 							<label for="typerol1"  >ROl:</label>
-							<input	type="text" id="typerol1" readonly></input>
+							<!--  input	type="text" id="typerol1" readonly></input-->
+							<select id="typerol1" style="width: 220px;">
+							  <option value="1">Consulta Operaciones</option>
+							  <option value="2">Operaciones</option>
+							  <option value="3">Operaciones,Adm </option>
+							</select>
 
 					</td>
 				</tr>

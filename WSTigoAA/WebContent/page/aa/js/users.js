@@ -12,9 +12,11 @@ adminusers={
 			$("#resultoperationcreate").show();
 		},
 		createuserform:function(){
-
-			if(adminusers.validateformCreate())
+			
+			if(adminusers.validateformCreate()){
+				alert("Recuerde el usuario para entrar al sistema es el siguiente:"+$("#numide").val());
 				createuserSend();
+			}
 		},
 		editUserform:function(){},
 		idbuble:'',
@@ -215,8 +217,10 @@ function edituser()
 	$("#numide1").val(jQuery("#list").jqGrid().getCell(adminusers.idbuble,1));
 	$("#name1").val(jQuery("#list").jqGrid().getCell(adminusers.idbuble,3));
 	$("#ape1").val(jQuery("#list").jqGrid().getCell(adminusers.idbuble,4));
-	$("#pass1").val(jQuery("#list").jqGrid().getCell(adminusers.idbuble,8));
-	$("#typerol1").val(jQuery("#list").jqGrid().getCell(adminusers.idbuble,5));
+	$("#pass1").val(jQuery("#list").jqGrid().getCell(adminusers.idbuble,9));
+	
+	$("#typerol1 option[value=" + jQuery("#list").jqGrid().getCell(adminusers.idbuble,5) +"]").attr("selected","selected");
+	//$("#typerol1").val(jQuery("#list").jqGrid().getCell(adminusers.idbuble,5));
 	$("#email1").val(jQuery("#list").jqGrid().getCell(adminusers.idbuble,6));
 	$("#ultlogin").val(jQuery("#list").jqGrid().getCell(adminusers.idbuble,7));
 
@@ -255,7 +259,7 @@ function edituserSend()
 				"names":	$("#name1").val(),
 				"apelidos":	$("#ape1").val(),
 				"pass":	$("#pass1").val(),
-				"rol":	$("#typerol1").val(),
+				"rol":	$("#typerol1 :selected").val(),//$("#typerol1").val(),
 				"email":	$("#email1").val(),
 				"ultlogin":	$("#ultlogin").val()	
 			}
@@ -315,14 +319,16 @@ function createuserSend()
 		{
 			stopLoading();
 			rtaopr(rta);
-
+			
+			
 			$("#typeide").val(""),
 			$("#numide").val(""),
 			$("#name").val(""),
-			$("#ap").val(""),
+			$("#ape").val(""),
 			$("#pass").val(""),
 			$("#typerol").val(""),
 			$("#email").val("");
+			
 
 		},
 		error: function()
