@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -46,7 +47,7 @@ public class ShoppingService implements ShoppingServiceLocal {
     @SuppressWarnings("unchecked")
 	@WebMethod
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public Service[] avaliableServices(String msidn, Integer categoryId) 
+	public Service[] avaliableServices(@WebParam(name="msidn")String msidn, @WebParam(name="categoryId")Integer categoryId) 
 	{
 		Service[] result = null;
 		categoryId = 4; 
@@ -56,7 +57,7 @@ public class ShoppingService implements ShoppingServiceLocal {
 			query.setParameter("msisdn", Long.parseLong(msidn));
 			Integer valor = (Integer)query.getSingleResult();
 			Query q = em.createNamedQuery(Package.queryInfoAvailable);
-			query.setParameter("idPackage", valor);
+			q.setParameter("idPackage", valor);
 			List<Package> listaPaquete = (List<Package>)q.getResultList();
 			if(!listaPaquete.isEmpty())
 			{
@@ -83,7 +84,7 @@ public class ShoppingService implements ShoppingServiceLocal {
     @SuppressWarnings("unchecked")
 	@WebMethod
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public Service[] purchasedServices(String msidn)
+	public Service[] purchasedServices(@WebParam(name="msidn")String msidn)
     {
     	Service[] result = null;
 		try
@@ -121,13 +122,13 @@ public class ShoppingService implements ShoppingServiceLocal {
 	}
 
     @WebMethod
-	public ShoppingResponseDTO processService(ShoppingRequestDTO solicitud) 
+	public ShoppingResponseDTO processService(@WebParam(name="solicitud")ShoppingRequestDTO solicitud) 
     {
     	ShoppingResponseDTO response = null;    	
     	try 
     	{
     		int lastPackage;
-    		Information_w info = em.find(Information_w.class, Integer.parseInt(solicitud.getMobileNumber()));
+    		Information_w info = em.find(Information_w.class, Long.parseLong(solicitud.getMobileNumber()));
 			if(info != null)
 			{
 				lastPackage = info.getInPackageActual();

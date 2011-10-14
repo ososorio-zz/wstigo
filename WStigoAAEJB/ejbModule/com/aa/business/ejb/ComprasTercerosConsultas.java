@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -40,7 +41,8 @@ public class ComprasTercerosConsultas implements ComprasTercerosConsultasLocal {
     @SuppressWarnings({ "deprecation", "unchecked" })
 	@WebMethod
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public ConsultaProveedoresResponseDTO[] consultaProveedores(int codigoProveedor, String fechaInicial, String fechaFinal) 
+	public ConsultaProveedoresResponseDTO[] consultaProveedores(@WebParam(name="codigoProveedor")int codigoProveedor, @WebParam(name="fechaInicial")String fechaInicial, 
+			@WebParam(name="fechaFinal")String fechaFinal) 
 	{
     	ConsultaProveedoresResponseDTO[] response = null;
     	try 
