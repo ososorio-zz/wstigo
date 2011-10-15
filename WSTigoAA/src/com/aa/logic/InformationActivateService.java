@@ -24,6 +24,8 @@ public class InformationActivateService implements Services{
 			String packageold=activateService.getString("packageold");
 
 			String confirmation=businessLocal.activatePackage(Long.parseLong(msisdn),operation,reason,packagea,packageold,uid);
+			//TODO: VALIDACION
+			
 			JSONObject responsej=new JSONObject();
 			responsej.append("result", confirmation);
 			StringBuffer rta=new StringBuffer("{\"responseinfo\":");

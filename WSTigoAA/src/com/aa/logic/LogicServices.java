@@ -39,6 +39,12 @@ public class LogicServices {
 			ser =new InformationCancelateSession();
 		}
 		
+		if(getJson().indexOf("informationAvailableCancelate")!=-1)
+		{
+			ser=new InformationAvailableCancelate();
+			
+		}
+		
 		ser.invoke(getJson(), getResponse(),getBusinessLocal());
 	}
 

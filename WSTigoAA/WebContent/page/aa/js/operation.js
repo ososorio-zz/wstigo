@@ -68,10 +68,45 @@ function callbackPhone(response)
 	if(rl=="1")
 		return;
 	callAvailablePackage(response.responseinfo.idpaquete);
+	callAvailableReasonCancelate(response.responseinfo.idpaquete);
 	$("#operationsavailables").show();
 	adminoperations.idtocancelate=response.responseinfo.idpaquete.toString();
 	adminoperations.nametocancelate=response.responseinfo.nombrepaquete.toString();
 	adminoperations.estatepackage=response.responseinfo.estadopaquete.toString();
+}
+
+function callAvailableReasonCancelate(packageid)
+{
+	//informationAvailableCancelate	
+	var req=
+	{
+			"uid":uid,
+			"informationAvailableCancelate":{
+				"code":packageid.toString()
+			}
+	};
+	
+	$.ajax({
+		url:"../../AAWServices",
+		global: false,
+		type: "POST",
+		data: $.toJSON(req),
+		contentType: "application/json",
+		success: function(rta)
+		{
+
+			stopLoading();
+			callbackcancelate(rta);},
+			error: function()
+			{stopLoading();alert("101:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas ERR:paquetes nos disponible");},
+			beforeSend: loading,
+			complete: stopLoading
+	}
+	);	
+
+
+	
+	
 }
 
 
@@ -121,6 +156,12 @@ function callbackpackage(response){
 	});
 	container+="</tbody>";
 	$("#selecoptac").html(container);	
+}
+
+
+function callbackcancelate(response)
+{
+console.info(response);
 }
 
 adminoperations={
