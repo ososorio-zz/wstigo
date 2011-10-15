@@ -67,6 +67,7 @@
 	<textarea id="reason" rows="20" cols="20"></textarea>
 	</div>
 	<div id="cancelservice" style="display:none;">
+	<select id="cancelateselect" style="width: 421px;"></select>	
 	<label for="canceltxt">Causa de la cancelacion:</label>
 	<textarea id="canceltxt" rows="20" cols="20"></textarea>
 	</div>

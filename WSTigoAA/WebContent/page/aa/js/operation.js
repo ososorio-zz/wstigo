@@ -161,7 +161,13 @@ function callbackpackage(response){
 
 function callbackcancelate(response)
 {
-console.info(response);
+			$("#cancelateselect").html("");
+			$("#cancelateselect").append('<option>Seleccione una razon</option>');
+
+			for(var i=0; i < response.responseinfo.length; i++)
+			{
+			$("#cancelateselect").append('<option value="' + response.responseinfo[i].id + '">'+ response.responseinfo[i].description + '</option>');
+			}
 }
 
 adminoperations={
@@ -223,7 +229,7 @@ adminoperations={
 							alert("Por favor Rellene el campo de Comentario.")
 							return;
 						}
-						adminoperations._cancels("web:cancelate service",$("#canceltxt").val());
+						adminoperations._cancels("web:cancelate service-id:"+$("#cancelateselect").val(),"id:"+$("#cancelateselect").val()+" R:"+$("#canceltxt").val());
 						$( this ).dialog( "close" );
 					},
 					"Regresar":function(){
