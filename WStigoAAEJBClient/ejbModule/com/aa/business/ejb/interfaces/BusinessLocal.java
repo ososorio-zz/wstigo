@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.aa.business.dto.CancelateDTO;
 import com.aa.business.dto.InformationDTO;
 import com.aa.business.dto.PackageDTO;
 import com.aa.business.dto.UserDTO;
@@ -24,5 +25,5 @@ public interface BusinessLocal {
 	public String eliminateUser(String id,String user);
 	public String editUser(String us_id, String typedoc, String numdoc,String names, String apelidos, String pass, String rol,String email, String ultlogin,String user);
 	public String createUser(String typedoc, String numdoc,String names, String apelidos, String pass, String rol,String email,String user);
-	
+	public List<CancelateDTO> availableCancelateReasons(String us_id,String packagea);
 }
