@@ -23,10 +23,12 @@ import co.com.colombiamovil.comprasterceros.service.ShoppingService;
 import co.com.colombiamovil.comprasterceros.service.ShoppingServiceException;
 import co.com.colombiamovil.comprasterceros.service.ShoppingServiceServiceLocator;
 
+import com.aa.business.dto.CancelateDTO;
 import com.aa.business.dto.InformationDTO;
 import com.aa.business.dto.PackageDTO;
 import com.aa.business.dto.UserDTO;
 import com.aa.business.ejb.interfaces.BusinessLocal;
+import com.aa.dao.entity.Cancellation;
 import com.aa.dao.entity.Information_w;
 import com.aa.dao.entity.LogsError;
 import com.aa.dao.entity.LogsLog_in;
@@ -264,7 +266,7 @@ public class Business implements BusinessLocal {
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
 			{
-				idconfirmation=activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
+				idconfirmation="OK:"+activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
 			}
 			//TODO:CANCELAR A EL WEBSERVICES ESPERAR RESPUESTA LLAMAR A METODO
 			/*ParamDTO[] aarayparam=new ParamDTO[2];
@@ -299,6 +301,10 @@ public class Business implements BusinessLocal {
 		catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
+			String message="Eror:"+e.getMessage();
+			idconfirmation="Error:"+error(String.valueOf(msisdn), message, "404");
+
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -461,8 +467,6 @@ public class Business implements BusinessLocal {
 	public String createUser(String typedoc, String numdoc, String names,
 			String apelidos, String pass, String rol, String email,String userid) {
 		
-		
-
 		try{
 		User user=new User();
 		user.setUsTypeidentification(typedoc);
@@ -480,6 +484,21 @@ public class Business implements BusinessLocal {
 		}catch (Exception e) {
 			return "ERROR:"+e.getMessage();
 		}		
+	}
+
+	public List<CancelateDTO> availableCancelateReasons(String us_id,
+			String packagea) {
+		Query query = em.createNamedQuery(Cancellation.selectall);
+		@SuppressWarnings("unchecked")
+		List<Cancellation> resultList = (List<Cancellation>)query.getResultList();
+		List<CancelateDTO> lista=new ArrayList<CancelateDTO>();
+
+		for(Cancellation info:resultList)
+		{
+			CancelateDTO tmppackage=new CancelateDTO(info.getCaId(),info.getCaReasonCancellation());
+			lista.add(tmppackage);
+		}
+		return lista;	
 	}
 
 

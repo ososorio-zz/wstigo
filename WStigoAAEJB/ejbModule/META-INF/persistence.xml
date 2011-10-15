@@ -9,6 +9,7 @@
 		<class>com.aa.dao.entity.LogsLog_in</class>
 		<class>com.aa.dao.entity.LogsError</class>
 		<class>com.aa.dao.entity.Information_w</class>
+		<class>com.aa.dao.entity.Cancellation</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
 			<property name="hibernate.show_sql" value="true"/>
