@@ -1,10 +1,10 @@
 package com.aa.business.ejb;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -19,9 +19,11 @@ import javax.persistence.Query;
 import co.com.colombiamovil.comprasterceros.service.Category;
 import co.com.colombiamovil.comprasterceros.service.PostsaleAction;
 import co.com.colombiamovil.comprasterceros.service.Service;
-import co.com.colombiamovil.comprasterceros.service.ShoppingRequestDTO;
 import co.com.colombiamovil.comprasterceros.service.ShoppingResponseDTO;
+import co.com.colombiamovil.comprasterceros.service.ShoppingServiceException;
 
+import com.aa.business.dto.ShoppingRequestDTO;
+import com.aa.business.ejb.interfaces.BusinessLocal;
 import com.aa.business.ejb.interfaces.ShoppingServiceLocal;
 import com.aa.dao.entity.Information_w;
 import com.aa.dao.entity.LogsOperation;
@@ -36,6 +38,9 @@ public class ShoppingService implements ShoppingServiceLocal {
 
 	@PersistenceContext(unitName="WStigoAAPersistenceUnit")
 	private EntityManager em;
+	
+	@EJB
+	BusinessLocal businessLocal;
 	
 	/**
      * Default constructor. 
@@ -122,48 +127,91 @@ public class ShoppingService implements ShoppingServiceLocal {
 	}
 
     @WebMethod
-	public ShoppingResponseDTO processService(@WebParam(name="solicitud")ShoppingRequestDTO solicitud) 
+	public ShoppingResponseDTO processService(@WebParam(name="solicitud")ShoppingRequestDTO solicitud) throws ShoppingServiceException 
     {
     	ShoppingResponseDTO response = null;    	
     	try 
     	{
     		int lastPackage;
+    		String result = null;
     		Information_w info = em.find(Information_w.class, Long.parseLong(solicitud.getMobileNumber()));
 			if(info != null)
 			{
 				lastPackage = info.getInPackageActual();
-				String operation = null;
-				info.setInPackageActual(solicitud.getPurchasedProductId());
-				if(solicitud.getAction().getValue().equals("ACQUIRE"))
+	    		if(solicitud.getAction().equals("ACQUIRE"))
 				{
-					operation = "Activación";
-					info.setInPackageActive("1");
-					info.setInEstPro("Activo");
+					result = businessLocal.activatePackage(Long.parseLong(solicitud.getMobileNumber()), "ACQUIRE", solicitud.getReason(), String.valueOf(solicitud.getPurchasedProductId()), String.valueOf(lastPackage),solicitud.getUserSeller());
+				}
+	    		else
+	    		{
+	    			result = businessLocal.cancelatePackage(Long.parseLong(solicitud.getMobileNumber()), "ACQUIRE", solicitud.getReason(), String.valueOf(solicitud.getPurchasedProductId()),solicitud.getUserSeller());
+	    		}
+	    		
+	    		if (result != null)
+				{
+	    			response = new ShoppingResponseDTO();
+					response.setAnswer("El producto "+solicitud.getPurchasedProductId()+" fue actualizado con éxito");
+					response.setUserMessage("Proceso relizado con éxito");
+					response.setTxCode(result);
 				}
 				else
 				{
-					operation = "Cancelación";
-					info.setInEstPro("Inactivo");
-					info.setInPackageActive("0");
-				}
-				Information_w respuesta = em.merge(info);
-				if(respuesta!=null)
-				{
-					LogsOperation lgo=new LogsOperation();
-					lgo.setLoDate(new Date());
-					lgo.setLoMsisdn(solicitud.getPurchasedProductId().longValue());
-					lgo.setLoOperation(operation);
-					lgo.setLoNextPacket(solicitud.getPurchasedProductId());
-					lgo.setLoPreviousPacket(lastPackage);
-
-					em.persist(lgo);
-					
-					response = new ShoppingResponseDTO();
-					response.setAnswer("El producto "+respuesta.getInPackageActual()+"fue actualizado con éxito");
-					response.setUserMessage("Proceso relizado con éxito");
-					response.setTxCode(String.valueOf(lgo.getLoId()));
+					throw new ShoppingServiceException();
 				}
 			}
+    		
+//    		Information_w respuesta = new Information_w();
+//    		Information_w info = em.find(Information_w.class, Long.parseLong(solicitud.getMobileNumber()));
+//			if(info != null)
+//			{
+//				lastPackage = info.getInPackageActual();
+//				String operation = null;
+//				if(solicitud.getAction().equals("ACQUIRE"))
+//				{
+//					String result = businessLocal.activatePackage(Long.parseLong(solicitud.getMobileNumber()), "ACQUIRE", solicitud.getReason(), String.valueOf(solicitud.getPurchasedProductId()), String.valueOf(lastPackage),solicitud.getUserSeller());
+//					if (result != null)
+//					{
+//						info.setInPackageActual(solicitud.getPurchasedProductId());
+//						operation = "Activación";
+//						info.setInPackageActive("1");
+//						info.setInEstPro("Activo");
+//						respuesta = em.merge(info);
+//					}
+//					else
+//					{
+//						
+//					}
+//				}
+//				else if(lastPackage == solicitud.getPurchasedProductId())
+//				{
+//					operation = "Cancelación";
+//					info.setInEstPro("Inactivo");
+//					info.setInPackageActive("0");
+//					info.setInPackageActual(solicitud.getPurchasedProductId());
+//					respuesta = em.merge(info);
+//				}
+//				else
+//				{
+//					
+//				}
+//				
+//				if(respuesta!=null)
+//				{
+//					LogsOperation lgo=new LogsOperation();
+//					lgo.setLoDate(new Date());
+//					lgo.setLoMsisdn(solicitud.getPurchasedProductId().longValue());
+//					lgo.setLoOperation(operation);
+//					lgo.setLoNextPacket(solicitud.getPurchasedProductId());
+//					lgo.setLoPreviousPacket(lastPackage);
+//
+//					em.persist(lgo);
+//					
+//					response = new ShoppingResponseDTO();
+//					response.setAnswer("El producto "+respuesta.getInPackageActual()+"fue actualizado con éxito");
+//					response.setUserMessage("Proceso relizado con éxito");
+//					response.setTxCode(String.valueOf(lgo.getLoId()));
+//				}
+//			}
     	}
 		catch (NoResultException e) 
 		{
