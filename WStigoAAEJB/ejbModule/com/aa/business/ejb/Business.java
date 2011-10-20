@@ -264,7 +264,7 @@ public class Business implements BusinessLocal {
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
 			{
-				idconfirmation="OK:"+activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
+				idconfirmation="Operacion Exitosa(Activacion) codigo de transaccion:"+activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
 			}
 		
 		} 
@@ -272,20 +272,20 @@ public class Business implements BusinessLocal {
 			e.printStackTrace();
 			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
 			String message="Error:"+e.getMessage();
-			idconfirmation="Error:Ocurrio un error activando el paquete(servicio) OBS:servicio externo tigo  ID Asignado:"+error(String.valueOf(msisdn), message, "404");
+			idconfirmation="Error:Ocurrio un error activando el paquete(servicio) OBS:servicio externo tigo  codigo Asignado:"+error(String.valueOf(msisdn), message, "404");
 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
 			String message="Error:"+e.getMessage();
-			idconfirmation="Error:Ocurrio un error activando el paquete(servicio) OBS:servicio externo tigo  ID Asignado:"+error(String.valueOf(msisdn), message, "405");
+			idconfirmation="Error:Ocurrio un error activando el paquete(servicio) OBS:servicio externo tigo  codigo Asignado:"+error(String.valueOf(msisdn), message, "405");
 
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
 			String message="Error:"+e.getMessage();
-			idconfirmation="Error:Ocurrio un error activando el paquete(servicio) OBS:servicio externo tigo  ID Asignado:"+error(String.valueOf(msisdn), message, "406");
+			idconfirmation="Error:Ocurrio un error activando el paquete(servicio) OBS:servicio externo tigo  codigo Asignado:"+error(String.valueOf(msisdn), message, "406");
 
 		}
 		return idconfirmation;		
@@ -334,7 +334,7 @@ public class Business implements BusinessLocal {
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
 			{
-				idconfirmation ="OK:"+cancelatePackageIntern(msisdn, operation, reason, packagea, user);
+				idconfirmation ="Operacion Exitosa(cancelacion) codigo de transaccion"+cancelatePackageIntern(msisdn, operation, reason, packagea, user);
 			}
 			
 		} 
@@ -342,20 +342,20 @@ public class Business implements BusinessLocal {
 			e.printStackTrace();
 			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
 			String message="Error:"+e.getMessage();
-			idconfirmation="Error:Ocurrio un error cancelando el paquete(servicio) OBS:servicio externo tigo  ID Asignado:"+error(String.valueOf(msisdn), message, "407");
+			idconfirmation="Error:Ocurrio un error cancelando el paquete(servicio) OBS:servicio externo tigo  codigo Asignado:"+error(String.valueOf(msisdn), message, "407");
 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
 			String message="Error:"+e.getMessage();
-			idconfirmation="Error:Ocurrio un error cancelando el paquete(servicio) OBS:servicio externo tigo  ID Asignado:"+error(String.valueOf(msisdn), message, "408");
+			idconfirmation="Error:Ocurrio un error cancelando el paquete(servicio) OBS:servicio externo tigo  codigo Asignado:"+error(String.valueOf(msisdn), message, "408");
 
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
 			String message="Error:"+e.getMessage();
-			idconfirmation="Error:Ocurrio un error cancelando el paquete(servicio) OBS:servicio externo tigo  ID Asignado:"+error(String.valueOf(msisdn), message, "409");
+			idconfirmation="Error:Ocurrio un error cancelando el paquete(servicio) OBS:servicio externo tigo  codigo Asignado:"+error(String.valueOf(msisdn), message, "409");
 
 		}
 		return idconfirmation;
