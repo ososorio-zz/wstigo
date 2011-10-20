@@ -37,10 +37,6 @@ function peticionNumCel()
 
 
 }
-function peticionNuIde()
-{
-	alert("peticion identificacion");
-}
 
 
 function callbackPhone(response)
@@ -54,6 +50,7 @@ function callbackPhone(response)
 	 if(response.responseinfo.estadocuenta!="Activa")
 		 {
 		 alert("Usuario se encuentra Cancelado");
+		 $("#contentresult").hide();
 		 return;
 		 }
 	
@@ -77,7 +74,6 @@ function callbackPhone(response)
 
 function callAvailableReasonCancelate(packageid)
 {
-	//informationAvailableCancelate	
 	var req=
 	{
 			"uid":uid,
@@ -85,7 +81,6 @@ function callAvailableReasonCancelate(packageid)
 				"code":packageid.toString()
 			}
 	};
-	
 	$.ajax({
 		url:"../../AAWServices",
 		global: false,
@@ -94,7 +89,6 @@ function callAvailableReasonCancelate(packageid)
 		contentType: "application/json",
 		success: function(rta)
 		{
-
 			stopLoading();
 			callbackcancelate(rta);},
 			error: function()
@@ -103,9 +97,6 @@ function callAvailableReasonCancelate(packageid)
 			complete: stopLoading
 	}
 	);	
-
-
-	
 	
 }
 
@@ -140,6 +131,7 @@ function callAvailablePackage(packageid)
 
 
 }
+
 function callbackpackage(response){
 	if(response.responseinfo.error)
 	{
@@ -264,21 +256,24 @@ adminoperations={
 				success: function(rta)
 				{
 					stopLoading();
-					if(rta.toString().indexOf("ERROR") != -1)
+					if(rta.responseinfo.result)
 					{
 						alert(rta.responseinfo.result);
 						return;
 					}
-					 
+					else{
+						alert(rta.responseinfo.error);
+					return;
+					}
 
 					if(adminoperations.enableadd==true)
 					{
-						alert("Se Cancelo el servicio activo, se procedera a activar el nuevo servicio codigo de transaccion(cancelacion):"+rta.responseinfo.result);
+						//alert("Se Cancelo el servicio activo, se procedera a activar el nuevo servicio codigo de transaccion(cancelacion):"+rta.responseinfo.result);
 						adminoperations.enableadd=false;
 						adminoperations._activate(adminoperations.operation,adminoperations.reason,adminoperations.packageac);
 					}else
 						{
-						alert("Operacion Exitosa(cancelacion) codigo de transaccion:"+rta.responseinfo.result);
+						//alert("Operacion Exitosa(cancelacion) codigo de transaccion:"+rta.responseinfo.result);
 
 						}
 				},
@@ -312,13 +307,13 @@ adminoperations={
 				{
 					stopLoading();
 					adminoperations.enableadd=false,adminoperations.operation='',adminoperations.reason='',adminoperations.packageac='';
-					if(rta.toString().indexOf("ERROR") != -1)
+					if(rta.responseinfo.result)
 					{
 						alert(rta.responseinfo.result);
 						return;
 					}
 					else
-						alert("Operacion Exitosa(activacion) codigo de transaccion:"+rta.responseinfo.result);
+						alert(rta.responseinfo.error);
 				},
 				error: function()
 				{stopLoading();alert("271:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas ERR:Activacion no disponible");},

@@ -22,20 +22,35 @@ public class InformationCancelateService  implements Services{
 			String reason=activateService.getString("reason");
 			String packagea=activateService.getString("package");
 			String confirmation=businessLocal.cancelatePackage(msisdn,operation,reason,packagea,uid);
-			JSONObject responsej=new JSONObject();
-			responsej.append("result", confirmation);
-			StringBuffer rta=new StringBuffer("{\"responseinfo\":");
-			rta.append(responsej.toString());
-			rta.append("}");
-			response(writer,rta.toString());
+
+
+			if(confirmation.contains("Error"))
+			{
+				JSONObject responsej=new JSONObject();
+				responsej.append("error", confirmation);
+				StringBuffer rta=new StringBuffer("{\"responseinfo\":");
+				rta.append(responsej.toString());
+				rta.append("}");
+				response(writer,rta.toString());
+			}
+			else
+			{
+				JSONObject responsej=new JSONObject();
+				responsej.append("result", confirmation);
+				StringBuffer rta=new StringBuffer("{\"responseinfo\":");
+				rta.append(responsej.toString());
+				rta.append("}");
+				response(writer,rta.toString());
+			}
+
 		}catch (Exception e) {
 			System.out.println("error cancelate service");
 			e.printStackTrace();
 			response(writer,"{\"responseinfo\":{ \"error\":\""+e.getMessage()+"\" }}");
 		}
-		
-		
-		
+
+
+
 	}
 
 	@Override

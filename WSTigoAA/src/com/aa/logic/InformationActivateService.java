@@ -24,13 +24,24 @@ public class InformationActivateService implements Services{
 
 			String confirmation=businessLocal.activatePackage(Long.parseLong(msisdn),operation,reason,packagea,packageold,uid);
 			//TODO: VALIDACION
-			
-			JSONObject responsej=new JSONObject();
-			responsej.append("result", confirmation);
-			StringBuffer rta=new StringBuffer("{\"responseinfo\":");
-			rta.append(responsej.toString());
-			rta.append("}");
-			response(writer,rta.toString());
+			if(confirmation.contains("Error"))
+			{
+				JSONObject responsej=new JSONObject();
+				responsej.append("error", confirmation);
+				StringBuffer rta=new StringBuffer("{\"responseinfo\":");
+				rta.append(responsej.toString());
+				rta.append("}");
+				response(writer,rta.toString());
+			}
+			else
+			{
+				JSONObject responsej=new JSONObject();
+				responsej.append("result", confirmation);
+				StringBuffer rta=new StringBuffer("{\"responseinfo\":");
+				rta.append(responsej.toString());
+				rta.append("}");
+				response(writer,rta.toString());
+			}
 		} catch (Exception e) {
 			System.out.println("error activate service");
 			e.printStackTrace();
