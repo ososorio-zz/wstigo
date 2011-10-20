@@ -144,7 +144,7 @@ public class Business implements BusinessLocal {
 
 		SendMail sm=new SendMail();
 		try {
-			sm.sendSSLMessage("A Ocurrido un error en el aplicativo \n Codigo Asignado "+iderror+" \n Numero: "+mssdn+" \n Codigo del error:"+errorcode+"\n Causa:"+message);
+			sm.sendSSLMessage("Ha Ocurrido un error en el aplicativo \n Codigo Asignado "+iderror+" \n Numero: "+mssdn+" \n Codigo del error:"+errorcode+"\n Causa:"+message);
 		} catch (MessagingException e) {
 			System.out.println("Revise la configuracion del aplicativo no fue posible enviar el correo-e");
 			e.printStackTrace();
@@ -255,6 +255,7 @@ public class Business implements BusinessLocal {
 			ShoppingRequestDTO requestDTO = new ShoppingRequestDTO();
 			requestDTO.setMobileNumber(msisdn.toString());
 			requestDTO.setReason(reason);
+			requestDTO.setUserSeller(user);
 			if(packageactual != null)
 			{
 				requestDTO.setPurchasedProductId(Integer.parseInt(packageactual));

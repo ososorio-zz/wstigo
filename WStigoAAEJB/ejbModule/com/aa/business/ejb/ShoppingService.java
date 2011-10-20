@@ -128,11 +128,11 @@ public class ShoppingService implements ShoppingServiceLocal {
 	}
 
     @WebMethod
-	public ShoppingResponseDTO processService(@WebParam(name="solicitud")ShoppingRequestDTO solicitud) throws ShoppingServiceException 
+	public ShoppingResponseDTO processService(@WebParam(name="solicitud")ShoppingRequestDTO solicitud)  throws ShoppingServiceException
     {
     	ShoppingResponseDTO response = null;    	
-    	try 
-    	{
+//    	try 
+//    	{
     		int lastPackage;
     		String result = null;
     		String operation = null;
@@ -192,22 +192,17 @@ public class ShoppingService implements ShoppingServiceLocal {
     		if (result != null)
 			{
     			response = new ShoppingResponseDTO();
-				response.setAnswer("El producto "+solicitud.getPurchasedProductId()+" fue actualizado con éxito");
-				response.setUserMessage("Proceso relizado con éxito");
+				response.setAnswer(result);
+				response.setUserMessage(result);
 				response.setTxCode(result);
 			}
-			else
-			{
-				throw new ShoppingServiceException();
-			}
-
-    	}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			System.out.println("No result exec");
-			return null;
-		}
+//    	}
+//		catch (ShoppingServiceException e) 
+//		{
+//			response = new ShoppingResponseDTO();
+//			response.setAnswer(e.getType().getValue());
+//			response.setUserMessage(e.getUserMessage());
+//		}
 		return response;
 	}
 }
