@@ -266,51 +266,29 @@ public class Business implements BusinessLocal {
 			{
 				idconfirmation="OK:"+activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
 			}
-			//TODO:CANCELAR A EL WEBSERVICES ESPERAR RESPUESTA LLAMAR A METODO
-			/*ParamDTO[] aarayparam=new ParamDTO[2];
-			ParamDTO pram=new ParamDTO("", "");
-			aarayparam[0]=pram;
-			Integer purchasedProductId=Integer.parseInt(packagea);
-	
-			String userSeller=null;
-	
-			ShoppingRequestDTO solicitud=new ShoppingRequestDTO(ProcessActionEnum.CANCEL, String.valueOf(msisdn), aarayparam, purchasedProductId, reason, userSeller);
-			ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
-	    	co.com.colombiamovil.comprasterceros.service.ShoppingService service;
-	    	ShoppingResponseDTO response = null; 
-	    	try 
-	    	{
-	    	service = locator.getShoppingServicePort();
-			response = service.processService(solicitud);
-	    	}
-	    	catch (ServiceException e) 
-	    	{
-				e.printStackTrace();
-			}
-	    	catch (RemoteException e) 
-			{
-				e.printStackTrace();
-			}
-	    	catch (ShoppingServiceException e) 
-			{
-				e.printStackTrace();
-			}*/
+		
 		} 
 		catch (ServiceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
-			String message="Eror:"+e.getMessage();
+			String message="Error:"+e.getMessage();
 			idconfirmation="Error:"+error(String.valueOf(msisdn), message, "404");
 
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
+			String message="Error:"+e.getMessage();
+			idconfirmation="Error:"+error(String.valueOf(msisdn), message, "405");
+
 		}
-		return idconfirmation;
-		
-		
-		
+		catch (Exception e) {
+			e.printStackTrace();
+			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
+			String message="Error:"+e.getMessage();
+			idconfirmation="Error:"+error(String.valueOf(msisdn), message, "406");
+
+		}
+		return idconfirmation;		
 	}
 	public String activatePackageIntern(Long msisdn, String operation,
 			String reason, String packageactual,String packageold,String user) {
@@ -328,7 +306,7 @@ public class Business implements BusinessLocal {
 		}catch (Exception e) {
 
 			int errorcode=error(String.valueOf(msisdn), "datos a activar:"+msisdn+","+ operation+","+ reason+","+ packageactual+","+ packageold+", Error interno:"+e.getMessage(), "ERR:activatePackage Intern");
-			return "ERROR:currio un error por favor realize seguimiento correspondiente con el codigo:"+errorcode;
+			return "Error:currio un error por favor realize seguimiento correspondiente con el codigo:"+errorcode;
 		}
 
 	}
@@ -356,44 +334,29 @@ public class Business implements BusinessLocal {
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
 			{
-				idconfirmation = cancelatePackageIntern(msisdn, operation, reason, packagea, user);
+				idconfirmation ="OK:"+cancelatePackageIntern(msisdn, operation, reason, packagea, user);
 			}
-			//TODO:CANCELAR A EL WEBSERVICES ESPERAR RESPUESTA LLAMAR A METODO
-			/*ParamDTO[] aarayparam=new ParamDTO[2];
-			ParamDTO pram=new ParamDTO("", "");
-			aarayparam[0]=pram;
-			Integer purchasedProductId=Integer.parseInt(packagea);
-	
-			String userSeller=null;
-	
-			ShoppingRequestDTO solicitud=new ShoppingRequestDTO(ProcessActionEnum.CANCEL, String.valueOf(msisdn), aarayparam, purchasedProductId, reason, userSeller);
-			ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
-	    	co.com.colombiamovil.comprasterceros.service.ShoppingService service;
-	    	ShoppingResponseDTO response = null; 
-	    	try 
-	    	{
-	    	service = locator.getShoppingServicePort();
-			response = service.processService(solicitud);
-	    	}
-	    	catch (ServiceException e) 
-	    	{
-				e.printStackTrace();
-			}
-	    	catch (RemoteException e) 
-			{
-				e.printStackTrace();
-			}
-	    	catch (ShoppingServiceException e) 
-			{
-				e.printStackTrace();
-			}*/
+			
 		} 
 		catch (ServiceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
+			String message="Error:"+e.getMessage();
+			idconfirmation="Error:"+error(String.valueOf(msisdn), message, "407");
+
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
+			String message="Error:"+e.getMessage();
+			idconfirmation="Error:"+error(String.valueOf(msisdn), message, "408");
+
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			//TODO: deberiamos si se peude como identificarlo o personalizar el texto del error o etc para poder identificar el codigo de error
+			String message="Error:"+e.getMessage();
+			idconfirmation="Error:"+error(String.valueOf(msisdn), message, "409");
+
 		}
 		return idconfirmation;
 	}
@@ -412,7 +375,7 @@ public class Business implements BusinessLocal {
 		}catch (Exception e) {
 
 			int errorcode=error(String.valueOf(msisdn), "datos a cancelar:"+msisdn+","+ operation+","+ reason+","+ packagea+", Error interno:"+e.getMessage(), "ERR:cancelatePackage Intern");
-			return "ERROR:Ocurrio un error por favor realize seguimiento correspondiente con el codigo:"+errorcode;
+			return "Error:Ocurrio un error por favor realize seguimiento correspondiente con el codigo:"+errorcode;
 		}
 
 	}
