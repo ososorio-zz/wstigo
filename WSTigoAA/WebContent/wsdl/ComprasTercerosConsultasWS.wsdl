@@ -1,0 +1,64 @@
+<definitions name="ComprasTercerosConsultasWSService" targetNamespace="http://service.comprasterceros.colombiamovil.com.co/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://service.comprasterceros.colombiamovil.com.co/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <types>
+  <xs:schema targetNamespace="http://service.comprasterceros.colombiamovil.com.co/" version="1.0" xmlns:tns="http://service.comprasterceros.colombiamovil.com.co/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="consultaProveedores" type="tns:consultaProveedores"/>
+   <xs:element name="consultaProveedoresResponse" type="tns:consultaProveedoresResponse"/>
+   <xs:complexType name="consultaProveedores">
+    <xs:sequence>
+     <xs:element name="codigoProveedor" type="xs:int"/>
+     <xs:element minOccurs="0" name="fechaInicial" type="xs:string"/>
+     <xs:element minOccurs="0" name="fechaFinal" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="consultaProveedoresResponse">
+    <xs:sequence>
+     <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:consultaProveedoresResponseDTO"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="consultaProveedoresResponseDTO">
+    <xs:sequence>
+     <xs:element minOccurs="0" name="accion" type="xs:string"/>
+     <xs:element minOccurs="0" name="categoria" type="xs:string"/>
+     <xs:element minOccurs="0" name="estado" type="xs:string"/>
+     <xs:element minOccurs="0" name="fecha" type="xs:dateTime"/>
+     <xs:element minOccurs="0" name="idTransaccion" type="xs:int"/>
+     <xs:element minOccurs="0" name="identificacion" type="xs:string"/>
+     <xs:element minOccurs="0" name="movil" type="xs:string"/>
+     <xs:element minOccurs="0" name="nombreProveedor" type="xs:string"/>
+     <xs:element minOccurs="0" name="resultado" type="xs:string"/>
+     <xs:element minOccurs="0" name="servicio" type="xs:string"/>
+     <xs:element minOccurs="0" name="tipoIdentificacion" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+ </types>
+ <message name="ComprasTercerosConsultasWS_consultaProveedores">
+  <part element="tns:consultaProveedores" name="consultaProveedores"/>
+ </message>
+ <message name="ComprasTercerosConsultasWS_consultaProveedoresResponse">
+  <part element="tns:consultaProveedoresResponse" name="consultaProveedoresResponse"/>
+ </message>
+ <portType name="ComprasTercerosConsultasWS">
+  <operation name="consultaProveedores" parameterOrder="consultaProveedores">
+   <input message="tns:ComprasTercerosConsultasWS_consultaProveedores"/>
+   <output message="tns:ComprasTercerosConsultasWS_consultaProveedoresResponse"/>
+  </operation>
+ </portType>
+ <binding name="ComprasTercerosConsultasWSBinding" type="tns:ComprasTercerosConsultasWS">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="consultaProveedores">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body use="literal"/>
+   </input>
+   <output>
+    <soap:body use="literal"/>
+   </output>
+  </operation>
+ </binding>
+ <service name="ComprasTercerosConsultasWSService">
+  <port binding="tns:ComprasTercerosConsultasWSBinding" name="ComprasTercerosConsultasWSPort">
+   <soap:address location="http://10.69.38.15:8080/ComprasTercerosEAR-ComprasTercerosEJB/ComprasTercerosConsultasWS"/>
+  </port>
+ </service>
+</definitions>

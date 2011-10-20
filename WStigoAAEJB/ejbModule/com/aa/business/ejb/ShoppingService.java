@@ -1,6 +1,7 @@
 package com.aa.business.ejb;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class ShoppingService implements ShoppingServiceLocal {
     @SuppressWarnings("unchecked")
 	@WebMethod
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public Service[] avaliableServices(@WebParam(name="msidn")String msidn, @WebParam(name="categoryId")Integer categoryId) 
+	public Service[] availableServices(@WebParam(name="msidn")String msidn, @WebParam(name="categoryId")Integer categoryId) 
 	{
 		Service[] result = null;
 		categoryId = 4; 
@@ -134,87 +135,76 @@ public class ShoppingService implements ShoppingServiceLocal {
     	{
     		int lastPackage;
     		String result = null;
+    		String operation = null;
     		Information_w info = em.find(Information_w.class, Long.parseLong(solicitud.getMobileNumber()));
 			if(info != null)
 			{
 				lastPackage = info.getInPackageActual();
-	    		if(solicitud.getAction().equals("ACQUIRE"))
+	    		if(solicitud.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.ACQUIRE))
 				{
-					result = businessLocal.activatePackage(Long.parseLong(solicitud.getMobileNumber()), "ACQUIRE", solicitud.getReason(), String.valueOf(solicitud.getPurchasedProductId()), String.valueOf(lastPackage),solicitud.getUserSeller());
+	    			operation = "ACQUIRE";
+					result = businessLocal.activatePackage(Long.parseLong(solicitud.getMobileNumber()), "ACQUIRE", solicitud.getReason(), String.valueOf(solicitud.getPurchasedProductId()), String.valueOf(lastPackage),"0");
 				}
-	    		else
+	    		else if(solicitud.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.CANCEL))
 	    		{
-	    			result = businessLocal.cancelatePackage(Long.parseLong(solicitud.getMobileNumber()), "ACQUIRE", solicitud.getReason(), String.valueOf(solicitud.getPurchasedProductId()),solicitud.getUserSeller());
+	    			operation = "CANCEL";
+	    			result = businessLocal.cancelatePackage(Long.parseLong(solicitud.getMobileNumber()), "CANCEL", solicitud.getReason(), String.valueOf(solicitud.getPurchasedProductId()),"0");
 	    		}
-	    		
-	    		if (result != null)
-				{
-	    			response = new ShoppingResponseDTO();
-					response.setAnswer("El producto "+solicitud.getPurchasedProductId()+" fue actualizado con éxito");
-					response.setUserMessage("Proceso relizado con éxito");
-					response.setTxCode(result);
-				}
-				else
-				{
-					throw new ShoppingServiceException();
-				}
 			}
-    		
-//    		Information_w respuesta = new Information_w();
-//    		Information_w info = em.find(Information_w.class, Long.parseLong(solicitud.getMobileNumber()));
-//			if(info != null)
-//			{
-//				lastPackage = info.getInPackageActual();
-//				String operation = null;
-//				if(solicitud.getAction().equals("ACQUIRE"))
-//				{
-//					String result = businessLocal.activatePackage(Long.parseLong(solicitud.getMobileNumber()), "ACQUIRE", solicitud.getReason(), String.valueOf(solicitud.getPurchasedProductId()), String.valueOf(lastPackage),solicitud.getUserSeller());
-//					if (result != null)
-//					{
-//						info.setInPackageActual(solicitud.getPurchasedProductId());
-//						operation = "Activación";
-//						info.setInPackageActive("1");
-//						info.setInEstPro("Activo");
-//						respuesta = em.merge(info);
-//					}
-//					else
-//					{
-//						
-//					}
-//				}
-//				else if(lastPackage == solicitud.getPurchasedProductId())
-//				{
-//					operation = "Cancelación";
-//					info.setInEstPro("Inactivo");
-//					info.setInPackageActive("0");
-//					info.setInPackageActual(solicitud.getPurchasedProductId());
-//					respuesta = em.merge(info);
-//				}
-//				else
-//				{
-//					
-//				}
-//				
-//				if(respuesta!=null)
-//				{
-//					LogsOperation lgo=new LogsOperation();
-//					lgo.setLoDate(new Date());
-//					lgo.setLoMsisdn(solicitud.getPurchasedProductId().longValue());
-//					lgo.setLoOperation(operation);
-//					lgo.setLoNextPacket(solicitud.getPurchasedProductId());
-//					lgo.setLoPreviousPacket(lastPackage);
-//
-//					em.persist(lgo);
-//					
-//					response = new ShoppingResponseDTO();
-//					response.setAnswer("El producto "+respuesta.getInPackageActual()+"fue actualizado con éxito");
-//					response.setUserMessage("Proceso relizado con éxito");
-//					response.setTxCode(String.valueOf(lgo.getLoId()));
-//				}
-//			}
+			else
+			{
+				info = new Information_w();
+				info.setInMsisdn(Long.parseLong(solicitud.getMobileNumber()));
+				info.setInIdentificationNumber(solicitud.getUserSeller());
+				info.setInCiclo(15);
+				
+				int nextPacket = 0;
+				if(solicitud.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.ACQUIRE))
+				{
+					info.setInPackageActive("1");
+					info.setInPackageActual(solicitud.getPurchasedProductId());
+					info.setInFecCreaCta(new Date());
+					operation = "ACQUIRE";
+					nextPacket = solicitud.getPurchasedProductId();
+					em.persist(info);
+				}
+	    		else if(solicitud.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.CANCEL))
+	    		{
+	    			info.setInPackageActive("0");
+					info.setInPackageActual(solicitud.getPurchasedProductId());
+					info.setInFecCreaCta(new Date());
+					operation = "CANCEL";
+					em.persist(info);
+	    		}
+				
+				LogsOperation lgo=new LogsOperation();
+				lgo.setLoDate(new Date());
+				lgo.setLoMsisdn(Long.parseLong(solicitud.getMobileNumber()));
+				lgo.setLoOperationDetail(solicitud.getReason());
+				lgo.setLousr(0);
+				lgo.setLoOperation(operation);
+				lgo.setLoNextPacket(nextPacket);
+				lgo.setLoPreviousPacket(0);
+				em.persist(lgo);
+				result = String.valueOf(lgo.getLoId());
+			}
+			
+    		if (result != null)
+			{
+    			response = new ShoppingResponseDTO();
+				response.setAnswer("El producto "+solicitud.getPurchasedProductId()+" fue actualizado con éxito");
+				response.setUserMessage("Proceso relizado con éxito");
+				response.setTxCode(result);
+			}
+			else
+			{
+				throw new ShoppingServiceException();
+			}
+
     	}
-		catch (NoResultException e) 
+		catch (Exception e) 
 		{
+			e.printStackTrace();
 			System.out.println("No result exec");
 			return null;
 		}

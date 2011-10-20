@@ -10,7 +10,7 @@ import co.com.colombiamovil.comprasterceros.service.ShoppingServiceException;
 @Local
 public interface ShoppingServiceLocal 
 {
-	public Service[] avaliableServices(String msidn, Integer categoryId);
+	public Service[] availableServices(String msidn, Integer categoryId);
 	
 	public Service[] purchasedServices(String msidn);
 	

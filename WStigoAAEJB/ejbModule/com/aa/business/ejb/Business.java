@@ -15,12 +15,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.xml.rpc.ServiceException;
 
-
 import co.com.colombiamovil.comprasterceros.service.ProcessActionEnum;
 import co.com.colombiamovil.comprasterceros.service.ShoppingRequestDTO;
 import co.com.colombiamovil.comprasterceros.service.ShoppingResponseDTO;
 import co.com.colombiamovil.comprasterceros.service.ShoppingService;
-import co.com.colombiamovil.comprasterceros.service.ShoppingServiceException;
 import co.com.colombiamovil.comprasterceros.service.ShoppingServiceServiceLocator;
 
 import com.aa.business.dto.CancelateDTO;
@@ -308,9 +306,6 @@ public class Business implements BusinessLocal {
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ShoppingServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return idconfirmation;
 		
@@ -356,6 +351,7 @@ public class Business implements BusinessLocal {
 				requestDTO.setPurchasedProductId(Integer.parseInt(packagea));
 			}
 			requestDTO.setAction(ProcessActionEnum.CANCEL);
+			requestDTO.setUserSeller(user);
 			service = locator.getShoppingServicePort();
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
@@ -396,9 +392,6 @@ public class Business implements BusinessLocal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ShoppingServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
