@@ -260,7 +260,7 @@ public class Business implements BusinessLocal {
 			{
 				requestDTO.setPurchasedProductId(Integer.parseInt(packageactual));
 			}
-			requestDTO.setAction(ProcessActionEnum.CANCEL);
+			requestDTO.setAction(ProcessActionEnum.ACQUIRE);
 			service = locator.getShoppingServicePort();
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
