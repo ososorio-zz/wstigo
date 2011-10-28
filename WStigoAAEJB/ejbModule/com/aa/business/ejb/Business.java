@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -43,6 +44,8 @@ public class Business implements BusinessLocal {
 
 	@PersistenceContext(unitName="WStigoAAPersistenceUnit")
 	private EntityManager em;
+	
+	ResourceBundle rb = ResourceBundle.getBundle("com.aa.business.properties.conf");
 
 	/**
 	 * Default constructor. 
@@ -245,7 +248,7 @@ public class Business implements BusinessLocal {
 
 	public String activatePackage(Long msisdn, String operation,
 			String reason, String packageactual,String packageold,String user) {
-		
+			
 		//invocar el ws
 		ShoppingServiceServiceLocator locator = new ShoppingServiceServiceLocator();
 		ShoppingService service;
@@ -256,6 +259,10 @@ public class Business implements BusinessLocal {
 			requestDTO.setMobileNumber(msisdn.toString());
 			requestDTO.setReason(reason);
 			requestDTO.setUserSeller(user);
+			if(!user.equals("american-assist"))
+    		{
+    			user = rb.getString("userSeller");
+    		}
 			if(packageactual != null)
 			{
 				requestDTO.setPurchasedProductId(Integer.parseInt(packageactual));
@@ -265,6 +272,7 @@ public class Business implements BusinessLocal {
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
 			{
+				user = "0";
 				idconfirmation="Operacion Exitosa(Activacion) codigo de transaccion:"+activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
 			}
 		
@@ -322,6 +330,10 @@ public class Business implements BusinessLocal {
 		String idconfirmation = null;
 		try 
 		{
+			if(!user.equals("american-assist"))
+    		{
+    			user = rb.getString("userSeller");
+    		}
 			ShoppingRequestDTO requestDTO = new ShoppingRequestDTO();
 			requestDTO.setMobileNumber(msisdn.toString());
 			requestDTO.setReason(reason);
@@ -335,6 +347,7 @@ public class Business implements BusinessLocal {
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
 			{
+				user = "0";
 				idconfirmation ="Operacion Exitosa(cancelacion) codigo de transaccion"+cancelatePackageIntern(msisdn, operation, reason, packagea, user);
 			}
 			

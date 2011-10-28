@@ -128,62 +128,85 @@ public class ShoppingService implements ShoppingServiceLocal {
 	}
 
     @WebMethod
-	public ShoppingResponseDTO processService(@WebParam(name="solicitud")ShoppingRequestDTO solicitud)  throws ShoppingServiceException
+	public ShoppingResponseDTO processService(@WebParam(name="request")ShoppingRequestDTO request)  throws ShoppingServiceException
     {
-    	ShoppingResponseDTO response = null;    	
-//    	try 
-//    	{
+    	ShoppingResponseDTO response = null;   
+    	String user = null;
+    	try 
+    	{
     		int lastPackage;
     		String result = null;
     		String operation = null;
-    		Package pack = em.find(Package.class, solicitud.getPurchasedProductId());
+    		StringBuilder answer = new StringBuilder();
+    		StringBuilder userMessage = new StringBuilder();
+    		Package pack = em.find(Package.class, request.getPurchasedProductId());
     		if(pack!=null)
     		{
-    			Information_w info = em.find(Information_w.class, Long.parseLong(solicitud.getMobileNumber()));
+    			Information_w info = em.find(Information_w.class, Long.parseLong(request.getMobileNumber()));
     			if(info != null)
     			{
+    				user = "0";
     				lastPackage = info.getInPackageActual();
-    	    		if(solicitud.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.ACQUIRE))
+    				int packageToProcess = request.getPurchasedProductId();
+    	    		if(request.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.ACQUIRE))
     				{
-    	    			operation = "ACQUIRE";
-    					result = businessLocal.activatePackage(Long.parseLong(solicitud.getMobileNumber()), "ACQUIRE", solicitud.getReason(), String.valueOf(solicitud.getPurchasedProductId()), String.valueOf(lastPackage),"0");
+    	    			operation = "ACQUIRE";    	    			
+    					result = businessLocal.activatePackageIntern(Long.parseLong(request.getMobileNumber()), "ACQUIRE", request.getReason(), String.valueOf(request.getPurchasedProductId()),String.valueOf(lastPackage), user);
+    					userMessage.append("Proceso de activación de paquete "+request.getPurchasedProductId()+" realizado de manera exitosa para el msisdn "+request.getMobileNumber());
+    					answer.append("Proceso: "+operation+", Paquete: "+request.getPurchasedProductId()+", Msisdn:"+request.getMobileNumber());
     				}
-    	    		else if(solicitud.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.CANCEL))
+    	    		else if(request.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.CANCEL))
     	    		{
-    	    			operation = "CANCEL";
-    	    			result = businessLocal.cancelatePackage(Long.parseLong(solicitud.getMobileNumber()), "CANCEL", solicitud.getReason(), String.valueOf(solicitud.getPurchasedProductId()),"0");
+    	    			if(info.getInPackageActual() != packageToProcess)
+    	    			{
+    	    				int txCode = businessLocal.error(request.getMobileNumber(), "El producto a cancelar no ha sido adquirido.", "77");
+    	    				result = String.valueOf(txCode);
+        	    			userMessage.append("El producto a cancelar no ha sido adquirido");
+        	    			answer.append(userMessage.toString());
+    	    			}
+    	    			else
+    	    			{
+    	    				operation = "CANCEL";
+        	    			result = businessLocal.cancelatePackageIntern(Long.parseLong(request.getMobileNumber()), "CANCEL", request.getReason(), String.valueOf(request.getPurchasedProductId()),user);
+        	    			userMessage.append("Proceso de cancelación de paquete "+request.getPurchasedProductId()+" realizado de manera exitosa para el msisdn "+request.getMobileNumber());
+        	    			answer.append("Proceso: "+operation+", Paquete: "+request.getPurchasedProductId()+", Msisdn:"+request.getMobileNumber());
+    	    			}
     	    		}
     			}
     			else
     			{
     				info = new Information_w();
-    				info.setInMsisdn(Long.parseLong(solicitud.getMobileNumber()));
-    				info.setInIdentificationNumber(solicitud.getUserSeller());
+    				info.setInMsisdn(Long.parseLong(request.getMobileNumber()));
+    				info.setInIdentificationNumber(request.getUserSeller());
     				info.setInCiclo(15);
     				
     				int nextPacket = 0;
-    				if(solicitud.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.ACQUIRE))
+    				if(request.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.ACQUIRE))
     				{
     					info.setInPackageActive("1");
-    					info.setInPackageActual(solicitud.getPurchasedProductId());
+    					info.setInPackageActual(request.getPurchasedProductId());
     					info.setInFecCreaCta(new Date());
     					operation = "ACQUIRE";
-    					nextPacket = solicitud.getPurchasedProductId();
+    					nextPacket = request.getPurchasedProductId();
     					em.persist(info);
+    					userMessage.append("Proceso de activación de paquete "+request.getPurchasedProductId()+" realizado de manera exitosa para el msisdn "+request.getMobileNumber());
+    	    			answer.append("Proceso: "+operation+", Paquete: "+request.getPurchasedProductId()+", Msisdn:"+request.getMobileNumber());
     				}
-    	    		else if(solicitud.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.CANCEL))
+    	    		else if(request.getAction().equals(ShoppingRequestDTO.ProcessActionEnum.CANCEL))
     	    		{
     	    			info.setInPackageActive("0");
-    					info.setInPackageActual(solicitud.getPurchasedProductId());
+    					info.setInPackageActual(request.getPurchasedProductId());
     					info.setInFecCreaCta(new Date());
     					operation = "CANCEL";
     					em.persist(info);
+    					userMessage.append("Proceso de cancelación de paquete "+request.getPurchasedProductId()+" realizado de manera exitosa para el msisdn "+request.getMobileNumber());
+    	    			answer.append("Proceso: "+operation+", Paquete: "+request.getPurchasedProductId()+", Msisdn:"+request.getMobileNumber());
     	    		}
     				
     				LogsOperation lgo=new LogsOperation();
     				lgo.setLoDate(new Date());
-    				lgo.setLoMsisdn(Long.parseLong(solicitud.getMobileNumber()));
-    				lgo.setLoOperationDetail(solicitud.getReason());
+    				lgo.setLoMsisdn(Long.parseLong(request.getMobileNumber()));
+    				lgo.setLoOperationDetail(request.getReason());
     				lgo.setLousr(0);
     				lgo.setLoOperation(operation);
     				lgo.setLoNextPacket(nextPacket);
@@ -195,27 +218,29 @@ public class ShoppingService implements ShoppingServiceLocal {
         		if (result != null)
     			{
         			response = new ShoppingResponseDTO();
-    				response.setAnswer(result);
-    				response.setUserMessage(result);
+    				response.setAnswer(answer.toString());
+    				response.setUserMessage(userMessage.toString());
     				response.setTxCode(result);
     			}
     		}
     		else
     		{
-    			int txCode = businessLocal.error(solicitud.getMobileNumber(), "No se encuentra el id de la categoria.", "87");
+    			int txCode = businessLocal.error(request.getMobileNumber(), "No se encuentra el id de la categoria.", "87");
     			response = new ShoppingResponseDTO();
 				response.setAnswer("No se encuentra el id de la categoria.");
 				response.setUserMessage("No se encuentra el id de la categoria.");
 				response.setTxCode(String.valueOf(txCode));
     		}
     		
-//    	}
-//		catch (ShoppingServiceException e) 
-//		{
-//			response = new ShoppingResponseDTO();
-//			response.setAnswer(e.getType().getValue());
-//			response.setUserMessage(e.getUserMessage());
-//		}
+    	}
+		catch (Exception e) 
+		{
+			int txCode = businessLocal.error(request.getMobileNumber(), "Error de validacion datos de entrada.", "87");
+			response = new ShoppingResponseDTO();
+			response.setAnswer("Error de validacion datos de entrada.");
+			response.setUserMessage("Error de validacion datos de entrada.");
+			response.setTxCode(String.valueOf(txCode));
+		}
 		return response;
 	}
 }
