@@ -293,7 +293,9 @@ adminoperations={
 		_activate:function(operacion,reason,packagea)
 		{
 			loading();
-
+			
+			setTimeout(function(){loading();},300);
+			
 			var req={"uid":uid,"activateService":{
 				"operation":operacion.toString(),
 				"reason":reason.toString(),
