@@ -259,6 +259,14 @@ adminoperations={
 					if(rta.responseinfo.result)
 					{
 						alert(rta.responseinfo.result);
+						$("#submitcel").click();
+						
+						if(adminoperations.enableadd==true)
+						{
+							adminoperations.enableadd=false;
+							adminoperations._activate(adminoperations.operation,adminoperations.reason,adminoperations.packageac);
+						}
+						
 						return;
 					}
 					else{
@@ -266,16 +274,7 @@ adminoperations={
 					return;
 					}
 
-					if(adminoperations.enableadd==true)
-					{
-						//alert("Se Cancelo el servicio activo, se procedera a activar el nuevo servicio codigo de transaccion(cancelacion):"+rta.responseinfo.result);
-						adminoperations.enableadd=false;
-						adminoperations._activate(adminoperations.operation,adminoperations.reason,adminoperations.packageac);
-					}else
-						{
-						//alert("Operacion Exitosa(cancelacion) codigo de transaccion:"+rta.responseinfo.result);
-
-						}
+				
 				},
 				error: function()
 				{stopLoading();alert("233:Ocurrio un error realizando la peticion, Revise su conexion a internet, intente mas tarde, si el error persiste comuniquese con el area de sistemas ERR:cancelacion no disponible");},
@@ -310,6 +309,7 @@ adminoperations={
 					if(rta.responseinfo.result)
 					{
 						alert(rta.responseinfo.result);
+						$("#submitcel").click();
 						return;
 					}
 					else
