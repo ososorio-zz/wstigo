@@ -264,6 +264,7 @@ adminoperations={
 						if(adminoperations.enableadd==true)
 						{
 							loading();
+							setTimeout(function(){loading();},700);
 							adminoperations.enableadd=false;
 							adminoperations._activate(adminoperations.operation,adminoperations.reason,adminoperations.packageac);
 					
@@ -294,7 +295,6 @@ adminoperations={
 		{
 			loading();
 			
-			setTimeout(function(){loading();},300);
 			
 			var req={"uid":uid,"activateService":{
 				"operation":operacion.toString(),
@@ -304,6 +304,9 @@ adminoperations={
 				"packageold":adminoperations.idtocancelate
 			}};
 
+			setTimeout(function(){loading();},500);
+
+			
 			$.ajax({
 				url:"../../AAWServices",
 				global: false,

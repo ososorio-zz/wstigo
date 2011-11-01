@@ -28,7 +28,7 @@ function onClose()
 		error: function()
 		{
 		stopLoading();
-		alert("31:Session Finalizada. Incorrectamente.");
+		alert("31:Session Finalizada.");
 		window.location="../login/loginAAWST.html";},
 		beforeSend: loading,
 		complete: stopLoading
