@@ -239,7 +239,7 @@ adminoperations={
 		{
 			if(adminoperations.idtocancelate=="0" ||  adminoperations.estatepackage=="0"){
 				alert("Actualmente no tiene ningun servicio activo");return;}
-
+			loading();
 			var req={"uid":uid,"cancelateService":{
 				"operation":operacion.toString(),
 				"reason":reason.toString(),
@@ -263,6 +263,7 @@ adminoperations={
 						
 						if(adminoperations.enableadd==true)
 						{
+							loading();
 							adminoperations.enableadd=false;
 							adminoperations._activate(adminoperations.operation,adminoperations.reason,adminoperations.packageac);
 					
@@ -291,6 +292,7 @@ adminoperations={
 		},
 		_activate:function(operacion,reason,packagea)
 		{
+			loading();
 
 			var req={"uid":uid,"activateService":{
 				"operation":operacion.toString(),
