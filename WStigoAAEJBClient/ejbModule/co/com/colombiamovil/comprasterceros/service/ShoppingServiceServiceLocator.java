@@ -7,9 +7,13 @@
 
 package co.com.colombiamovil.comprasterceros.service;
 
+import java.util.ResourceBundle;
+
 public class ShoppingServiceServiceLocator extends org.apache.axis.client.Service implements co.com.colombiamovil.comprasterceros.service.ShoppingServiceService {
 
-    public ShoppingServiceServiceLocator() {
+	ResourceBundle rb = ResourceBundle.getBundle("com.aa.business.ejb.interfaces.properties.conf");
+	
+	public ShoppingServiceServiceLocator() {
     }
 
 
@@ -22,7 +26,7 @@ public class ShoppingServiceServiceLocator extends org.apache.axis.client.Servic
     }
 
     // Use to get a proxy class for ShoppingServicePort
-    private java.lang.String ShoppingServicePort_address = "http://10.69.38.15:8080/ComprasTercerosEAR-ComprasTercerosEJB/ShoppingService";
+    private java.lang.String ShoppingServicePort_address = rb.getString("ipWebServiceShopping");
 
     public java.lang.String getShoppingServicePortAddress() {
         return ShoppingServicePort_address;

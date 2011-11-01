@@ -20,7 +20,9 @@ public interface BusinessLocal {
 	public UserDTO getUser(String user,String pass);
 	public void updateLogLogin(int login, Date fecha,String operation,boolean registrytableuser);
 	public String activatePackage(Long msisdn, String operation,String reason, String packageactual,String packageold,String user);
+	public String activatePackageIntern(Long msisdn, String operation, String reason, String packageactual,String packageold,String user);
 	public String cancelatePackage(Long msisdn, String operation,String reason, String packagea,String user);
+	public String cancelatePackageIntern(Long msisdn, String operation, String reason, String packagea,String user);
 	public List<UserDTO> getUsers();
 	public String eliminateUser(String id,String user);
 	public String editUser(String us_id, String typedoc, String numdoc,String names, String apelidos, String pass, String rol,String email, String ultlogin,String user);

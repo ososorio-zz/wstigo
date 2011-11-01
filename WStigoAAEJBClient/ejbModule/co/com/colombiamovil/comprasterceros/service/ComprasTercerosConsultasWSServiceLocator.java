@@ -7,8 +7,12 @@
 
 package co.com.colombiamovil.comprasterceros.service;
 
+import java.util.ResourceBundle;
+
 public class ComprasTercerosConsultasWSServiceLocator extends org.apache.axis.client.Service implements co.com.colombiamovil.comprasterceros.service.ComprasTercerosConsultasWSService {
 
+	ResourceBundle rb = ResourceBundle.getBundle("com.aa.business.ejb.interfaces.properties.conf");
+	
     public ComprasTercerosConsultasWSServiceLocator() {
     }
 
@@ -22,7 +26,7 @@ public class ComprasTercerosConsultasWSServiceLocator extends org.apache.axis.cl
     }
 
     // Use to get a proxy class for ComprasTercerosConsultasWSPort
-    private java.lang.String ComprasTercerosConsultasWSPort_address = "http://10.69.38.15:8080/ComprasTercerosEAR-ComprasTercerosEJB/ComprasTercerosConsultasWS";
+    private java.lang.String ComprasTercerosConsultasWSPort_address = rb.getString("ipWebServiceConsulta");
 
     public java.lang.String getComprasTercerosConsultasWSPortAddress() {
         return ComprasTercerosConsultasWSPort_address;
