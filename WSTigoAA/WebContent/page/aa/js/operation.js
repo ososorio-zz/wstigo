@@ -259,13 +259,17 @@ adminoperations={
 					if(rta.responseinfo.result)
 					{
 						alert(rta.responseinfo.result);
-						$("#submitcel").click();
+						
 						
 						if(adminoperations.enableadd==true)
 						{
 							adminoperations.enableadd=false;
 							adminoperations._activate(adminoperations.operation,adminoperations.reason,adminoperations.packageac);
+					
+						}else{
+							$("#submitcel").click();
 						}
+						
 						
 						return;
 					}
