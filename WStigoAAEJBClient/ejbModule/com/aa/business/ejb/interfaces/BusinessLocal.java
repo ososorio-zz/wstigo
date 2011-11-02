@@ -14,7 +14,7 @@ public interface BusinessLocal {
 	
 	public List<InformationDTO> consultarInfo(long inMsisdn);
 	public InformationDTO consultaMSISDN(long number);
-	public List<PackageDTO> getAvailablePackage(String code);
+	public List<PackageDTO> getAvailablePackage(String code,String activate);
 	public int error(String mssdn,String message,String errorcode);
 	public String operation(String msisdn,String operacion,String operaciondetail,String previouspacket,String nextPacket,String user);
 	public UserDTO getUser(String user,String pass);
