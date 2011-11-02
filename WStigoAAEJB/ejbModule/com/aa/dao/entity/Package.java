@@ -16,16 +16,17 @@ import javax.persistence.*;
 @NamedQuery(name=Package.queryInfoPackageName,
 					query="SELECT c FROM Package c WHERE c.pcId = :idpackage"),
 @NamedQuery(name=Package.queryInfoAvailable,
-					query="SELECT c FROM Package c WHERE c.pcId <> :idPackage")
+					query="SELECT c FROM Package c WHERE c.pcId <> :idPackage"),
+@NamedQuery(name=Package.queryInfoPackage1,
+					query="SELECT c FROM Package c")
+					
 })
 
 public class Package implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	public static final String queryInfoPackage1 ="queryInfoPackage1";
 	public static final String queryInfoPackage = "queryinfopackage";
-	
 	public static final String queryInfoPackageName = "queryinfopackagename";
-	
 	public static final String queryInfoAvailable = "queryInfoAvailable";
 	
 	@Id

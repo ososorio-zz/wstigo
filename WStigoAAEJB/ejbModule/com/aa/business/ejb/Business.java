@@ -115,10 +115,18 @@ public class Business implements BusinessLocal {
 	}
 
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	public List<PackageDTO> getAvailablePackage(String packageactual)
+	public List<PackageDTO> getAvailablePackage(String packageactual,String activate)
 	{
-		Query query = em.createNamedQuery(Package.queryInfoPackage);
+		Query query=null;
+		
+		if(activate.equals("1")){
+		 query = em.createNamedQuery(Package.queryInfoPackage);
 		query.setParameter("idpackage", Integer.parseInt(packageactual));
+		}
+		else
+		{
+			 query = em.createNamedQuery(Package.queryInfoPackage1);
+		}
 		@SuppressWarnings("unchecked")
 		List<Package> resultList = (List<Package>)query.getResultList();
 		List<PackageDTO> lista=new ArrayList<PackageDTO>();
