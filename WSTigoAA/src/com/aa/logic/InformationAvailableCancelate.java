@@ -8,7 +8,6 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.aa.business.dto.CancelateDTO;
-import com.aa.business.dto.PackageDTO;
 import com.aa.business.ejb.interfaces.BusinessLocal;
 
 public class InformationAvailableCancelate  implements Services{

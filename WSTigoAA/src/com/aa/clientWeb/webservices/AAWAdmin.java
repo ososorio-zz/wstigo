@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.aa.business.ejb.interfaces.BusinessLocal;
 import com.aa.logic.LogicAdmin;
-import com.aa.logic.LogicServices;
 
 /**
  * Servlet implementation class AAWAdmin

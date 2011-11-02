@@ -25,9 +25,11 @@ public class SendMail {
 	private String useremail;
 	private String pass;
 
+	@SuppressWarnings("unused")
 	private String emailto;
 
 	private String subject;
+	@SuppressWarnings("unused")
 	private String messageL;
 
 

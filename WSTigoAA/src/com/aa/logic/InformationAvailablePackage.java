@@ -20,6 +20,7 @@ public class InformationAvailablePackage implements Services{
 			JSONObject jsonobj=new JSONObject(jsonRequest);
 			JSONObject informationNumberPhone=jsonobj.getJSONObject("informationAvailablePackage");
 			String code=(String) informationNumberPhone.get("code");
+			String activate=(String)informationNumberPhone.get("estate");
 			if(code.equals("") || code==null)
 			{
 				response(writer,"{\"responseinfo\":{ \"error\":\"Datos invalidos Dato:paquete no disponibles\" }}");
@@ -27,7 +28,7 @@ public class InformationAvailablePackage implements Services{
 			}
 			
 			
-			List<PackageDTO> resultlist= businessLocal.getAvailablePackage(code);			
+			List<PackageDTO> resultlist= businessLocal.getAvailablePackage(code,activate);			
 			JSONArray sumarryp=new JSONArray();
 			for(PackageDTO info:resultlist)
 			{

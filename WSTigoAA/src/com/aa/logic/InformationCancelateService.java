@@ -3,7 +3,6 @@ package com.aa.logic;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.aa.business.ejb.interfaces.BusinessLocal;

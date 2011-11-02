@@ -47,11 +47,13 @@ function callbackPhone(response)
 		return;
 	}
 
-	 if(response.responseinfo.estadocuenta!="Activa")
+	 if(response.responseinfo.estadocuenta[0]!="Activa")
 		 {
+		 if(response.responseinfo.estadocuenta[0]!=null){
 		 alert("Usuario se encuentra Cancelado");
 		 $("#contentresult").hide();
 		 return;
+		 }
 		 }
 	
 	$("#phone").val( response.responseinfo.phone );
@@ -64,12 +66,15 @@ function callbackPhone(response)
 	$("#contentresult").show();
 	if(rl=="1")
 		return;
-	callAvailablePackage(response.responseinfo.idpaquete);
-	callAvailableReasonCancelate(response.responseinfo.idpaquete);
-	$("#operationsavailables").show();
+	
 	adminoperations.idtocancelate=response.responseinfo.idpaquete.toString();
 	adminoperations.nametocancelate=response.responseinfo.nombrepaquete.toString();
 	adminoperations.estatepackage=response.responseinfo.estadopaquete.toString();
+	
+	callAvailablePackage(response.responseinfo.idpaquete);
+	callAvailableReasonCancelate(response.responseinfo.idpaquete);
+	$("#operationsavailables").show();
+	
 }
 
 function callAvailableReasonCancelate(packageid)
@@ -107,7 +112,8 @@ function callAvailablePackage(packageid)
 	{
 			"uid":uid,
 			"informationAvailablePackage":{
-				"code":packageid.toString()
+				"code":packageid.toString(),
+				"estate":adminoperations.estatepackage
 			}
 	};
 
