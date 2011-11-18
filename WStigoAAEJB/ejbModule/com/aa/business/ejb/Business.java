@@ -266,21 +266,21 @@ public class Business implements BusinessLocal {
 			ShoppingRequestDTO requestDTO = new ShoppingRequestDTO();
 			requestDTO.setMobileNumber(msisdn.toString());
 			requestDTO.setReason(reason);
-			if(!user.equals("american-assist"))
-    		{
-    			user = rb.getString("userSeller");
-    		}
+//			if(!user.equals("american-assist"))
+//    		{
+//    			user = rb.getString("userSeller");
+//    		}
 			if(packageactual != null)
 			{
 				requestDTO.setPurchasedProductId(Integer.parseInt(packageactual));
 			}
-			requestDTO.setUserSeller(user);
+			requestDTO.setUserSeller(rb.getString("userSeller"));
 			requestDTO.setAction(ProcessActionEnum.ACQUIRE);
 			service = locator.getShoppingServicePort();
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
 			{
-				user = "1";
+//				user = "1";
 				idconfirmation="Operacion Exitosa(Activacion) codigo de transaccion:"+activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
 			}
 		
@@ -338,10 +338,10 @@ public class Business implements BusinessLocal {
 		String idconfirmation = null;
 		try 
 		{
-			if(!user.equals("american-assist"))
-    		{
-    			user = rb.getString("userSeller");
-    		}
+//			if(!user.equals("american-assist"))
+//    		{
+//    			user = rb.getString("userSeller");
+//    		}
 			ShoppingRequestDTO requestDTO = new ShoppingRequestDTO();
 			requestDTO.setMobileNumber(msisdn.toString());
 			requestDTO.setReason(reason);
@@ -350,12 +350,12 @@ public class Business implements BusinessLocal {
 				requestDTO.setPurchasedProductId(Integer.parseInt(packagea));
 			}
 			requestDTO.setAction(ProcessActionEnum.CANCEL);
-			requestDTO.setUserSeller(user);
+			requestDTO.setUserSeller(rb.getString("userSeller"));
 			service = locator.getShoppingServicePort();
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
 			{
-				user = "1";
+//				user = "1";
 				idconfirmation ="Operacion Exitosa(cancelacion) codigo de transaccion"+cancelatePackageIntern(msisdn, operation, reason, packagea, user);
 			}
 			
