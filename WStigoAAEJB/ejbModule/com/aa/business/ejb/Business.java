@@ -266,7 +266,6 @@ public class Business implements BusinessLocal {
 			ShoppingRequestDTO requestDTO = new ShoppingRequestDTO();
 			requestDTO.setMobileNumber(msisdn.toString());
 			requestDTO.setReason(reason);
-			requestDTO.setUserSeller(user);
 			if(!user.equals("american-assist"))
     		{
     			user = rb.getString("userSeller");
@@ -275,12 +274,13 @@ public class Business implements BusinessLocal {
 			{
 				requestDTO.setPurchasedProductId(Integer.parseInt(packageactual));
 			}
+			requestDTO.setUserSeller(user);
 			requestDTO.setAction(ProcessActionEnum.ACQUIRE);
 			service = locator.getShoppingServicePort();
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
 			{
-				user = "0";
+				user = "1";
 				idconfirmation="Operacion Exitosa(Activacion) codigo de transaccion:"+activatePackageIntern(msisdn, operation, reason, packageactual,packageold, user);
 			}
 		
@@ -355,7 +355,7 @@ public class Business implements BusinessLocal {
 			ShoppingResponseDTO response = service.processService(requestDTO);
 			if(response != null)
 			{
-				user = "0";
+				user = "1";
 				idconfirmation ="Operacion Exitosa(cancelacion) codigo de transaccion"+cancelatePackageIntern(msisdn, operation, reason, packagea, user);
 			}
 			
